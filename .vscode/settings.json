@@ -1,0 +1,25 @@
+{
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+    }, 
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+    }, 
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": false,
+        "editor.tabSize": 2
+    }, 
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "prettier.trailingComma": "all"
+}
