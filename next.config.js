@@ -11,11 +11,6 @@ const themeVariables = lessToJS(
 )
 
 module.exports = withSass({
-  cssModules: true,
-  cssLoaderOptions: {
-    importLoaders: 1,
-    localIdentName: '[folder]_[local]___[hash:base64:5]',
-  },
   ...withLess({
     lessLoaderOptions: {
       javascriptEnabled: true,
