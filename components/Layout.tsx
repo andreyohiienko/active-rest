@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import { Button, Col, Row, Space } from 'antd'
-import Container from './Container'
+import { Container } from './Container'
 
 type Props = {
   children?: ReactNode
@@ -44,11 +44,11 @@ const PageLayout = ({
               </nav>
             </Space>
           </Col>
-          <Col>
+          <Col flex="auto" className="d-flex justify-content-end">
             <Button type="text" shape="round">
               Sign Up
             </Button>
-            <Button type="primary" shape="round">
+            <Button ghost shape="round">
               Sign In
             </Button>
           </Col>
@@ -57,8 +57,28 @@ const PageLayout = ({
     </header>
     {children}
     <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
+      <Container>
+        <Row>
+          <Col md={12}>
+            <h6>Hipcamp is everywhere you want to camp.</h6>
+            <p>
+              Discover unique experiences on ranches, nature preserves, farms,
+              vineyards, and public campgrounds across the U.S. Book tent
+              camping, treehouses, cabins, yurts, primitive backcountry sites,
+              car camping, airstreams, tiny houses, RV camping, glamping tents
+              and more.
+            </p>
+          </Col>
+          <Col md={12}>
+            <h6 className="text-capitalize">Get to know us</h6>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <p className="text-center">
+          © {new Date().getFullYear()}. All rights reserved.
+        </p>
+      </Container>
     </footer>
   </div>
 )
