@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["./components/*"],
-      "@interfaces/*": ["./interfaces/*"],
+      "@components": ["./components"],
+      "@interfaces/*": ["./interfaces/*"]
     },
     "allowJs": true,
     "alwaysStrict": true,

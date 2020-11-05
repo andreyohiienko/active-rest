@@ -1,29 +1,14 @@
-import React, { ReactNode } from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
 import { Button, Col, Row, Space } from 'antd'
-import { Container } from './Container'
-import { Footer } from './Footer'
+import Link from 'next/link'
+import React from 'react'
+import { Container } from '@components/Container'
 
-type Props = {
-  children?: ReactNode
-  title?: string
-}
-
-const PageLayout = ({
-  children,
-  title = 'This is the default title',
-}: Props) => (
-  <div>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
+const Header = () => {
+  return (
     <header>
       <Container>
         <Row>
-          <Col span="18">
+          <Col md="18">
             <Space size="middle">
               <Link href="/">
                 <a>
@@ -56,9 +41,7 @@ const PageLayout = ({
         </Row>
       </Container>
     </header>
-    {children}
-    <Footer />
-  </div>
-)
+  )
+}
 
-export default PageLayout
+export { Header }

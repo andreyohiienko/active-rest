@@ -1,9 +1,8 @@
-import { Container } from '../components/Container'
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import { Container, PageLayout } from '@components'
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
+  <PageLayout title="Home | Next.js + TypeScript Example">
     <Container>
       <h1>Hello Next.js 👋</h1>
       <p>
@@ -12,7 +11,7 @@ const IndexPage = () => (
         </Link>
       </p>
     </Container>
-  </Layout>
+  </PageLayout>
 )
 
 export default IndexPage
