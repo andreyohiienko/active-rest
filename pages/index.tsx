@@ -1,16 +1,9 @@
-import Link from 'next/link'
-import { Container, PageLayout } from '@components'
+import { PageLayout } from '@components'
+import { Hero } from 'layouts'
 
 const IndexPage = () => (
-  <PageLayout title="Home | Next.js + TypeScript Example">
-    <Container>
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-      </p>
-    </Container>
+  <PageLayout title="Active Rest">
+    <Hero />
   </PageLayout>
 )
 

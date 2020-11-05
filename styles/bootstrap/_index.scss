@@ -11,13 +11,5 @@
 @import "./utilities/sizing";
 @import "./utilities/embed";
 @import "./utilities/flex";
-
-.container {
-  max-width: 1520px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 12px;
-  padding-right: 12px;
-}
+@import "./utilities/background";
 

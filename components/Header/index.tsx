@@ -5,7 +5,7 @@ import { Container } from '@components/Container'
 
 const Header = () => {
   return (
-    <header>
+    <header className="position-absolute w-100">
       <Container>
         <Row>
           <Col md="18">
