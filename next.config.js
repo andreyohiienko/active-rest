@@ -45,11 +45,16 @@ module.exports = withSass({
         loader: 'import-glob',
       })
 
-        config.module.rules.unshift({
-          test: antStyles,
-          use: 'null-loader',
-        })
+      // aliases
+      config.resolve = {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          components: path.resolve(__dirname, 'src/components'),
+          interfaces: path.resolve(__dirname, 'src/interfaces'),
+        },
       }
+
       return config
     },
   }),

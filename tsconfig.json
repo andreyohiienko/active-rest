@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "interfaces/*": ["./src/interfaces/*"],
+    },
     "allowJs": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
