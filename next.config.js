@@ -31,6 +31,12 @@ module.exports = withSass({
           },
           ...(typeof origExternals[0] === 'function' ? [] : origExternals),
         ]
+        // import-glob
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|s?[ca]ss)$/,
+          loader: 'import-glob',
+        })
 
         config.module.rules.unshift({
           test: antStyles,
