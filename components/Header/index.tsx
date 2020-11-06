@@ -4,8 +4,23 @@ import React from 'react'
 import { Container } from 'components'
 
 const Header = () => {
+  const links = [
+    {
+      href: '/',
+      title: 'Home',
+    },
+    {
+      href: '/about',
+      title: 'About',
+    },
+    {
+      href: '/contact',
+      title: 'Contact',
+    },
+  ]
+
   return (
-    <header className="position-absolute w-100">
+    <header className="header position-absolute w-100 text-white">
       <Container>
         <Row>
           <Col md="18">
@@ -17,25 +32,21 @@ const Header = () => {
               </Link>
               <nav>
                 <Space size="middle">
-                  <Link href="/">
-                    <a>Home</a>
-                  </Link>
-                  <Link href="/about">
-                    <a>About</a>
-                  </Link>
-                  <Link href="/contact">
-                    <a>Contact</a>
-                  </Link>
+                  {links.map(({ href, title }) => (
+                    <Link key={title} href={href}>
+                      <a className="text-white">{title}</a>
+                    </Link>
+                  ))}
                 </Space>
               </nav>
             </Space>
           </Col>
           <Col flex="auto" className="d-flex justify-content-end">
-            <Button type="text" shape="round">
-              Sign Up
+            <Button type="text" shape="round" size="large">
+              Sign up
             </Button>
-            <Button ghost shape="round">
-              Sign In
+            <Button ghost shape="round" size="large">
+              Sign in
             </Button>
           </Col>
         </Row>
