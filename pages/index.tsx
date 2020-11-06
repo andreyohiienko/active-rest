@@ -1,4 +1,4 @@
-import { PageLayout } from '@components'
+import { PageLayout } from 'components'
 import { Hero } from 'layouts'
 
 const IndexPage = () => (

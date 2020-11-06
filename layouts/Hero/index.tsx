@@ -1,4 +1,4 @@
-import { Container } from '@components'
+import { Container } from 'components'
 import { Button, Layout } from 'antd'
 import React from 'react'
 
