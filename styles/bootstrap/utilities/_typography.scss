@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Roboto:wght@400;500&display=swap');
+
+html,
+body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: $black;
+  font-family: 'Roboto', sans-serif;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    //font-size
+    @each $name, $values in $font-sizes {
+      @each $n, $value in $values {
+        @if($infix == "-#{$n}" or ($infix == "" and $n == 'xs')) {
+          .#{$name}, #{$name} { font-size: $value; }
+        }
+      }
+    }
+
+    //line-height
+    @each $name, $values in $line-heights {
+      @each $n, $value in $values {
+        @if($infix == "-#{$n}" or ($infix == "" and $n == 'xs')) {
+          .#{$name}, #{$name} { line-height: $value; }
+        }
+      }
+    }
+  }
+}
+
+$headings: (h1, h2, h3, h4, h5, h6);
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  color: inherit;
+}

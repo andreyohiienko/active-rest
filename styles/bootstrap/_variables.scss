@@ -1,6 +1,15 @@
 
 @import "~bootstrap/scss/variables";
 
+// Colors
+$black: #3B3735;
+
+$red-100: #E76F51;
+$red-200: #F8E1DB;
+$red-300: #FAF4F2;
+
+$grey: #8D8D8D;
+
 // $grid-breakpoints: () !default;
 $grid-breakpoints: (
   xs: 0,
@@ -25,3 +34,23 @@ $spacers: (
   4: 4px,
   5: 5px,
 );
+
+// _typography
+$font-sizes: (
+  h1: ( xs: 45px, md: 81px),
+  h2: ( xs: 30px, lg: 40px),
+  h3: ( xs: 18px,),
+  h4: ( xs: 17px,),
+  h5: ( xs: 16px,),
+  h6: ( xs: 15px,),
+  button: ( xs: 18px )
+);
+
+$line-heights: (
+  h1: (xs: 1.35),
+  h2: (xs: 1.32),
+  h3: (xs: 1.55),
+);
+
+// _text
+$font-weights: (400, 500, 700);
