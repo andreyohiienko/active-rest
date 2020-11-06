@@ -4,4 +4,9 @@ footer {
   border-top-right-radius: 200px;
   padding-top: 103px;
   padding-bottom: 60px;
+
+  @include media-breakpoint-down(sm) {
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+  }
 }

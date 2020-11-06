@@ -1,9 +1,10 @@
 import { PageLayout } from 'components'
-import { Hero } from 'layouts'
+import { Hero, Services } from 'layouts'
 
 const IndexPage = () => (
   <PageLayout title="Active Rest">
     <Hero />
+    <Services />
   </PageLayout>
 )
 

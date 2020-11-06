@@ -5,6 +5,11 @@
   border-bottom-right-radius: 200px;
   overflow: hidden;
 
+  @include media-breakpoint-down(sm) {
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+  }
+
   &::before {
     content: '';
     position: absolute;
