@@ -86,7 +86,12 @@ export const Activities = () => {
         <Title level={2}>Explore Destinations & Activities</Title>
         <Row gutter={[30, 30]}>
           {activities.map(({ image, title, desc, price }) => (
-            <Col lg={6} sm={12} className="w-100 d-flex align-items-stretch">
+            <Col
+              key="title"
+              lg={6}
+              sm={12}
+              className="w-100 d-flex align-items-stretch"
+            >
               <Card
                 bordered={false}
                 key={title}
