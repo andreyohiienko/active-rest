@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Layout, Row } from 'antd'
 import { Container } from 'components'
 import React from 'react'
-// import ApproachSvg from '../../static/svg/approach.svg'
+import { Camping } from 'static'
 
 export const Approach = () => {
   return (
@@ -29,7 +29,7 @@ export const Approach = () => {
             </Form>
           </Col>
           <Col xs={12}>
-            <ApproachSvg />
+            <Camping />
           </Col>
         </Row>
       </Container>

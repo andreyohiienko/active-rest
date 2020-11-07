@@ -45,6 +45,12 @@ module.exports = withSass({
         loader: 'import-glob',
       })
 
+      // @svgr/webpack
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      })
+
       return config
     },
   }),
