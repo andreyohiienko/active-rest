@@ -31,6 +31,7 @@ const Services = () => {
         <Row gutter={[30, 20]}>
           {services.map(({ title, desc }) => (
             <Col
+              key={title}
               lg={6}
               sm={12}
               className="text-center w-100 d-flex align-items-stretch"

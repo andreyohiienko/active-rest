@@ -1,0 +1,25 @@
+.act-card {
+  .ant-card-body {
+    padding: 0 40px 40px;
+  }
+
+  &__image {
+    display: block;
+    margin: 40px auto 0;
+    border-radius: 20px !important;
+    width: calc(100% - 80px);
+  }
+
+  &__price {
+    color: $red-100;
+    padding: 15px 38px;
+    border-radius: 14px;
+    max-width: 145px;
+    margin-top: -27px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $white;
+    position: relative;
+    z-index: 1;
+  }
+}

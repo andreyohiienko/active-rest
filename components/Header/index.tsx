@@ -42,12 +42,14 @@ const Header = () => {
             </Space>
           </Col>
           <Col flex="auto" className="d-flex justify-content-end">
-            <Button type="text" shape="round" size="large">
-              Sign up
-            </Button>
-            <Button ghost shape="round" size="large">
-              Sign in
-            </Button>
+            <Space size="middle">
+              <Button type="text" shape="round" size="large">
+                Sign up
+              </Button>
+              <Button ghost shape="round" size="large">
+                Sign in
+              </Button>
+            </Space>
           </Col>
         </Row>
       </Container>
