@@ -1,8 +1,6 @@
-import { Card, Col, Layout, Row, Typography } from 'antd'
+import { Card, Col, Layout, Row } from 'antd'
 import { Container } from 'components'
 import React from 'react'
-
-const { Title, Text } = Typography
 
 const Services = () => {
   const services = [
@@ -42,8 +40,8 @@ const Services = () => {
                 className="service-card w-100"
               >
                 <img alt="example" src="https://picsum.photos/85" />
-                <Title level={3}>{title}</Title>
-                <Text>{desc}</Text>
+                <h3>{title}</h3>
+                <p className="mb-0">{desc}</p>
               </Card>
             </Col>
           ))}

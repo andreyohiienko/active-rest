@@ -1,8 +1,6 @@
 import { Container } from 'components'
-import { Button, Layout, Typography } from 'antd'
+import { Button, Layout } from 'antd'
 import React from 'react'
-
-const { Title } = Typography
 
 const Hero = () => {
   return (
@@ -11,7 +9,7 @@ const Hero = () => {
       style={{ backgroundImage: 'url(https://picsum.photos/1920/1080)' }}
     >
       <Container className="text-center hero__container text-white text-capitalize">
-        <Title>Find yourself ourside.</Title>
+        <h1>Find yourself ourside.</h1>
         <p>
           Book unique camping experiences on over 300,000 campsites, cabins, RV
           parks, public parks and more.

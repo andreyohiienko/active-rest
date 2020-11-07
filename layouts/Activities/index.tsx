@@ -1,8 +1,6 @@
-import { Button, Card, Col, Layout, Row, Typography } from 'antd'
+import { Button, Card, Col, Layout, Row } from 'antd'
 import { Container } from 'components'
 import React from 'react'
-
-const { Title, Text, Link } = Typography
 
 export const Activities = () => {
   const activities = [
@@ -83,7 +81,7 @@ export const Activities = () => {
   return (
     <Layout>
       <Container className="text-center">
-        <Title level={2}>Explore Destinations & Activities</Title>
+        <h2>Explore Destinations & Activities</h2>
         <Row gutter={[30, 30]}>
           {activities.map(({ image, title, desc, price }) => (
             <Col
@@ -101,8 +99,8 @@ export const Activities = () => {
                 <p className="act-card__price text-center f-weight-500">
                   ${price}/night
                 </p>
-                <Title level={3}>{title}</Title>
-                <Text className="d-block">{desc}</Text>
+                <h3>{title}</h3>
+                <p>{desc}</p>
                 <Button shape="round" size="large" type="default">
                   Read More
                 </Button>
