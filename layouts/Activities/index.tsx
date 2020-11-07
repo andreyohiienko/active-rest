@@ -85,7 +85,7 @@ export const Activities = () => {
         <Row gutter={[30, 30]}>
           {activities.map(({ image, title, desc, price }) => (
             <Col
-              key="title"
+              key={title}
               lg={6}
               sm={12}
               className="w-100 d-flex align-items-stretch"
