@@ -1,6 +1,7 @@
 import { Button, Card, Col, Layout, Row } from 'antd'
 import { Container } from 'components'
 import React from 'react'
+import { ActivitiesSign } from 'static'
 
 export const Activities = () => {
   const activities = [
@@ -79,16 +80,17 @@ export const Activities = () => {
   ]
 
   return (
-    <Layout>
+    <Layout className="mt-lg-75 mt-50 pb-lg-75 pb-50">
       <Container className="text-center">
-        <h2>Explore Destinations & Activities</h2>
-        <Row gutter={[30, 30]}>
+        <ActivitiesSign />
+        <h2 className="mt-40 mb-45">Explore Destinations & Activities</h2>
+        <Row gutter={30}>
           {activities.map(({ image, title, desc, price }) => (
             <Col
               key={title}
               lg={6}
               sm={12}
-              className="w-100 d-flex align-items-stretch"
+              className="w-100 d-flex align-items-stretch py-15"
             >
               <Card
                 bordered={false}
@@ -99,8 +101,8 @@ export const Activities = () => {
                 <p className="act-card__price text-center f-weight-500">
                   ${price}/night
                 </p>
-                <h3>{title}</h3>
-                <p>{desc}</p>
+                <h3 className="mb-10">{title}</h3>
+                <p className="mb-10 pb-15">{desc}</p>
                 <Button shape="round" size="large" type="default">
                   Read More
                 </Button>
@@ -108,7 +110,13 @@ export const Activities = () => {
             </Col>
           ))}
         </Row>
-        <Button shape="round" size="large" type="primary" ghost>
+        <Button
+          className="mt-45"
+          shape="round"
+          size="large"
+          type="primary"
+          ghost
+        >
           View all
         </Button>
       </Container>

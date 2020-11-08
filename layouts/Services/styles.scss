@@ -1,9 +1,9 @@
 .services {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     margin-top: -108px;
   }
 
-  @include media-breakpoint-down(lg) {
-    margin-top: 30px;
+  @include media-breakpoint-down(sm) {
+    margin-top: -160px;
   }
 }

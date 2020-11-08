@@ -1,9 +1,13 @@
 .hero {
-  padding-bottom: 56.25%;
+  height: 1080px;
   position: relative;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   overflow: hidden;
+
+  @include media-breakpoint-down(lg) {
+    height: 700px;
+  }
 
   &::before {
     content: '';

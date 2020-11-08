@@ -1,7 +1,17 @@
 footer {
-  background-color: #F8E1DB;
+  background-color: $red-200;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  padding-top: 103px;
+  padding-top: 60px;
   padding-bottom: 60px;
+
+  a {
+    color: inherit;
+  }
+}
+
+.footer {
+  &__desc {
+    max-width: 615px;
+  }
 }

@@ -4,14 +4,5 @@
 @import "~bootstrap/scss/mixins";
 
 // Utilities
-@import "./utilities/borders";
-@import "./utilities/display";
-@import "./utilities/text";
-@import "./utilities/spacing";
-@import "./utilities/position";
-@import "./utilities/sizing";
-@import "./utilities/embed";
-@import "./utilities/flex";
-@import "./utilities/background";
-@import "./utilities/typography";
-
+@import "type";
+@import "utilities";

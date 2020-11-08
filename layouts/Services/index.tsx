@@ -24,15 +24,15 @@ const Services = () => {
   ]
 
   return (
-    <Layout className="services">
+    <Layout className="services pb-lg-75 pb-50">
       <Container>
-        <Row gutter={[30, 20]}>
+        <Row gutter={30}>
           {services.map(({ title, desc }) => (
             <Col
               key={title}
               lg={6}
               sm={12}
-              className="text-center w-100 d-flex align-items-stretch"
+              className="text-center w-100 d-flex align-items-stretch py-10 py-lg-0"
             >
               <Card
                 bodyStyle={{ padding: '60px 40px' }}
@@ -40,7 +40,7 @@ const Services = () => {
                 className="service-card w-100"
               >
                 <img alt="example" src="https://picsum.photos/85" />
-                <h3>{title}</h3>
+                <h3 className="mt-15 pt-5 mb-10">{title}</h3>
                 <p className="mb-0">{desc}</p>
               </Card>
             </Col>

@@ -2,6 +2,7 @@ import { Button, Col, Row, Space } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 import { Container } from 'components'
+import { Logo } from 'static'
 
 const Header = () => {
   const links = [
@@ -27,7 +28,7 @@ const Header = () => {
             <Space size="middle">
               <Link href="/">
                 <a>
-                  <img src="https://via.placeholder.com/50" alt="logo" />
+                  <Logo />
                 </a>
               </Link>
               <nav>

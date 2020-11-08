@@ -1,7 +1,7 @@
 import { Button, Col, Input, Layout, Row } from 'antd'
 import { Container } from 'components'
 import React, { useState } from 'react'
-import { Camping, SubmitMail } from 'static'
+import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
 
 export const Approach = () => {
@@ -10,17 +10,32 @@ export const Approach = () => {
     console.log('email', email)
   }
   return (
-    <Layout>
+    <Layout className="pb-lg-90 pb-50 mt-lg-75 mt-50">
       <Container className="approach">
         <Row
           align="middle"
-          className="approach__row rounded bg-cover"
+          className="approach__row rounded bg-cover py-40 py-md-0"
           style={{ backgroundImage: 'url(/images/approach-bg.svg)' }}
         >
-          <Col xs={12} className="d-flex flex-column align-items-center">
+          <Col
+            md={{ span: 12, push: 12 }}
+            className="d-flex justify-content-center w-100 px-15 px-md-0"
+          >
+            <img
+              src="/images/camping.png"
+              alt="camping"
+              className="py-md-20 mw-100"
+            />
+          </Col>
+          <Col
+            md={{ span: 12, pull: 12 }}
+            className="d-flex flex-column align-items-center w-100 px-15 mt-40 mt-md-0"
+          >
             <div className="approach__wrapper">
-              <h2>Let's Stay in Touch</h2>
-              <p>
+              <h2 className="text-center text-md-left mb-20 mb-md-10">
+                Let's Stay in Touch
+              </h2>
+              <p className="text-center text-md-left mb-20 mb-md-20">
                 Get travel planning ideas, helpful tips, and stories from our
                 visitors delivered right to your inbox.
               </p>
@@ -57,9 +72,6 @@ export const Approach = () => {
                 }
               />
             </div>
-          </Col>
-          <Col xs={12} className="d-flex justify-content-center">
-            <Camping />
           </Col>
         </Row>
       </Container>
