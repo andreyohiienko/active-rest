@@ -103,7 +103,7 @@ export const Activities = () => {
                 </p>
                 <h3 className="mb-10">{title}</h3>
                 <p className="mb-10 pb-15">{desc}</p>
-                <Button shape="round" size="large" type="default">
+                <Button href="/" shape="round" size="large" type="default">
                   Read More
                 </Button>
               </Card>
@@ -111,6 +111,7 @@ export const Activities = () => {
           ))}
         </Row>
         <Button
+          href="/"
           className="mt-45"
           shape="round"
           size="large"

@@ -59,10 +59,10 @@ const Header = () => {
     if (screens.md) {
       return (
         <Space size="middle">
-          <Button type="text" shape="round" size="large">
+          <Button type="text" shape="round" size="large" href="/">
             Sign up
           </Button>
-          <Button ghost shape="round" size="large">
+          <Button ghost shape="round" size="large" href="/">
             Sign in
           </Button>
         </Space>

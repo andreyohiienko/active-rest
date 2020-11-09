@@ -14,7 +14,7 @@ const Hero = () => {
           Book unique camping experiences on over 300,000 campsites, cabins, RV
           parks, public parks and more.
         </p>
-        <Button size="large" shape="round" type="primary">
+        <Button href="/" size="large" shape="round" type="primary">
           Discover
         </Button>
       </Container>
