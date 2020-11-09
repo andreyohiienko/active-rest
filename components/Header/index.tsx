@@ -1,8 +1,10 @@
-import { Button, Col, Row, Space } from 'antd'
+import { Button, Col, Row, Space, Grid, Menu, Dropdown, Divider } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 import { Container } from 'components'
 import { Logo } from 'static'
+
+const { useBreakpoint } = Grid
 
 const Header = () => {
   const links = [
@@ -20,6 +22,62 @@ const Header = () => {
     },
   ]
 
+  const auth = [
+    {
+      href: '/',
+      title: 'Sign up',
+    },
+    {
+      href: '/',
+      title: 'Sign in',
+    },
+  ]
+
+  const mobileMenu = (
+    <Menu className="dropdown-menu">
+      {links.map(({ href, title }) => (
+        <Menu.Item key={title}>
+          <Link href={href}>
+            <a>{title}</a>
+          </Link>
+        </Menu.Item>
+      ))}
+      <Divider className="dropdown-menu-divider"></Divider>
+      {auth.map(({ href, title }) => (
+        <Menu.Item key={title}>
+          <Link href={href}>
+            <a>{title}</a>
+          </Link>
+        </Menu.Item>
+      ))}
+    </Menu>
+  )
+
+  const screens = useBreakpoint()
+
+  function renderNav() {
+    if (screens.md) {
+      return (
+        <Space size="middle">
+          <Button type="text" shape="round" size="large">
+            Sign up
+          </Button>
+          <Button ghost shape="round" size="large">
+            Sign in
+          </Button>
+        </Space>
+      )
+    }
+
+    return (
+      <Dropdown trigger={['click']} overlay={mobileMenu}>
+        <Button className="hamburger">
+          <span></span>
+        </Button>
+      </Dropdown>
+    )
+  }
+
   return (
     <header className="header position-absolute w-100 text-white">
       <Container>
@@ -31,26 +89,21 @@ const Header = () => {
                   <Logo />
                 </a>
               </Link>
-              <nav>
-                <Space size="middle">
-                  {links.map(({ href, title }) => (
-                    <Link key={title} href={href}>
-                      <a className="text-white">{title}</a>
-                    </Link>
-                  ))}
-                </Space>
-              </nav>
+              {screens.md && (
+                <nav>
+                  <Space size="middle">
+                    {links.map(({ href, title }) => (
+                      <Link key={title} href={href}>
+                        <a className="text-white">{title}</a>
+                      </Link>
+                    ))}
+                  </Space>
+                </nav>
+              )}
             </Space>
           </Col>
           <Col flex="auto" className="d-flex justify-content-end">
-            <Space size="middle">
-              <Button type="text" shape="round" size="large">
-                Sign up
-              </Button>
-              <Button ghost shape="round" size="large">
-                Sign in
-              </Button>
-            </Space>
+            {renderNav()}
           </Col>
         </Row>
       </Container>

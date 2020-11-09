@@ -8,18 +8,22 @@ const Services = () => {
       title: 'Camping & Day Use',
       desc:
         'Return to your favorite spot or discover a new one that’s right for you.',
+      src: 'images/camping-day-use.svg',
     },
     {
       title: 'Tours & Tickets',
       desc: 'Reserve tours and tickets to participate in events.',
+      src: 'images/tour-tickets.svg',
     },
     {
       title: 'Permits',
       desc: 'Obtain permits for access to high-demand locations.',
+      src: 'images/permits.svg',
     },
     {
       title: 'Recreation Activities',
       desc: 'Find the best spots for hunting, fishing & recreational shooting.',
+      src: 'images/recreation-activities.svg',
     },
   ]
 
@@ -27,7 +31,7 @@ const Services = () => {
     <Layout className="services pb-lg-75 pb-50">
       <Container>
         <Row gutter={30}>
-          {services.map(({ title, desc }) => (
+          {services.map(({ title, desc, src }) => (
             <Col
               key={title}
               lg={6}
@@ -39,7 +43,7 @@ const Services = () => {
                 bordered={false}
                 className="service-card w-100"
               >
-                <img alt="example" src="https://picsum.photos/85" />
+                <img alt={title} src={src} />
                 <h3 className="mt-15 pt-5 mb-10">{title}</h3>
                 <p className="mb-0">{desc}</p>
               </Card>
