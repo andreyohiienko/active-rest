@@ -17,7 +17,7 @@ const menu = [
 
 const Dashboard = ({ children }: Props) => {
   const { route } = useRouter()
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
