@@ -23,7 +23,9 @@
   },
   "scripts": {
     "start": "ts-node index.ts",
-    "server": "ts-node-dev index.ts"
+    "server": "ts-node-dev index.ts",
+    "client": "npm run dev --prefix ../client",
+    "concurrently": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
