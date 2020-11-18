@@ -6,10 +6,6 @@
   @include media-breakpoint-up($breakpoint) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    // @each $position in $positions {
-    //   .position#{$infix}-#{$position} { position: $position; }
-    // }
-
     @each $prop, $abbrev in (width: w, height: h) {
       @each $size, $length in $sizes {
         .#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length; }
