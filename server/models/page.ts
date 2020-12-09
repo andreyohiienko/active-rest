@@ -25,4 +25,4 @@ pageSchema.statics.build = (attrs: PageAttrs) => {
   return new Page(attrs)
 }
 
-export { Page }
+export { Page, PageDoc }

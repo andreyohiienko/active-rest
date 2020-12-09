@@ -1,9 +1,18 @@
 import { IResolvers } from 'apollo-server'
 import mongoose from 'mongoose'
+import { PageDoc } from '../models'
 const Page = mongoose.model('Page')
 const Slide = mongoose.model('Slide')
 
-export const Pages: IResolvers = {
+interface FetchPages {
+  dataSources: {
+    admin: {
+      fetchPages(): Promise<PageDoc[]>
+    }
+  }
+}
+
+export const Pages: IResolvers<any, FetchPages> = {
   Query: {
     pages: async (_, __, { dataSources }) => {
       const res = await dataSources.admin.fetchPages()
