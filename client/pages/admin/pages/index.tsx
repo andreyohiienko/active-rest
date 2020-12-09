@@ -21,22 +21,27 @@ const columns = [
   },
 ]
 
-const Pages = () => {
-  const { error, loading, data } = useQuery(PAGES)
+interface Pages {
+  pages: Page[]
+}
 
-  console.log('loading', loading)
+interface Page {
+  title: string
+  id: string
+}
+
+const Pages = () => {
+  const { error, loading, data } = useQuery<Pages>(PAGES)
 
   function renderPages() {
-    const dataSource = data?.pages.map(
-      ({ title, id }: { title: string; id: string }) => ({
-        title: (
-          <Link key={id} href={`/admin/pages/${id}`}>
-            <a>{title}</a>
-          </Link>
-        ),
-        key: id,
-      }),
-    )
+    const dataSource = data?.pages.map(({ title, id }) => ({
+      title: (
+        <Link key={id} href={`/admin/pages/${id}`}>
+          <a>{title}</a>
+        </Link>
+      ),
+      key: id,
+    }))
 
     if (loading) {
       return <p>Loading...</p>

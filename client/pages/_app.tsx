@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
 import { useApollo } from 'apollo'
 import type { AppProps } from 'next/app'
 import '../styles/index.less'
