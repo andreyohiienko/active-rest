@@ -1,7 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { ComponentType, useRef, useState } from 'react'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/dist/client/router'
 import { gql, useQuery } from '@apollo/client'
+import { Typography } from 'antd'
+import dynamic from 'next/dynamic'
+const Editor = dynamic(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  { ssr: false },
+) as ComponentType
+
+const { Title } = Typography
 
 const Page = () => {
   const router = useRouter()
@@ -21,8 +29,8 @@ const Page = () => {
 
   return (
     <Dashboard>
-      <h1>{data?.page.title}</h1>
-      <p>{error?.message}</p>
+      <Title>{data?.page.title}</Title>
+      <Editor />
     </Dashboard>
   )
 }
