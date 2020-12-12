@@ -1,4 +1,8 @@
-import { FileOutlined, FileTextFilled } from '@ant-design/icons'
+import {
+  FileImageOutlined,
+  FileOutlined,
+  FileTextFilled,
+} from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
@@ -11,6 +15,7 @@ interface Props {
 }
 
 const menu = [
+  { title: 'Media', href: '/media', icon: <FileImageOutlined /> },
   { title: 'Pages', href: '/pages', icon: <FileTextFilled /> },
   { title: 'Files', href: '/files', icon: <FileOutlined /> },
 ]
