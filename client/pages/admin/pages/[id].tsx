@@ -4,10 +4,11 @@ import { useRouter } from 'next/dist/client/router'
 import { gql, useQuery } from '@apollo/client'
 import { Typography } from 'antd'
 import dynamic from 'next/dynamic'
-const Editor = dynamic(
+import { Container } from 'components'
+const Editor: ComponentType = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
   { ssr: false },
-) as ComponentType
+)
 
 const { Title } = Typography
 
