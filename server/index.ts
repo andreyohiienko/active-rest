@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server'
 import mongoose from 'mongoose'
 import './models'
 import { typeDefs } from './schema/type-defs'
-import { Pages } from './resolvers'
+import { Pages, Medias } from './resolvers'
 import { AdminAPI } from './dataSources'
 
 const MONGO_URI =
@@ -21,7 +21,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = { ...Pages }
+const resolvers = { ...Pages, ...Medias }
 
 const server = new ApolloServer({
   typeDefs,

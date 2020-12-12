@@ -2,7 +2,6 @@ import { IResolvers } from 'apollo-server'
 import mongoose from 'mongoose'
 import { PageDoc } from '../models'
 const Page = mongoose.model('Page')
-const Slide = mongoose.model('Slide')
 
 interface FetchPages {
   dataSources: {

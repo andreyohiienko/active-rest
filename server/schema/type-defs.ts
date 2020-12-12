@@ -5,11 +5,21 @@ export const typeDefs = gql`
     pages: [Page]
     page(id: ID!): Page
     slider: [Slide]
+    allMedia: [Media]
+    media(id: ID!): Media
   }
 
   type Mutation {
     addPage(title: String): Page
     addSlide(title: String, desc: String, image: String): Slide
+    uploadMedia(path: String, filename: String, mimetype: String): Media
+  }
+
+  type Media {
+    id: ID!
+    path: String
+    filename: String
+    mimetype: String
   }
 
   type Page {

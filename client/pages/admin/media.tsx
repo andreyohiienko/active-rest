@@ -6,8 +6,6 @@ import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import React from 'react'
 
-const { Dragger } = Upload
-
 const Files = () => {
   const fileList: Array<UploadFile> = [
     {
