@@ -35,15 +35,15 @@ const processUpload = async (upload: Media) => {
 }
 
 export const Medias: IResolvers<any, FetchMedia> = {
-  Query: {
-    allMedia: async (_, __, { dataSources }) => {
-      const res = await dataSources.admin.fetchAllMedia()
-      return Array.isArray(res) ? res : []
-    },
-    media: async (_, { id }) => {
-      return await Media.findOne({ _id: id })
-    },
-  },
+  // Query: {
+  //   allMedia: async (_, __, { dataSources }) => {
+  //     const res = await dataSources.admin.fetchAllMedia()
+  //     return Array.isArray(res) ? res : []
+  //   },
+  //   media: async (_, { id }) => {
+  //     return await Media.findOne({ _id: id })
+  //   },
+  // },
   Mutation: {
     uploadMedia: async (_, { file }) => {
       // const { stream, filename, mimetype, encoding } = await file
@@ -60,7 +60,7 @@ export const Medias: IResolvers<any, FetchMedia> = {
       // await processUpload(file)
       // await Media.create(upload)
       // console.log('upload', upload)
-      // return upload
+      return 'test'
     },
   },
 }
