@@ -29,8 +29,10 @@ const Page = () => {
 
   return (
     <Dashboard>
-      <Title>{data?.page.title}</Title>
-      <Editor />
+      <Container fluid>
+        <Title>{data?.page.title}</Title>
+        <Editor />
+      </Container>
     </Dashboard>
   )
 }

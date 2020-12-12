@@ -1,12 +1,16 @@
 .container {
   max-width: 1520px;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+
+  &:not(.container-fluid) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .container-fluid {
   width: 100%;
+  max-width: none;
 }

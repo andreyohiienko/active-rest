@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { Table } from 'antd'
+import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import Link from 'next/link'
 import React from 'react'
@@ -56,7 +57,11 @@ const Pages = () => {
     }
   }
 
-  return <Dashboard>{renderPages()}</Dashboard>
+  return (
+    <Dashboard>
+      <Container>{renderPages()}</Container>
+    </Dashboard>
+  )
 }
 
 export default Pages
