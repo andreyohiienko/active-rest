@@ -34,8 +34,10 @@ interface Page {
 const Pages = () => {
   const { error, loading, data } = useQuery<Pages>(PAGES)
 
+  console.log('data', data)
+
   function renderPages() {
-    const dataSource = data?.pages.map(({ title, id }) => ({
+    const dataSource = data?.pages?.map(({ title, id }) => ({
       title: (
         <Link key={id} href={`/admin/pages/${id}`}>
           <a>{title}</a>

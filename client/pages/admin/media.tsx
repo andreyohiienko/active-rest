@@ -1,10 +1,19 @@
 import { InboxOutlined } from '@ant-design/icons'
+import { gql, useMutation } from '@apollo/client'
 import { Upload, message } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
-import React from 'react'
+import React, { useState } from 'react'
+
+const UPLOAD_MEDIA = gql`
+  mutation uploadMedia($file: Upload!) {
+    uploadMedia(file: $file) {
+      filename
+    }
+  }
+`
 
 const Files = () => {
   const fileList: Array<UploadFile> = [
@@ -62,10 +71,27 @@ const Files = () => {
       }
     },
   }
+  const [uploadMedia] = useMutation(UPLOAD_MEDIA)
 
   return (
     <Dashboard>
       <Container fluid>
+        <input
+          type="file"
+          multiple
+          onChange={({
+            target: {
+              files: [file],
+            },
+          }) => {
+            console.log('e.target.files[0]', file)
+            uploadMedia({
+              variables: {
+                file: file,
+              },
+            })
+          }}
+        />
         <Upload
           type="drag"
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"

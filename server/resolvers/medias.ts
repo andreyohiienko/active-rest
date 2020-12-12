@@ -46,18 +46,21 @@ export const Medias: IResolvers<any, FetchMedia> = {
   },
   Mutation: {
     uploadMedia: async (_, { file }) => {
-      mkdir('images', { recursive: true }, (err) => {
-        if (err) {
-          throw err
-        }
-      })
+      // const { stream, filename, mimetype, encoding } = await file
+      console.log('file', await file)
+      // mkdir('images', { recursive: true }, (err) => {
+      //   if (err) {
+      //     throw err
+      //   }
+      // })
 
-      console.log('file', file)
+      // const { name } = await file
+      // console.log('name', name)
 
-      const upload: Media = await processUpload(file)
-      await Media.create(upload)
-      console.log('upload', upload)
-      return upload
+      // await processUpload(file)
+      // await Media.create(upload)
+      // console.log('upload', upload)
+      // return upload
     },
   },
 }
