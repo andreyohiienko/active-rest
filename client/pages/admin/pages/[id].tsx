@@ -1,4 +1,4 @@
-import React, { ComponentType, useRef, useState } from 'react'
+import React, { ComponentType } from 'react'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/dist/client/router'
 import { gql, useQuery } from '@apollo/client'
