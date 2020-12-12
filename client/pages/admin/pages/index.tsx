@@ -59,7 +59,7 @@ const Pages = () => {
 
   return (
     <Dashboard>
-      <Container>{renderPages()}</Container>
+      <Container fluid>{renderPages()}</Container>
     </Dashboard>
   )
 }
