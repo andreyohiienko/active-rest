@@ -6,6 +6,7 @@ import { typeDefs } from './schema/type-defs'
 import { Pages, Medias } from './resolvers'
 import { AdminAPI } from './dataSources'
 import express from 'express'
+import { merge } from 'lodash'
 
 const MONGO_URI =
   'mongodb+srv://andrew:p8PLHlxKDwc5LXo7@cluster0.rwban.mongodb.net/active-rest?retryWrites=true&w=majority'
@@ -22,7 +23,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = { ...Medias, ...Pages }
+const resolvers = merge(Pages, Medias)
 
 const server = new ApolloServer({
   typeDefs,
