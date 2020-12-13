@@ -1,60 +1,52 @@
 import { InboxOutlined } from '@ant-design/icons'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { Upload, message } from 'antd'
+import Modal from 'antd/lib/modal/Modal'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import React, { useState } from 'react'
 
+interface Media {
+  id: string
+  path: string
+  filename: string
+  mimetype: string
+}
+
 const UPLOAD_MEDIA = gql`
-  mutation uploadMedia($file: Upload!) {
+  mutation uploadMedia($file: Upload) {
     uploadMedia(file: $file) {
+      id
+    }
+  }
+`
+
+const REMOVE_MEDIA = gql`
+  mutation removeMedia($id: ID!, $name: String) {
+    removeMedia(id: $id, name: $name) {
+      id
+    }
+  }
+`
+
+const ALL_MEDIA = gql`
+  query AllMedia {
+    allMedia {
+      id
+      path
       filename
+      mimetype
     }
   }
 `
 
 const Files = () => {
-  const fileList: Array<UploadFile> = [
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url:
-        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      size: 1000,
-      type: '',
-    },
-    {
-      uid: '-2',
-      name: 'image.png',
-      status: 'done',
-      url:
-        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      size: 1000,
-      type: '',
-    },
-    {
-      uid: '-3',
-      name: 'image.png',
-      status: 'done',
-      url:
-        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      size: 1000,
-      type: '',
-    },
-    {
-      uid: '-4',
-      percent: 50,
-      name: 'image.png',
-      status: 'uploading',
-      url:
-        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      size: 1000,
-      type: '',
-    },
-  ]
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
+
   const [uploadMedia] = useMutation(UPLOAD_MEDIA)
 
   async function onChange(info: UploadChangeParam) {
@@ -74,6 +66,47 @@ const Files = () => {
     }
   }
 
+  function onPreview(file: UploadFile) {
+    const { url, name } = file
+    if (url) {
+      setPreviewImage(url)
+    }
+    if (name) {
+      setPreviewTitle(name)
+    }
+    if (file) {
+      setPreviewVisible(true)
+    }
+  }
+
+  const [removeMedia] = useMutation(REMOVE_MEDIA)
+
+  async function onRemove(file: UploadFile) {
+    console.log('file', file)
+    await removeMedia({
+      variables: {
+        id: file.uid,
+        name: file.name,
+      },
+    })
+
+    if (file.status === 'removed') {
+      message.success(`${file.name} file removed successfully.`)
+    }
+  }
+
+  const { error, loading, data } = useQuery(ALL_MEDIA)
+
+  const fileList = data?.allMedia?.map(
+    ({ id, path, filename, mimetype }: Media) => ({
+      uid: id,
+      name: filename,
+      url: `http://localhost:5000/${path}`,
+      status: 'done',
+      type: mimetype,
+    }),
+  )
+
   return (
     <Dashboard>
       <Container fluid>
@@ -82,7 +115,7 @@ const Files = () => {
           listType="picture-card"
           fileList={fileList}
           multiple
-          onChange={onChange}
+          {...{ onPreview, onChange, onRemove }}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
@@ -94,6 +127,18 @@ const Files = () => {
             Support for a single or bulk upload.
           </p>
         </Upload>
+        <Modal
+          visible={previewVisible}
+          title={previewTitle}
+          footer={null}
+          onCancel={() => setPreviewVisible(false)}
+        >
+          <img
+            alt={previewTitle}
+            style={{ width: '100%' }}
+            src={previewImage}
+          />
+        </Modal>
       </Container>
     </Dashboard>
   )
