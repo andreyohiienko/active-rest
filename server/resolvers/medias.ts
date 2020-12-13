@@ -1,6 +1,6 @@
 import { IResolvers } from 'apollo-server-express'
 import mongoose from 'mongoose'
-import { createWriteStream, ReadStream, mkdir } from 'fs'
+import { createWriteStream, ReadStream, mkdir, unlinkSync } from 'fs'
 import { MediaDoc } from '../models'
 const Media = mongoose.model('Media')
 
@@ -63,7 +63,6 @@ export const Medias: IResolvers<any, FetchMedia> = {
   },
   Mutation: {
     uploadMedia: async (_, { file }: { file: FileUpload }) => {
-      console.log('file', file)
       mkdir('images', { recursive: true }, (err) => {
         if (err) {
           throw err
@@ -74,6 +73,18 @@ export const Medias: IResolvers<any, FetchMedia> = {
       const upload = await processUpload(file)
       await Media.create(upload)
       return upload
+    },
+    removeMedia: async (_, { id, name }) => {
+      console.log('id', id)
+      console.log('name', name)
+      const deletedImage = await Media.findOne({ _id: id })
+      try {
+        unlinkSync(`./images/${name}`)
+      } catch (error) {
+        console.log('error', error)
+      }
+      await Media.deleteOne({ _id: id })
+      return deletedImage
     },
   },
 }

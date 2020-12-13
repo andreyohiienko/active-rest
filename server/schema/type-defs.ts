@@ -13,6 +13,7 @@ export const typeDefs = gql`
     addPage(title: String): Page
     addSlide(title: String, desc: String, image: String): Slide
     uploadMedia(file: Upload!): Media
+    removeMedia(id: ID!, name: String): Media
   }
 
   type Media {
