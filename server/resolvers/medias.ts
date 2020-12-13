@@ -42,12 +42,12 @@ const storeUpload = async ({ stream, filename, mimetype }: StoreUpload) => {
 }
 
 const processUpload = async (uploads: FileUpload[]) => {
-  const files = await uploads.map(async (upload) => {
+  const files = uploads.map(async (upload) => {
     const { createReadStream, filename, mimetype } = await upload
     const stream = createReadStream()
     return await storeUpload({ stream, filename, mimetype })
   })
-  return files
+  return Promise.all(files)
 }
 
 export const Medias: IResolvers<any, FetchMedia> = {
