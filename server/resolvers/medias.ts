@@ -45,13 +45,10 @@ const storeUpload = async ({
   )
 }
 
-const processUpload = async (uploads: FileUpload[]) => {
-  const files = uploads.map(async (upload) => {
-    const { createReadStream, filename, mimetype } = await upload
-    const stream = createReadStream()
-    return await storeUpload({ stream, filename, mimetype })
-  })
-  return Promise.all(files)
+const processUpload = async (upload: FileUpload) => {
+  const { createReadStream, filename, mimetype } = await upload
+  const stream = createReadStream()
+  return await storeUpload({ stream, filename, mimetype })
 }
 
 export const Medias: IResolvers<any, FetchMedia> = {
@@ -65,7 +62,8 @@ export const Medias: IResolvers<any, FetchMedia> = {
     },
   },
   Mutation: {
-    uploadMedia: async (_, { files }: { files: FileUpload[] }) => {
+    uploadMedia: async (_, { file }: { file: FileUpload }) => {
+      console.log('file', file)
       mkdir('images', { recursive: true }, (err) => {
         if (err) {
           throw err
@@ -73,9 +71,9 @@ export const Medias: IResolvers<any, FetchMedia> = {
       })
 
       // Process upload
-      const uploads = await processUpload(files)
-      await Media.create(...uploads)
-      return uploads
+      const upload = await processUpload(file)
+      await Media.create(upload)
+      return upload
     },
   },
 }

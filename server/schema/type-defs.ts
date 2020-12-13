@@ -12,7 +12,7 @@ export const typeDefs = gql`
   type Mutation {
     addPage(title: String): Page
     addSlide(title: String, desc: String, image: String): Slide
-    uploadMedia(files: [Upload!]): Media
+    uploadMedia(file: Upload!): Media
   }
 
   type Media {

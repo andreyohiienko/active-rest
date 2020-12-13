@@ -22,7 +22,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = { ...Pages, ...Medias }
+const resolvers = { ...Medias, ...Pages }
 
 const server = new ApolloServer({
   typeDefs,

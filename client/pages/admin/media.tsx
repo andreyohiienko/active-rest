@@ -8,8 +8,8 @@ import { Dashboard } from 'HOC'
 import React, { useState } from 'react'
 
 const UPLOAD_MEDIA = gql`
-  mutation uploadMedia($files: [Upload!]) {
-    uploadMedia(files: $files) {
+  mutation uploadMedia($file: Upload!) {
+    uploadMedia(file: $file) {
       filename
     }
   }
@@ -46,55 +46,44 @@ const Files = () => {
     },
     {
       uid: '-4',
+      percent: 50,
       name: 'image.png',
-      status: 'done',
+      status: 'uploading',
       url:
         'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       size: 1000,
       type: '',
     },
   ]
-
-  const options = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info: UploadChangeParam) {
-      const { status } = info.file
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-  }
   const [uploadMedia] = useMutation(UPLOAD_MEDIA)
+
+  async function onChange(info: UploadChangeParam) {
+    const { file } = info
+    const { status } = info.file
+    if (status !== 'uploading') {
+      await uploadMedia({
+        variables: {
+          file: file.originFileObj,
+        },
+      })
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`)
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`)
+    }
+  }
 
   return (
     <Dashboard>
       <Container fluid>
-        <input
-          type="file"
-          multiple
-          onChange={({ target: { files } }) => {
-            uploadMedia({
-              variables: {
-                files,
-              },
-            })
-          }}
-        />
         <Upload
           type="drag"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
           fileList={fileList}
+          multiple
+          onChange={onChange}
         >
-          {/* {fileList.length >= 8 ? null : uploadButton} */}
-
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
@@ -102,8 +91,7 @@ const Files = () => {
             Click or drag file to this area to upload
           </p>
           <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibit from
-            uploading company data or other band files
+            Support for a single or bulk upload.
           </p>
         </Upload>
       </Container>
