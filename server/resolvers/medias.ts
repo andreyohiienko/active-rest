@@ -55,15 +55,15 @@ const processUpload = async (uploads: FileUpload[]) => {
 }
 
 export const Medias: IResolvers<any, FetchMedia> = {
-  // Query: {
-  //   allMedia: async (_, __, { dataSources }) => {
-  //     const res = await dataSources.admin.fetchAllMedia()
-  //     return Array.isArray(res) ? res : []
-  //   },
-  //   media: async (_, { id }) => {
-  //     return await Media.findOne({ _id: id })
-  //   },
-  // },
+  Query: {
+    allMedia: async (_, __, { dataSources }) => {
+      const res = await dataSources.admin.fetchAllMedia()
+      return Array.isArray(res) ? res : []
+    },
+    media: async (_, { id }) => {
+      return await Media.findOne({ _id: id })
+    },
+  },
   Mutation: {
     uploadMedia: async (_, { files }: { files: FileUpload[] }) => {
       mkdir('images', { recursive: true }, (err) => {

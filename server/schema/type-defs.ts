@@ -16,6 +16,7 @@ export const typeDefs = gql`
   }
 
   type Media {
+    id: ID!
     path: String
     filename: String
     mimetype: String
