@@ -1,10 +1,11 @@
 import { json } from 'body-parser'
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import './models'
 import { typeDefs } from './schema/type-defs'
 import { Pages, Medias } from './resolvers'
 import { AdminAPI } from './dataSources'
+import express from 'express'
 
 const MONGO_URI =
   'mongodb+srv://andrew:p8PLHlxKDwc5LXo7@cluster0.rwban.mongodb.net/active-rest?retryWrites=true&w=majority'
@@ -29,4 +30,12 @@ const server = new ApolloServer({
   dataSources: () => ({ admin: new AdminAPI() }),
 })
 
-server.listen(5000).then(({ url }) => console.log(`Server ready at ${url}`))
+const app = express()
+server.applyMiddleware({ app })
+
+app.use(json())
+app.use('/images', express.static('images'))
+
+app.listen({ port: 5000 }, () =>
+  console.log(`Server ready at http://localhost:5000${server.graphqlPath}`),
+)

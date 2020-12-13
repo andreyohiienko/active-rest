@@ -1,4 +1,4 @@
-import { IResolvers } from 'apollo-server'
+import { IResolvers } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import { PageDoc } from '../models'
 const Page = mongoose.model('Page')
