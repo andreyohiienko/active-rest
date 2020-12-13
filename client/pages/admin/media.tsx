@@ -8,8 +8,8 @@ import { Dashboard } from 'HOC'
 import React, { useState } from 'react'
 
 const UPLOAD_MEDIA = gql`
-  mutation uploadMedia($file: Upload!) {
-    uploadMedia(file: $file) {
+  mutation uploadMedia($files: [Upload!]) {
+    uploadMedia(files: $files) {
       filename
     }
   }
@@ -79,15 +79,11 @@ const Files = () => {
         <input
           type="file"
           multiple
-          onChange={({
-            target: {
-              files: [file],
-            },
-          }) => {
-            console.log('e.target.files[0]', file)
+          onChange={({ target: { files } }) => {
+            console.log('e.target.files[0]', files)
             uploadMedia({
               variables: {
-                file: file,
+                files,
               },
             })
           }}

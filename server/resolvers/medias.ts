@@ -1,6 +1,6 @@
 import { IResolvers } from 'apollo-server'
 import mongoose from 'mongoose'
-import { createWriteStream, createReadStream, mkdir } from 'fs'
+import { createWriteStream, ReadStream, mkdir } from 'fs'
 import { MediaDoc } from '../models'
 const Media = mongoose.model('Media')
 
@@ -18,20 +18,36 @@ interface Media {
   mimetype: string
 }
 
-const storeUpload = async ({ filename, mimetype }: Media) => {
-  const path = `images/${filename}`
-  return new Promise<Media>((resolve, reject) => {
-    createReadStream(path)
-      .pipe(createWriteStream(path))
-      .on('finish', () => resolve({ path, filename, mimetype }))
-      .on('error', reject)
-  })
+interface FileUpload {
+  filename: string
+  mimetype: string
+  encoding: string
+  createReadStream(): ReadStream
 }
 
-const processUpload = async (upload: Media) => {
-  const { filename, mimetype } = await upload
-  const file = await storeUpload({ filename, mimetype })
-  return file
+interface StoreUpload {
+  stream: ReadStream
+  filename: string
+  mimetype: string
+}
+
+const storeUpload = async ({ stream, filename, mimetype }: StoreUpload) => {
+  const path = `images/${filename}`
+  return new Promise((resolve, reject) =>
+    stream
+      .pipe(createWriteStream(path))
+      .on('finish', () => resolve({ path, filename, mimetype }))
+      .on('error', reject),
+  )
+}
+
+const processUpload = async (uploads: FileUpload[]) => {
+  const files = await uploads.map(async (upload) => {
+    const { createReadStream, filename, mimetype } = await upload
+    const stream = createReadStream()
+    return await storeUpload({ stream, filename, mimetype })
+  })
+  return files
 }
 
 export const Medias: IResolvers<any, FetchMedia> = {
@@ -45,22 +61,16 @@ export const Medias: IResolvers<any, FetchMedia> = {
   //   },
   // },
   Mutation: {
-    uploadMedia: async (_, { file }) => {
-      // const { stream, filename, mimetype, encoding } = await file
-      console.log('file', await file)
-      // mkdir('images', { recursive: true }, (err) => {
-      //   if (err) {
-      //     throw err
-      //   }
-      // })
+    uploadMedia: async (_, { files }: { files: FileUpload[] }) => {
+      mkdir('images', { recursive: true }, (err) => {
+        if (err) {
+          throw err
+        }
+      })
 
-      // const { name } = await file
-      // console.log('name', name)
-
-      // await processUpload(file)
-      // await Media.create(upload)
-      // console.log('upload', upload)
-      return 'test'
+      // Process upload
+      const upload = await processUpload(files)
+      return upload
     },
   },
 }
