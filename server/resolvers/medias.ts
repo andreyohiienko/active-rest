@@ -12,12 +12,6 @@ interface FetchMedia {
   }
 }
 
-interface Media {
-  path?: string
-  filename: string
-  mimetype: string
-}
-
 interface FileUpload {
   filename: string
   mimetype: string
@@ -31,7 +25,17 @@ interface StoreUpload {
   mimetype: string
 }
 
-const storeUpload = async ({ stream, filename, mimetype }: StoreUpload) => {
+interface StoredMedia {
+  path: string
+  filename: string
+  mimetype: string
+}
+
+const storeUpload = async ({
+  stream,
+  filename,
+  mimetype,
+}: StoreUpload): Promise<StoredMedia> => {
   const path = `images/${filename}`
   return new Promise((resolve, reject) =>
     stream
@@ -69,8 +73,9 @@ export const Medias: IResolvers<any, FetchMedia> = {
       })
 
       // Process upload
-      const upload = await processUpload(files)
-      return upload
+      const uploads = await processUpload(files)
+      await Media.create(...uploads)
+      return uploads
     },
   },
 }

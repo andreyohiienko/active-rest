@@ -1,12 +1,14 @@
 import mongoose from 'mongoose'
 
 interface MediaAttrs {
-  name: string
+  filename: string
+  path: string
   mimetype: string
 }
 
 export interface MediaDoc extends mongoose.Document {
-  name: string
+  filename: string
+  path: string
   mimetype: string
 }
 
@@ -15,10 +17,11 @@ interface MediaModel extends mongoose.Model<MediaDoc> {
 }
 
 const pageSchema = new mongoose.Schema({
-  name: {
+  filename: {
     type: String,
     required: true,
   },
+  path: String,
   mimetype: String,
 })
 
