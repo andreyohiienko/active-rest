@@ -80,7 +80,6 @@ const Files = () => {
           type="file"
           multiple
           onChange={({ target: { files } }) => {
-            console.log('e.target.files[0]', files)
             uploadMedia({
               variables: {
                 files,
