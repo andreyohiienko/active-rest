@@ -38,21 +38,23 @@ interface StoredMedia {
   mimetype: string
 }
 
-const checkPath = (path: string) => {
-  let newPath = path
-  if (existsSync(path)) {
+const checkUniqueness = (filename: string) => {
+  let newFilename = filename
+
+  while (existsSync(`./images/${newFilename}`)) {
     const regexp = /(.+?)(\.[^.]*$|$)/
     const hasNumber = /\(([0-9]+)\)(\.[^.]*$|$)/
-    if (hasNumber.test(path)) {
-      newPath = path.replace(hasNumber, function (_, g1) {
-        return `(${++g1})`
-      })
+    if (hasNumber.test(newFilename)) {
+      newFilename = newFilename.replace(
+        hasNumber,
+        (_, g1, g2) => `(${++g1})${g2}`,
+      )
     } else {
-      newPath = path.replace(regexp, '$1 (1)$2')
+      newFilename = newFilename.replace(regexp, '$1 (1)$2')
     }
   }
 
-  return newPath
+  return newFilename
 }
 
 const storeUpload = async ({
@@ -60,16 +62,13 @@ const storeUpload = async ({
   filename,
   mimetype,
 }: StoreUpload): Promise<StoredMedia> => {
-  let path = `images/${filename}`
-  let newFilename = filename
-
-  path = checkPath(path)
-  newFilename = checkPath(filename)
+  const newFilename = checkUniqueness(filename)
+  const path = `images/${newFilename}`
 
   return new Promise((resolve, reject) =>
     stream
       .pipe(createWriteStream(path))
-      .on('finish', () => resolve({ path, filename, mimetype }))
+      .on('finish', () => resolve({ path, filename: newFilename, mimetype }))
       .on('error', reject),
   )
 }
