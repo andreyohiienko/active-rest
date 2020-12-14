@@ -16,7 +16,7 @@ interface Media {
 }
 
 const UPLOAD_MEDIA = gql`
-  mutation uploadMedia($file: Upload) {
+  mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
       id
     }

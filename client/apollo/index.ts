@@ -13,12 +13,18 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 function createApolloClient() {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) =>
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-          locations,
-        ),
-      )
+      graphQLErrors.map(({ message, locations, path, extensions }) => {
+        console.error(
+          [
+            `[GraphQL Code]: ${extensions?.code}\n`,
+            `[GraphQL error]: Message: ${message}\n`,
+            `[Location]: ${locations
+              ?.map((loc) => `line ${loc.line}, column ${loc.column}`)
+              .join(', ')}.\n`,
+            path && `[Path]: ${path}\n`,
+          ].join(''),
+        )
+      })
 
     if (networkError) console.log(`[Network error]: ${networkError}`)
   })
