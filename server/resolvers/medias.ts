@@ -1,7 +1,14 @@
 import { IResolvers } from 'apollo-server-express'
 import mongoose from 'mongoose'
-import { createWriteStream, ReadStream, mkdir, unlinkSync } from 'fs'
+import {
+  createWriteStream,
+  ReadStream,
+  mkdir,
+  unlinkSync,
+  existsSync,
+} from 'fs'
 import { MediaDoc } from '../models'
+
 const Media = mongoose.model('Media')
 
 interface FetchMedia {
@@ -31,12 +38,34 @@ interface StoredMedia {
   mimetype: string
 }
 
+const checkPath = (path: string) => {
+  let newPath = path
+  if (existsSync(path)) {
+    const regexp = /(.+?)(\.[^.]*$|$)/
+    const hasNumber = /\(([0-9]+)\)(\.[^.]*$|$)/
+    if (hasNumber.test(path)) {
+      newPath = path.replace(hasNumber, function (_, g1) {
+        return `(${++g1})`
+      })
+    } else {
+      newPath = path.replace(regexp, '$1 (1)$2')
+    }
+  }
+
+  return newPath
+}
+
 const storeUpload = async ({
   stream,
   filename,
   mimetype,
 }: StoreUpload): Promise<StoredMedia> => {
-  const path = `images/${filename}`
+  let path = `images/${filename}`
+  let newFilename = filename
+
+  path = checkPath(path)
+  newFilename = checkPath(filename)
+
   return new Promise((resolve, reject) =>
     stream
       .pipe(createWriteStream(path))
@@ -47,6 +76,7 @@ const storeUpload = async ({
 
 const processUpload = async (upload: FileUpload) => {
   const { createReadStream, filename, mimetype } = await upload
+
   const stream = createReadStream()
   return await storeUpload({ stream, filename, mimetype })
 }
