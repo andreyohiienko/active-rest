@@ -2,7 +2,6 @@ import { InboxOutlined } from '@ant-design/icons'
 import { gql, Reference, useMutation, useQuery } from '@apollo/client'
 import { Upload, message } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
-import { UploadChangeParam } from 'antd/lib/upload'
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
@@ -50,7 +49,7 @@ const Files = () => {
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
 
-  const [uploadMedia, ...rest] = useMutation(UPLOAD_MEDIA, {
+  const [uploadMedia] = useMutation(UPLOAD_MEDIA, {
     update(cache, { data: { uploadMedia } }) {
       cache.modify({
         fields: {
@@ -88,19 +87,6 @@ const Files = () => {
     } catch (error) {
       onError(error, {}, file)
     }
-  }
-
-  async function onChange(info: UploadChangeParam) {
-    console.log('info', info)
-    const { status } = info.file
-    console.log('status', status)
-    // if (status !== 'uploading') {
-    // }
-    // if (status === 'done') {
-    //   message.success(`${info.file.name} file uploaded successfully.`)
-    // } else if (status === 'error') {
-    //   message.error(`${info.file.name} file upload failed.`)
-    // }
   }
 
   function onPreview(file: UploadFile) {
@@ -177,7 +163,6 @@ const Files = () => {
           {...{
             customRequest,
             onPreview,
-            onChange,
             onRemove,
           }}
         >

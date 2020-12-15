@@ -103,8 +103,6 @@ export const Medias: IResolvers<any, FetchMedia> = {
       return await Media.create(upload)
     },
     removeMedia: async (_, { id, name }) => {
-      console.log('id', id)
-      console.log('name', name)
       const deletedImage = await Media.findOne({ _id: id })
       try {
         unlinkSync(`./images/${name}`)
