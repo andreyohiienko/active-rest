@@ -1,9 +1,9 @@
 import { InboxOutlined } from '@ant-design/icons'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, Reference, useMutation, useQuery } from '@apollo/client'
 import { Upload, message } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { UploadChangeParam } from 'antd/lib/upload'
-import { UploadFile } from 'antd/lib/upload/interface'
+import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import React, { useState } from 'react'
@@ -19,6 +19,9 @@ const UPLOAD_MEDIA = gql`
   mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
       id
+      filename
+      path
+      mimetype
     }
   }
 `
@@ -47,23 +50,57 @@ const Files = () => {
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
 
-  const [uploadMedia] = useMutation(UPLOAD_MEDIA)
+  const [uploadMedia, ...rest] = useMutation(UPLOAD_MEDIA, {
+    update(cache, { data: { uploadMedia } }) {
+      cache.modify({
+        fields: {
+          allMedia(existingMediaRefs = []) {
+            const newMediaRefs = cache.writeFragment({
+              data: uploadMedia,
+              fragment: gql`
+                fragment newMedia on uploadMedia {
+                  id
+                  filename
+                  path
+                  mimetype
+                }
+              `,
+            })
 
-  async function onChange(info: UploadChangeParam) {
-    const { file } = info
-    const { status } = info.file
-    if (status !== 'uploading') {
-      await uploadMedia({
-        variables: {
-          file: file.originFileObj,
+            return [...existingMediaRefs, newMediaRefs]
+          },
         },
       })
+    },
+  })
+
+  async function customRequest({ file, onError }: RcCustomRequestOptions) {
+    try {
+      const { data } = await uploadMedia({
+        variables: {
+          file,
+        },
+      })
+
+      message.success(
+        `${data.uploadMedia.filename} file uploaded successfully.`,
+      )
+    } catch (error) {
+      onError(error, {}, file)
     }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`)
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`)
-    }
+  }
+
+  async function onChange(info: UploadChangeParam) {
+    console.log('info', info)
+    const { status } = info.file
+    console.log('status', status)
+    // if (status !== 'uploading') {
+    // }
+    // if (status === 'done') {
+    //   message.success(`${info.file.name} file uploaded successfully.`)
+    // } else if (status === 'error') {
+    //   message.error(`${info.file.name} file upload failed.`)
+    // }
   }
 
   function onPreview(file: UploadFile) {
@@ -79,10 +116,32 @@ const Files = () => {
     }
   }
 
-  const [removeMedia] = useMutation(REMOVE_MEDIA)
+  const [removeMedia] = useMutation(REMOVE_MEDIA, {
+    update(cache, { data: { removeMedia } }) {
+      cache.modify({
+        fields: {
+          allMedia(existingMediaRefs) {
+            const removedMedia = cache.writeFragment({
+              data: removeMedia,
+              fragment: gql`
+                fragment removeMedia on removeMedia {
+                  id
+                }
+              `,
+            })
+
+            console.log('removedMedia', removedMedia)
+
+            return existingMediaRefs.filter(
+              (mediaRef: Reference) => mediaRef.__ref !== removedMedia?.__ref,
+            )
+          },
+        },
+      })
+    },
+  })
 
   async function onRemove(file: UploadFile) {
-    console.log('file', file)
     await removeMedia({
       variables: {
         id: file.uid,
@@ -90,7 +149,7 @@ const Files = () => {
       },
     })
 
-    if (file.status === 'removed') {
+    if (file.status === 'done') {
       message.success(`${file.name} file removed successfully.`)
     }
   }
@@ -115,7 +174,12 @@ const Files = () => {
           listType="picture-card"
           fileList={fileList}
           multiple
-          {...{ onPreview, onChange, onRemove }}
+          {...{
+            customRequest,
+            onPreview,
+            onChange,
+            onRemove,
+          }}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />

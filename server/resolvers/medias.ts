@@ -100,8 +100,7 @@ export const Medias: IResolvers<any, FetchMedia> = {
 
       // Process upload
       const upload = await processUpload(file)
-      await Media.create(upload)
-      return upload
+      return await Media.create(upload)
     },
     removeMedia: async (_, { id, name }) => {
       console.log('id', id)
