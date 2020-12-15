@@ -21,10 +21,16 @@ export const Slides: IResolvers<any, FetchSlides> = {
       return await Slide.findOne({ _id: id })
     },
   },
-  // Mutation: {
-  //   addPage: async (_p, { title }) => {
-  //     const page = new Page({ title })
-  //     return await page.save()
-  //   },
-  // },
+  Mutation: {
+    addSlide: async (_p, { title }) => {
+      const slide = new Slide({ title })
+      return await slide.save()
+    },
+    removeSlide: async (_p, { id }) => {
+      const deletedSlide = await Slide.findOne({ _id: id })
+
+      await Slide.deleteOne({ _id: id })
+      return deletedSlide
+    },
+  },
 }

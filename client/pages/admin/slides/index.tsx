@@ -1,8 +1,10 @@
-import { gql, useQuery } from '@apollo/client'
-import { Button, Table } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Button, message, Table } from 'antd'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import Link from 'next/link'
+import { filter, reject, without } from 'lodash'
 import React from 'react'
 
 const SLIDES = gql`
@@ -14,11 +16,25 @@ const SLIDES = gql`
   }
 `
 
+const REMOVE_SLIDE = gql`
+  mutation removeSlide($id: ID!) {
+    removeSlide(id: $id) {
+      id
+      title
+    }
+  }
+`
+
 const columns = [
   {
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
+  },
+  {
+    title: 'Remove',
+    dataIndex: 'remove',
+    key: 'remove',
   },
 ]
 
@@ -36,12 +52,54 @@ const Pages = () => {
 
   console.log('data', data)
 
+  const [removeSlide] = useMutation(REMOVE_SLIDE, {
+    update(cache, { data: { removeSlide } }) {
+      cache.modify({
+        fields: {
+          slides(existingSlideRefs) {
+            const removedSlideRef = cache.writeFragment({
+              data: removeSlide,
+              fragment: gql`
+                fragment removeSlide on removeSlide {
+                  id
+                }
+              `,
+            })
+
+            return reject(existingSlideRefs, removedSlideRef)
+          },
+        },
+      })
+    },
+  })
+
+  async function onRemove(id: string) {
+    try {
+      const {
+        data: { title },
+      } = await removeSlide({
+        variables: {
+          id,
+        },
+      })
+
+      message.success(`${title} slide removed successfully.`)
+    } catch (error) {
+      message.error(error)
+    }
+  }
+
   function renderPages() {
     const dataSource = data?.slides?.map(({ title, id }) => ({
       title: (
-        <Link key={id} href={`/admin/pages/${id}`}>
+        <Link key={id} href={`/admin/slides/${id}`}>
           <a>{title}</a>
         </Link>
+      ),
+      remove: (
+        <Button onClick={() => onRemove(id)} shape="circle">
+          <DeleteOutlined />
+        </Button>
       ),
       key: id,
     }))
