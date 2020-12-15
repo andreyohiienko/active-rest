@@ -1,6 +1,5 @@
 import { DataSource } from 'apollo-datasource'
-import { Page } from '../models'
-import { Media } from '../models'
+import { Slide, Page, Media } from '../models'
 
 class AdminAPI extends DataSource {
   async fetchPages() {
@@ -8,6 +7,9 @@ class AdminAPI extends DataSource {
   }
   async fetchAllMedia() {
     return await Media.find({})
+  }
+  async fetchSlides() {
+    return await Slide.find({})
   }
 }
 

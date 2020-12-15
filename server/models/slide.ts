@@ -6,7 +6,7 @@ interface SlideAttrs {
   image: string
 }
 
-interface SlideDoc extends mongoose.Document {
+export interface SlideDoc extends mongoose.Document {
   title: string
   desc: string
   image: string
@@ -16,7 +16,7 @@ interface SlideModel extends mongoose.Model<SlideDoc> {
   build(attrs: SlideAttrs): SlideDoc
 }
 
-const pageSchema = new mongoose.Schema({
+const slideSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -25,9 +25,9 @@ const pageSchema = new mongoose.Schema({
   image: String,
 })
 
-const Slide = mongoose.model<SlideDoc, SlideModel>('Slide', pageSchema)
+const Slide = mongoose.model<SlideDoc, SlideModel>('Slide', slideSchema)
 
-pageSchema.statics.build = (attrs: SlideAttrs) => {
+slideSchema.statics.build = (attrs: SlideAttrs) => {
   return new Slide(attrs)
 }
 

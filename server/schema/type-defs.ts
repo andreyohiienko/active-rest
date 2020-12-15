@@ -4,7 +4,10 @@ export const typeDefs = gql`
   type Query {
     pages: [Page]
     page(id: ID!): Page
-    slider: [Slide]
+
+    slides: [Slide]
+    slide(id: ID!): Slide
+
     allMedia: [Media]
     media(id: ID!): Media
   }
@@ -29,6 +32,7 @@ export const typeDefs = gql`
   }
 
   type Slide {
+    id: ID!
     title: String!
     desc: String
     image: String

@@ -1,4 +1,5 @@
 import {
+  FileImageFilled,
   FileImageOutlined,
   FileOutlined,
   FileTextFilled,
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const menu = [
+  { title: 'Slider', href: '/slider', icon: <FileImageFilled /> },
   { title: 'Media', href: '/media', icon: <FileImageOutlined /> },
   { title: 'Pages', href: '/pages', icon: <FileTextFilled /> },
   { title: 'Files', href: '/files', icon: <FileOutlined /> },
