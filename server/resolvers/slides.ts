@@ -18,7 +18,7 @@ export const Slides: IResolvers<any, FetchSlides> = {
       return Array.isArray(res) ? res : []
     },
     slide: async (_, { id }) => {
-      return await Slide.findOne({ _id: id })
+      return await Slide.findById(id)
     },
   },
   Mutation: {
@@ -27,7 +27,7 @@ export const Slides: IResolvers<any, FetchSlides> = {
       return await slide.save()
     },
     removeSlide: async (_p, { id }) => {
-      const deletedSlide = await Slide.findOne({ _id: id })
+      const deletedSlide = await Slide.findById(id)
 
       await Slide.deleteOne({ _id: id })
       return deletedSlide

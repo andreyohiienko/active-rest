@@ -1,18 +1,17 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useLazyQuery } from '@apollo/client'
 import { Image, Typography } from 'antd'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/dist/client/router'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Slide, SlideVariables } from 'types'
 
 const { Title, Paragraph } = Typography
 
-const Slide = () => {
-  const router = useRouter()
-
+const SlidePage = () => {
   const SLIDE = gql`
     query Slide($id: ID!) {
-      slide(id: $id) {
+      item: slide(id: $id) {
         id
         title
         desc
@@ -21,24 +20,34 @@ const Slide = () => {
     }
   `
 
-  const { error, loading, data } = useQuery(SLIDE, {
-    variables: { id: router?.query.id },
-  })
+  const router = useRouter()
 
-  function renderContent(data) {
-    if (data) {
+  const [getSlide, { error, loading, data }] = useLazyQuery<
+    Slide,
+    SlideVariables
+  >(SLIDE)
+
+  useEffect(() => {
+    if (router?.query?.id && typeof router?.query?.id === 'string') {
+      getSlide({
+        variables: { id: router?.query.id },
+      })
+    }
+  }, [router])
+
+  function renderContent() {
+    if (data?.item) {
       const {
-        slide: { title, desc, image },
+        item: { title, desc, image },
       } = data
       return (
         <>
           <Title editable>{title}</Title>
           <Paragraph editable>{desc}</Paragraph>
-          <Image width={200} src={image} alt="image" />
+          <Image width={200} src={image || undefined} alt="image" />
         </>
       )
     }
-
     if (loading) {
       return 'Loading...'
     }
@@ -46,9 +55,9 @@ const Slide = () => {
 
   return (
     <Dashboard>
-      <Container fluid>{renderContent(data)}</Container>
+      <Container fluid>{renderContent()}</Container>
     </Dashboard>
   )
 }
 
-export default Slide
+export default SlidePage
