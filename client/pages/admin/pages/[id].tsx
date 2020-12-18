@@ -1,9 +1,8 @@
-import React, { ComponentType } from 'react'
+import React from 'react'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/dist/client/router'
 import { gql, useQuery } from '@apollo/client'
 import { Col, Row, Tabs, Typography } from 'antd'
-import dynamic from 'next/dynamic'
 import { Container } from 'components'
 
 const { Title } = Typography

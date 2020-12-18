@@ -4,7 +4,7 @@ import { Button, message, Table } from 'antd'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import Link from 'next/link'
-import { filter, reject, without } from 'lodash'
+import { reject } from 'lodash'
 import React from 'react'
 
 const SLIDES = gql`
