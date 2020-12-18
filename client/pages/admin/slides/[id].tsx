@@ -2,7 +2,7 @@ import { gql, useLazyQuery } from '@apollo/client'
 import { Image, Typography } from 'antd'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { Slide, SlideVariables } from 'types'
 
