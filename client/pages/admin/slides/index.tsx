@@ -1,15 +1,16 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, Reference, useMutation, useQuery } from '@apollo/client'
 import { Button, message, Table } from 'antd'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import Link from 'next/link'
 import { reject } from 'lodash'
 import React from 'react'
+import { removeSlide, Slides, removeSlideVariables } from 'types'
 
 const SLIDES = gql`
   query Slides {
-    slides {
+    list: slides {
       id
       title
     }
@@ -18,7 +19,7 @@ const SLIDES = gql`
 
 const REMOVE_SLIDE = gql`
   mutation removeSlide($id: ID!) {
-    removeSlide(id: $id) {
+    action: removeSlide(id: $id) {
       id
       title
     }
@@ -32,78 +33,55 @@ const columns = [
     key: 'title',
   },
   {
-    title: 'Remove',
+    title: '',
     dataIndex: 'remove',
     key: 'remove',
   },
 ]
 
-interface Slides {
-  slides: Slide[]
-}
-
-interface Slide {
-  id: string
-  title: string
-}
-
-const Pages = () => {
+const SlidesPage = () => {
   const { error, loading, data } = useQuery<Slides>(SLIDES)
 
-  console.log('data', data)
+  const [removeAction] = useMutation<removeSlide, removeSlideVariables>(
+    REMOVE_SLIDE,
+    {
+      update(cache, { data }) {
+        if (data) {
+          const { action } = data
 
-  const [removeSlide] = useMutation(REMOVE_SLIDE, {
-    update(cache, { data: { removeSlide } }) {
-      cache.modify({
-        fields: {
-          slides(existingSlideRefs) {
-            const removedSlideRef = cache.writeFragment({
-              data: removeSlide,
-              fragment: gql`
-                fragment removeSlide on Slide {
-                  id
-                }
-              `,
-            })
+          cache.modify({
+            fields: {
+              slides(existingSlideRefs: Reference[]) {
+                const removedSlideRef = cache.writeFragment({
+                  data: action,
+                  fragment: gql`
+                    fragment remove on Slide {
+                      id
+                    }
+                  `,
+                })
 
-            return reject(existingSlideRefs, removedSlideRef)
-          },
-        },
-      })
+                return reject(existingSlideRefs, removedSlideRef)
+              },
+            },
+          })
+        }
+      },
     },
-  })
+  )
 
   async function onRemove(id: string) {
     try {
-      const {
-        data: { title },
-      } = await removeSlide({
-        variables: {
-          id,
-        },
-      })
-
-      message.success(`${title} slide removed successfully.`)
+      const { data } = await removeAction({ variables: { id: id } })
+      if (data) {
+        message.success(`${data?.action?.title} slide removed successfully.`)
+      }
     } catch (error) {
       message.error(error)
     }
   }
 
-  function renderPages() {
-    const dataSource = data?.slides?.map(({ title, id }) => ({
-      title: (
-        <Link key={id} href={`/admin/slides/${id}`}>
-          <a>{title}</a>
-        </Link>
-      ),
-      remove: (
-        <Button onClick={() => onRemove(id)} shape="circle">
-          <DeleteOutlined />
-        </Button>
-      ),
-      key: id,
-    }))
-
+  function renderSlides() {
     if (loading) {
       return <p>Loading...</p>
     }
@@ -112,9 +90,36 @@ const Pages = () => {
       console.error('error', error)
     }
 
-    if (data) {
-      return <Table {...{ columns, dataSource }}></Table>
-    }
+    const dataSource = data?.list?.map((item) => {
+      if (!item) {
+        return {
+          title: <p>Title</p>,
+          remove: (
+            <Button shape="circle">
+              <DeleteOutlined />
+            </Button>
+          ),
+          key: 'id',
+        }
+      }
+
+      const { title, id } = item
+      return {
+        title: (
+          <Link key={id} href={`/admin/slides/${id}`}>
+            <a>{title}</a>
+          </Link>
+        ),
+        remove: (
+          <Button onClick={() => onRemove(id)} shape="circle">
+            <DeleteOutlined />
+          </Button>
+        ),
+        key: id,
+      }
+    })
+
+    return <Table {...{ columns, dataSource }} />
   }
 
   return (
@@ -123,10 +128,10 @@ const Pages = () => {
         <div className="mb-30">
           <Button type="primary">Add Slide</Button>
         </div>
-        {renderPages()}
+        {renderSlides()}
       </Container>
     </Dashboard>
   )
 }
 
-export default Pages
+export default SlidesPage

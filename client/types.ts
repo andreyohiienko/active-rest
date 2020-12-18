@@ -99,7 +99,7 @@ export interface Pages {
 // GraphQL query operation: Slide
 // ====================================================
 
-export interface Slide_slide {
+export interface Slide_item {
   id: string;
   title: string;
   desc: string | null;
@@ -107,7 +107,7 @@ export interface Slide_slide {
 }
 
 export interface Slide {
-  slide: Slide_slide | null;
+  item: Slide_item | null;
 }
 
 export interface SlideVariables {
@@ -122,13 +122,13 @@ export interface SlideVariables {
 // GraphQL query operation: Slides
 // ====================================================
 
-export interface Slides_slides {
+export interface Slides_list {
   id: string;
   title: string;
 }
 
 export interface Slides {
-  slides: (Slides_slides | null)[] | null;
+  list: (Slides_list | null)[] | null;
 }
 
 
@@ -136,10 +136,19 @@ export interface Slides {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: removeSlide
+// GraphQL mutation operation: removeSlide
 // ====================================================
 
+export interface removeSlide_action {
+  id: string;
+  title: string;
+}
+
 export interface removeSlide {
+  action: removeSlide_action | null;
+}
+
+export interface removeSlideVariables {
   id: string;
 }
 
@@ -156,6 +165,18 @@ export interface newMedia {
   filename: string | null;
   path: string | null;
   mimetype: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: remove
+// ====================================================
+
+export interface remove {
+  id: string;
 }
 
 /* tslint:disable */
