@@ -57,7 +57,7 @@ const Files = () => {
             const newMediaRefs = cache.writeFragment({
               data: uploadMedia,
               fragment: gql`
-                fragment newMedia on uploadMedia {
+                fragment newMedia on Media {
                   id
                   filename
                   path
@@ -110,7 +110,7 @@ const Files = () => {
             const removedMedia = cache.writeFragment({
               data: removeMedia,
               fragment: gql`
-                fragment removeMedia on removeMedia {
+                fragment removeMedia on Media {
                   id
                 }
               `,

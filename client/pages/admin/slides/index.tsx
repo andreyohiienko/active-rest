@@ -8,7 +8,7 @@ import { reject } from 'lodash'
 import React from 'react'
 
 const SLIDES = gql`
-  query Query {
+  query Slides {
     slides {
       id
       title
@@ -60,7 +60,7 @@ const Pages = () => {
             const removedSlideRef = cache.writeFragment({
               data: removeSlide,
               fragment: gql`
-                fragment removeSlide on removeSlide {
+                fragment removeSlide on Slide {
                   id
                 }
               `,
