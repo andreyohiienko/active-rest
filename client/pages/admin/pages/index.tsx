@@ -6,7 +6,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const PAGES = gql`
-  query Query {
+  query Pages {
     pages {
       id
       title
