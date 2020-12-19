@@ -5,8 +5,8 @@ import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import Link from 'next/link'
 import { reject } from 'lodash'
-import React from 'react'
-import { removeSlide, Slides, removeSlideVariables } from 'types'
+import React, { ReactNode } from 'react'
+import { removeSlide, Slides, removeSlideVariables, Slides_list } from 'types'
 
 const SLIDES = gql`
   query Slides {
@@ -90,34 +90,34 @@ const SlidesPage = () => {
       console.error('error', error)
     }
 
-    const dataSource = data?.list?.map((item) => {
-      if (!item) {
-        return {
-          title: <p>Title</p>,
-          remove: (
-            <Button shape="circle">
-              <DeleteOutlined />
-            </Button>
-          ),
-          key: 'id',
-        }
-      }
+    interface DataSource {
+      title: ReactNode
+      remove: ReactNode
+      key: string
+    }
 
-      const { title, id } = item
-      return {
-        title: (
-          <Link key={id} href={`/admin/slides/${id}`}>
-            <a>{title}</a>
-          </Link>
-        ),
-        remove: (
-          <Button onClick={() => onRemove(id)} shape="circle">
-            <DeleteOutlined />
-          </Button>
-        ),
-        key: id,
+    const dataSource = data?.list?.reduce<DataSource[]>((prev, curr) => {
+      if (curr) {
+        const { title, id } = curr
+        return [
+          ...prev,
+          {
+            title: (
+              <Link key={id} href={`/admin/slides/${id}`}>
+                <a>{title}</a>
+              </Link>
+            ),
+            remove: (
+              <Button onClick={() => onRemove(id)} shape="circle">
+                <DeleteOutlined />
+              </Button>
+            ),
+            key: id,
+          },
+        ]
       }
-    })
+      return prev
+    }, [])
 
     return <Table {...{ columns, dataSource }} />
   }
