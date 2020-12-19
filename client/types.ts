@@ -4,14 +4,33 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Medias
+// ====================================================
+
+export interface Medias_list {
+  id: string;
+  path: string;
+  filename: string;
+  mimetype: string;
+}
+
+export interface Medias {
+  list: (Medias_list | null)[] | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: uploadMedia
 // ====================================================
 
 export interface uploadMedia_uploadMedia {
   id: string;
-  filename: string | null;
-  path: string | null;
-  mimetype: string | null;
+  filename: string;
+  path: string;
+  mimetype: string;
 }
 
 export interface uploadMedia {
@@ -44,9 +63,9 @@ export interface removeMedia {
 
 export interface AllMedia_allMedia {
   id: string;
-  path: string | null;
-  filename: string | null;
-  mimetype: string | null;
+  path: string;
+  filename: string;
+  mimetype: string;
 }
 
 export interface AllMedia {
@@ -162,9 +181,9 @@ export interface removeSlideVariables {
 
 export interface newMedia {
   id: string;
-  filename: string | null;
-  path: string | null;
-  mimetype: string | null;
+  filename: string;
+  path: string;
+  mimetype: string;
 }
 
 
