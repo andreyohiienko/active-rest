@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { Button, Col, Row, Typography } from 'antd'
 import { Container, SelectImage } from 'components'
 import { Dashboard } from 'HOC'
@@ -27,6 +27,21 @@ const SlidePage = () => {
     SlideVariables
   >(SLIDE)
 
+  const UPDATE_SLIDE = gql`
+    mutation updateSlide(
+      $id: ID!
+      $title: String
+      $desc: String
+      $image: String
+    ) {
+      action: updateSlide(id: $id, title: $title, desc: $desc, image: $image)
+    }
+  `
+
+  const [updateSlide, { loading: updateLoading }] = useMutation(UPDATE_SLIDE)
+
+  const [updatedTitle, setUpdatedTitle] = useState('')
+  const [updatedDesc, setUpdatedDesc] = useState('')
   const [updatedImage, setUpdatedImage] = useState('')
 
   useEffect(() => {
@@ -44,8 +59,12 @@ const SlidePage = () => {
       } = data
       return (
         <>
-          <Title editable>{title}</Title>
-          <Paragraph editable>{desc}</Paragraph>
+          <Title editable={{ onChange: setUpdatedTitle }}>
+            {updatedTitle || title}
+          </Title>
+          <Paragraph editable={{ onChange: setUpdatedDesc }}>
+            {updatedDesc || desc}
+          </Paragraph>
           <SelectImage {...{ image: updatedImage || image, setUpdatedImage }} />
         </>
       )
@@ -61,7 +80,22 @@ const SlidePage = () => {
         <Row gutter={30}>
           <Col flex="auto">{renderContent()}</Col>
           <Col flex="500px">
-            <Button type="primary">Save</Button>
+            <Button
+              loading={updateLoading}
+              type="primary"
+              onClick={() =>
+                updateSlide({
+                  variables: {
+                    id: data?.item?.id,
+                    title: updatedTitle,
+                    desc: updatedDesc,
+                    image: updatedImage,
+                  },
+                })
+              }
+            >
+              Save
+            </Button>
           </Col>
         </Row>
       </Container>

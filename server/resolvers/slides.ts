@@ -1,5 +1,5 @@
 import { IResolvers } from 'apollo-server-express'
-import { isEqual } from 'lodash'
+import { identity, isEmpty, pickBy } from 'lodash'
 import mongoose from 'mongoose'
 import { SlideDoc } from '../models'
 const Slide = mongoose.model('Slide')
@@ -33,13 +33,19 @@ export const Slides: IResolvers<any, FetchSlides> = {
       await Slide.deleteOne({ _id: id })
       return deletedSlide
     },
-    updateSlide: async (_, { id, image }) => {
-      const updatedSlide = await Slide.findByIdAndUpdate(
-        id,
-        { image },
-        { new: true },
-      )
-      return updatedSlide
+    updateSlide: async (_, { id, title, desc, image }) => {
+      const slide = pickBy({ title, desc, image }, identity)
+
+      if (!isEmpty(slide)) {
+        try {
+          const updatedSlide = await Slide.updateOne({ _id: id }, { ...slide })
+          if (updatedSlide.ok) {
+            return 'updated'
+          }
+        } catch (error) {
+          return error
+        }
+      }
     },
   },
 }
