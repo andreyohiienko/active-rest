@@ -2,12 +2,14 @@ import { gql, useLazyQuery } from '@apollo/client'
 import { Button, Col, Image, Modal, Row, Space } from 'antd'
 import React, { FC, useState } from 'react'
 import { Medias, Medias_list } from 'types'
+import classNames from 'classnames'
 
 interface Props {
-  image: string | null
+  image?: string | null
+  setPic: any
 }
 
-export const SelectImage: FC<Props> = ({ image }) => {
+export const SelectImage: FC<Props> = ({ image, setPic }) => {
   const MEDIAS = gql`
     query Medias {
       list: allMedia {
@@ -37,6 +39,9 @@ export const SelectImage: FC<Props> = ({ image }) => {
             const { id, path, filename } = item
             return (
               <Image
+                className={classNames('shadowing', {
+                  'shadow-sm': id === detail?.id,
+                })}
                 onClick={() => setDetail(item)}
                 width={150}
                 height={150}
@@ -56,19 +61,21 @@ export const SelectImage: FC<Props> = ({ image }) => {
     if (detail) {
       const { id, filename, path } = detail
       return (
-        <Col flex="500px" className="border py-10">
-          <Row>
-            <Col flex="100px">ID</Col>
-            <Col flex="auto">{id}</Col>
-          </Row>
-          <Row>
-            <Col flex="100px">Path</Col>
-            <Col flex="auto">{`http://localhost:5000/${path}`}</Col>
-          </Row>
-          <Row>
-            <Col flex="100px">Name</Col>
-            <Col flex="auto">{filename}</Col>
-          </Row>
+        <Col flex="500px">
+          <div className="border p-10">
+            <Row>
+              <Col flex="100px">ID</Col>
+              <Col flex="auto">{id}</Col>
+            </Row>
+            <Row>
+              <Col flex="100px">Path</Col>
+              <Col flex="auto">{`http://localhost:5000/${path}`}</Col>
+            </Row>
+            <Row>
+              <Col flex="100px">Name</Col>
+              <Col flex="auto">{filename}</Col>
+            </Row>
+          </div>
         </Col>
       )
     }
@@ -78,10 +85,20 @@ export const SelectImage: FC<Props> = ({ image }) => {
     getMedias()
     setVisible(true)
   }
+
+  function onSelect() {
+    setPic(detail)
+    setVisible(false)
+  }
+
   return (
     <>
       <Space align="end">
-        <Image width={200} src={image || undefined} alt="image" />
+        <Image
+          width={200}
+          src={`http://localhost:5000/${image || undefined}`}
+          alt="image"
+        />
         <Button onClick={onClick} type="primary">
           Add Image
         </Button>
@@ -95,7 +112,7 @@ export const SelectImage: FC<Props> = ({ image }) => {
           <Button key="back" onClick={() => setVisible(false)}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary">
+          <Button key="submit" type="primary" onClick={onSelect}>
             Select
           </Button>,
         ]}
