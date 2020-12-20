@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { mergeClasses } from 'utils'
+import classNames from 'classnames'
 
 type Props = {
   children: ReactNode
@@ -9,10 +9,7 @@ type Props = {
 
 const Container = ({ children, className, fluid = false }: Props) => (
   <div
-    className={mergeClasses(
-      ['container', fluid ? 'container-fluid' : ''],
-      className,
-    )}
+    className={classNames('container', className, { 'container-fluid': fluid })}
   >
     {children}
   </div>
