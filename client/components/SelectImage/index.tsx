@@ -1,8 +1,7 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import { Modal, Button, Image, Space, Upload } from 'antd'
-import { UploadFile } from 'antd/lib/upload/interface'
+import { Button, Col, Image, Modal, Row, Space } from 'antd'
 import React, { FC, useState } from 'react'
-import { Medias } from 'types'
+import { Medias, Medias_list } from 'types'
 
 interface Props {
   image: string | null
@@ -22,27 +21,9 @@ export const SelectImage: FC<Props> = ({ image }) => {
 
   const [getMedias, { error, loading, data }] = useLazyQuery<Medias>(MEDIAS)
 
-  const fileList = data?.list?.reduce<UploadFile[]>((prev, curr) => {
-    if (curr) {
-      const { id, path, filename, mimetype } = curr
-      return [
-        ...prev,
-        {
-          uid: id,
-          name: filename,
-          size: 200,
-          url: `http://localhost:5000/${path}`,
-          status: 'done',
-          type: mimetype,
-        },
-      ]
-    }
-
-    return prev
-  }, [])
-
   const [visible, setVisible] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const [detail, setDetail] = useState<Medias_list>()
 
   function renderModal() {
     if (loading) {
@@ -50,10 +31,47 @@ export const SelectImage: FC<Props> = ({ image }) => {
     }
 
     return (
-      <Space>
-        <Upload listType="picture-card" fileList={fileList} />
+      <Space size="middle">
+        {data?.list?.map((item) => {
+          if (item) {
+            const { id, path, filename } = item
+            return (
+              <Image
+                onClick={() => setDetail(item)}
+                width={150}
+                height={150}
+                key={id}
+                src={`http://localhost:5000/${path}`}
+                alt={filename}
+                preview={false}
+              />
+            )
+          }
+        })}
       </Space>
     )
+  }
+
+  function renderDetails() {
+    if (detail) {
+      const { id, filename, path } = detail
+      return (
+        <Col flex="500px" className="border py-10">
+          <Row>
+            <Col flex="100px">ID</Col>
+            <Col flex="auto">{id}</Col>
+          </Row>
+          <Row>
+            <Col flex="100px">Path</Col>
+            <Col flex="auto">{`http://localhost:5000/${path}`}</Col>
+          </Row>
+          <Row>
+            <Col flex="100px">Name</Col>
+            <Col flex="auto">{filename}</Col>
+          </Row>
+        </Col>
+      )
+    }
   }
 
   function onClick() {
@@ -82,7 +100,10 @@ export const SelectImage: FC<Props> = ({ image }) => {
           </Button>,
         ]}
       >
-        {renderModal()}
+        <Row gutter={30}>
+          <Col flex="auto">{renderModal()}</Col>
+          {renderDetails()}
+        </Row>
       </Modal>
     </>
   )

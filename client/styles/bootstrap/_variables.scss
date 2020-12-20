@@ -10,6 +10,29 @@ $red-300: #FAF4F2;
 
 $grey: #8D8D8D;
 
+
+$primary: $red-100;
+$secondary: $red-200;
+$dark: $black;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  )
+;
+
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+$border-color: $black;
+
 // $grid-breakpoints: () !default;
 $grid-breakpoints: (
   xs: 0,
