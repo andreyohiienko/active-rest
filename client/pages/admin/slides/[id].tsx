@@ -1,10 +1,10 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import { Typography } from 'antd'
+import { Button, Col, Row, Typography } from 'antd'
 import { Container, SelectImage } from 'components'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Medias_list, Slide, SlideVariables } from 'types'
+import { Slide, SlideVariables } from 'types'
 
 const { Title, Paragraph } = Typography
 
@@ -27,7 +27,7 @@ const SlidePage = () => {
     SlideVariables
   >(SLIDE)
 
-  const [pic, setPic] = useState<Medias_list>()
+  const [updatedImage, setUpdatedImage] = useState('')
 
   useEffect(() => {
     if (router?.query?.id && typeof router?.query?.id === 'string') {
@@ -46,7 +46,7 @@ const SlidePage = () => {
         <>
           <Title editable>{title}</Title>
           <Paragraph editable>{desc}</Paragraph>
-          <SelectImage {...{ image: pic?.path || image, setPic }} />
+          <SelectImage {...{ image: updatedImage || image, setUpdatedImage }} />
         </>
       )
     }
@@ -57,7 +57,14 @@ const SlidePage = () => {
 
   return (
     <Dashboard>
-      <Container fluid>{renderContent()}</Container>
+      <Container fluid className="pt-10">
+        <Row gutter={30}>
+          <Col flex="auto">{renderContent()}</Col>
+          <Col flex="500px">
+            <Button type="primary">Save</Button>
+          </Col>
+        </Row>
+      </Container>
     </Dashboard>
   )
 }
