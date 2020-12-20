@@ -44,6 +44,8 @@ const SlidePage = () => {
   const [updatedDesc, setUpdatedDesc] = useState('')
   const [updatedImage, setUpdatedImage] = useState('')
 
+  const isUpdated = Boolean(updatedTitle || updatedDesc || updatedImage)
+
   useEffect(() => {
     if (router?.query?.id && typeof router?.query?.id === 'string') {
       getSlide({
@@ -81,6 +83,7 @@ const SlidePage = () => {
           <Col flex="auto">{renderContent()}</Col>
           <Col flex="500px">
             <Button
+              disabled={!isUpdated}
               loading={updateLoading}
               type="primary"
               onClick={() =>
