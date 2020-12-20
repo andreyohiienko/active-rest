@@ -1,4 +1,5 @@
 import { IResolvers } from 'apollo-server-express'
+import { isEqual } from 'lodash'
 import mongoose from 'mongoose'
 import { SlideDoc } from '../models'
 const Slide = mongoose.model('Slide')
@@ -31,6 +32,14 @@ export const Slides: IResolvers<any, FetchSlides> = {
 
       await Slide.deleteOne({ _id: id })
       return deletedSlide
+    },
+    updateSlide: async (_, { id, image }) => {
+      const updatedSlide = await Slide.findByIdAndUpdate(
+        id,
+        { image },
+        { new: true },
+      )
+      return updatedSlide
     },
   },
 }

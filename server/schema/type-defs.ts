@@ -17,6 +17,7 @@ export const typeDefs = gql`
 
     addSlide(title: String, desc: String, image: String): Slide
     removeSlide(id: ID!): Slide
+    updateSlide(id: ID!, title: String, desc: String, image: String): Slide
 
     uploadMedia(file: Upload!): Media
     removeMedia(id: ID!, name: String): Media
