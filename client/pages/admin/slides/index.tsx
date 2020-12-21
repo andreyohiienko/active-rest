@@ -6,7 +6,7 @@ import { Dashboard } from 'HOC'
 import Link from 'next/link'
 import { reject } from 'lodash'
 import React, { ReactNode } from 'react'
-import { removeSlide, Slides, removeSlideVariables, Slides_list } from 'types'
+import { removeSlide, Slides, removeSlideVariables } from 'types'
 
 const SLIDES = gql`
   query Slides {
