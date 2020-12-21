@@ -23,8 +23,11 @@ export const Slides: IResolvers<any, FetchSlides> = {
     },
   },
   Mutation: {
-    addSlide: async (_p, { title }) => {
-      const slide = new Slide({ title })
+    addSlide: async (_p, { title, desc, image }) => {
+      console.log('title', title)
+      console.log('desc', desc)
+      console.log('image', image)
+      const slide = new Slide({ title, desc, image })
       return await slide.save()
     },
     removeSlide: async (_p, { id }) => {

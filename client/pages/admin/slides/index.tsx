@@ -126,7 +126,9 @@ const SlidesPage = () => {
     <Dashboard>
       <Container fluid>
         <div className="mb-30">
-          <Button type="primary">Add Slide</Button>
+          <Link href="/admin/slides/new">
+            <Button type="primary">Add Slide</Button>
+          </Link>
         </div>
         {renderSlides()}
       </Container>

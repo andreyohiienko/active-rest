@@ -82,6 +82,15 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
     }
   }
 
+  function renderImage() {
+    if (image) {
+      return (
+        <Image width={200} src={serverUrl + image || undefined} alt="image" />
+      )
+    }
+    return <p className="mb-0">No image selected</p>
+  }
+
   function onClick() {
     getMedias()
     setVisible(true)
@@ -97,7 +106,7 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
   return (
     <>
       <Space align="end">
-        <Image width={200} src={serverUrl + image || undefined} alt="image" />
+        {renderImage()}
         <Button onClick={onClick} type="primary">
           Add Image
         </Button>
