@@ -8,7 +8,7 @@ import { reject } from 'lodash'
 import React, { ReactNode } from 'react'
 import { removeSlide, Slides, removeSlideVariables } from 'types'
 
-const SLIDES = gql`
+export const SLIDES = gql`
   query Slides {
     list: slides {
       id

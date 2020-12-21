@@ -4,6 +4,7 @@ import { Container, SelectImage } from 'components'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { SLIDES } from './index'
 
 const ADD_SLIDE = gql`
   mutation AddSlide($title: String, $desc: String, $image: String) {
@@ -34,6 +35,7 @@ const NewSlide = () => {
           desc,
           image,
         },
+        refetchQueries: [{ query: SLIDES }],
       })
 
       console.log('data', data)
