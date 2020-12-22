@@ -15,7 +15,7 @@ export const typeDefs = gql`
   type Mutation {
     addPage(title: String): Page
 
-    addSlide(title: String, desc: String, image: String): Slide
+    addSlide(title: String!, desc: String, image: String): Slide
     removeSlide(id: ID!): Slide
     updateSlide(id: ID!, title: String, desc: String, image: String): String
 

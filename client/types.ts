@@ -138,6 +138,25 @@ export interface SlideVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: updateSlide
+// ====================================================
+
+export interface updateSlide {
+  action: string | null;
+}
+
+export interface updateSlideVariables {
+  id: string;
+  title?: string | null;
+  desc?: string | null;
+  image?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: Slides
 // ====================================================
 
@@ -169,6 +188,28 @@ export interface removeSlide {
 
 export interface removeSlideVariables {
   id: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddSlide
+// ====================================================
+
+export interface AddSlide_action {
+  id: string;
+}
+
+export interface AddSlide {
+  action: AddSlide_action | null;
+}
+
+export interface AddSlideVariables {
+  title?: string | null;
+  desc?: string | null;
+  image?: string | null;
 }
 
 
