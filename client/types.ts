@@ -207,7 +207,7 @@ export interface AddSlide {
 }
 
 export interface AddSlideVariables {
-  title?: string | null;
+  title: string;
   desc?: string | null;
   image?: string | null;
 }
