@@ -1,10 +1,10 @@
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
-import { Button, Col, Row, Typography } from 'antd'
+import { Button, Col, message, Row, Typography } from 'antd'
 import { Container, SelectImage } from 'components'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Slide, SlideVariables } from 'types'
+import { Slide, SlideVariables, updateSlide, updateSlideVariables } from 'types'
 
 const { Title, Paragraph } = Typography
 
@@ -38,41 +38,74 @@ const SlidePage = () => {
     }
   `
 
-  const [updateSlide, { loading: updateLoading }] = useMutation(UPDATE_SLIDE)
+  const [
+    updateSlide,
+    { error: updateError, loading: updateLoading },
+  ] = useMutation<updateSlide, updateSlideVariables>(UPDATE_SLIDE)
 
-  const [updatedTitle, setUpdatedTitle] = useState('')
-  const [updatedDesc, setUpdatedDesc] = useState('')
-  const [updatedImage, setUpdatedImage] = useState('')
+  const [updatedTitle, setUpdatedTitle] = useState<
+    updateSlideVariables['title']
+  >()
+  const [updatedDesc, setUpdatedDesc] = useState<updateSlideVariables['desc']>()
+  const [updatedImage, setUpdatedImage] = useState<
+    updateSlideVariables['image']
+  >()
 
   const isUpdated = Boolean(updatedTitle || updatedDesc || updatedImage)
+
+  useEffect(() => {
+    if (updateError) {
+      message.error(updateError.message)
+    }
+    if (error) {
+      message.error(error)
+    }
+  }, [updateError, error])
 
   useEffect(() => {
     if (router?.query?.id && typeof router?.query?.id === 'string') {
       getSlide({
         variables: { id: router?.query.id },
       })
+
+      if (data?.item) {
+        const { title, desc, image } = data.item
+        setUpdatedTitle(title)
+        setUpdatedDesc(desc)
+        setUpdatedImage(image)
+      }
     }
-  }, [router])
+  }, [router, data])
 
   function renderContent() {
-    if (data?.item) {
-      const {
-        item: { title, desc, image },
-      } = data
+    if (data) {
       return (
         <>
-          <Title editable={{ onChange: setUpdatedTitle }}>
-            {updatedTitle || title}
-          </Title>
+          <Title editable={{ onChange: setUpdatedTitle }}>{updatedTitle}</Title>
           <Paragraph editable={{ onChange: setUpdatedDesc }}>
-            {updatedDesc || desc}
+            {updatedDesc}
           </Paragraph>
-          <SelectImage {...{ image: updatedImage || image, setUpdatedImage }} />
+          <SelectImage {...{ image: updatedImage, setUpdatedImage }} />
         </>
       )
     }
     if (loading) {
       return 'Loading...'
+    }
+  }
+
+  async function onSave() {
+    if (updatedTitle && data?.item?.id) {
+      await updateSlide({
+        variables: {
+          id: data.item.id,
+          title: updatedTitle,
+          desc: updatedDesc,
+          image: updatedImage,
+        },
+      })
+    } else {
+      message.error("Title can't be empty!")
     }
   }
 
@@ -86,16 +119,7 @@ const SlidePage = () => {
               disabled={!isUpdated}
               loading={updateLoading}
               type="primary"
-              onClick={() =>
-                updateSlide({
-                  variables: {
-                    id: data?.item?.id,
-                    title: updatedTitle,
-                    desc: updatedDesc,
-                    image: updatedImage,
-                  },
-                })
-              }
+              onClick={onSave}
             >
               Save
             </Button>

@@ -21,8 +21,14 @@ const slideSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  desc: String,
-  image: String,
+  desc: {
+    type: String,
+    default: '',
+  },
+  image: {
+    type: String,
+    default: '',
+  },
 })
 
 const Slide = mongoose.model<SlideDoc, SlideModel>('Slide', slideSchema)
