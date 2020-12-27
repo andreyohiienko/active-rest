@@ -1,0 +1,12 @@
+.select-image-wrapper {
+  button {
+    transition: opacity 0.3s ease-in;
+    opacity: 0;
+  }
+
+  &:hover {
+    button {
+      opacity: 1;
+    }
+  }
+}

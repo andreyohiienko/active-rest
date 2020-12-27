@@ -4,6 +4,7 @@ import React, { Dispatch, FC, useState } from 'react'
 import { Medias, Medias_list } from 'types'
 import classNames from 'classnames'
 import { serverUrl } from 'utils'
+import { CloseOutlined } from '@ant-design/icons'
 
 interface Props {
   image?: string | null
@@ -34,7 +35,7 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
     }
 
     return (
-      <Space size="middle">
+      <Space size="large">
         {data?.list?.map((item) => {
           if (item) {
             const { id, path, filename } = item
@@ -85,7 +86,17 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
   function renderImage() {
     if (image) {
       return (
-        <Image width={200} src={serverUrl + image || undefined} alt="image" />
+        <div className="select-image-wrapper position-relative">
+          <Button
+            type="default"
+            shape="circle"
+            className="position-absolute z-1"
+            onClick={() => setUpdatedImage('')}
+          >
+            <CloseOutlined />
+          </Button>
+          <Image width={200} src={serverUrl + image || undefined} alt="image" />
+        </div>
       )
     }
     return <p className="mb-0">No image selected</p>
