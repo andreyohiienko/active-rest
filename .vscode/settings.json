@@ -16,7 +16,7 @@
     },
     "[scss]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": false,
+        "editor.formatOnSave": true,
         "editor.tabSize": 2
     }, 
     "[less]": {
