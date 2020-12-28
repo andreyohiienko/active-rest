@@ -3,11 +3,15 @@ import { ApolloServer } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import './models'
 import { typeDefs } from './schema/type-defs'
-import { Slides, Pages, Medias } from './resolvers'
+import { Slides, Pages, Medias, Auth } from './resolvers'
 import { AdminAPI } from './dataSources'
 import express from 'express'
 import { merge } from 'lodash'
-import { mongoURI } from './keys'
+import { cookieKey, mongoURI } from './keys'
+import cookieSession from 'cookie-session'
+import passport from 'passport'
+import './services/passport'
+import { authRoutes } from './routes'
 
 const MONGO_URI = mongoURI
 if (!MONGO_URI) {
@@ -23,7 +27,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = merge(Slides, Pages, Medias)
+const resolvers = merge(Auth, Slides, Pages, Medias)
 
 const server = new ApolloServer({
   typeDefs,
@@ -32,8 +36,20 @@ const server = new ApolloServer({
 })
 
 const app = express()
+
+authRoutes(app)
+
 server.applyMiddleware({ app })
 
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [cookieKey],
+  }),
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(json())
 app.use('/images', express.static('images'))
 

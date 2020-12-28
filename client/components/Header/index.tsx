@@ -3,8 +3,17 @@ import Link from 'next/link'
 import React from 'react'
 import { Container } from 'components'
 import { Logo } from 'static'
+import { gql, useMutation } from '@apollo/client'
 
 const { useBreakpoint } = Grid
+
+const SIGN_UP = gql`
+  mutation signUp {
+    action: signUp {
+      id
+    }
+  }
+`
 
 const Header = () => {
   const links = [
@@ -55,11 +64,18 @@ const Header = () => {
 
   const screens = useBreakpoint()
 
+  const [signup] = useMutation(SIGN_UP)
+
   function renderNav() {
     if (screens.md) {
       return (
         <Space size="middle">
-          <Button type="text" shape="round" size="large" href="/">
+          <Button
+            onClick={() => signup()}
+            type="text"
+            shape="round"
+            size="large"
+          >
             Sign up
           </Button>
           <Button ghost shape="round" size="large" href="/">

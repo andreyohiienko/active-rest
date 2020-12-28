@@ -10,6 +10,8 @@ export const typeDefs = gql`
 
     allMedia: [Media]
     media(id: ID!): Media
+
+    currentUser: User
   }
 
   type Mutation {
@@ -21,6 +23,12 @@ export const typeDefs = gql`
 
     uploadMedia(file: Upload!): Media
     removeMedia(id: ID!, name: String): Media
+
+    signUp: User
+  }
+
+  type User {
+    id: ID
   }
 
   type Media {
