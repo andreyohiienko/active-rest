@@ -37,9 +37,9 @@ const server = new ApolloServer({
 
 const app = express()
 
-authRoutes(app)
-
 server.applyMiddleware({ app })
+
+app.use(json())
 
 app.use(
   cookieSession({
@@ -50,7 +50,9 @@ app.use(
 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(json())
+
+authRoutes(app)
+
 app.use('/images', express.static('images'))
 
 app.listen({ port: 5000 }, () =>

@@ -8,10 +8,10 @@ const authRoutes = (app: Express) => {
   )
   app.get(
     '/auth/google/callback',
-    passport.authenticate('google', {
-      successRedirect: 'http://localhost:5000/graphql',
-      failureRedirect: 'http://localhost:5000/graphql',
-    }),
+    passport.authenticate('google'),
+    (_, res) => {
+      res.redirect('/')
+    },
   )
 }
 

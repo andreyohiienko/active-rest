@@ -26,20 +26,29 @@ passport.use(
     {
       clientID: googleClientID,
       clientSecret: googleClientSecret,
+      callbackURL: '/auth/google/callback',
       proxy: true,
-      scope: 'id',
-      // callbackURL: 'http://localhost:5000/auth/google/callback',
     },
-    async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ googleId: profile.id })
-      if (existingUser) {
-        return done(undefined, existingUser)
+    async (_accessToken, _refreshToken, profile, done) => {
+      try {
+        const existingUser = await User.findOne({ googleId: profile.id })
+        console.log(existingUser)
+        if (existingUser) {
+          return done(undefined, existingUser)
+        }
+      } catch (error) {
+        console.log('error', error)
       }
 
-      console.log('profile', profile.id)
-
-      const user = await new User({ goodleId: profile.id }).save()
-      done(undefined, user)
+      try {
+        const user = await new User({
+          googleId: profile.id,
+          role: 'admin',
+        }).save()
+        done(undefined, user)
+      } catch (error) {
+        console.log('error', error)
+      }
     },
   ),
 )
