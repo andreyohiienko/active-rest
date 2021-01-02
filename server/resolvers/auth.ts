@@ -1,10 +1,10 @@
 import { IResolvers } from 'apollo-server-express'
 
 export const Auth: IResolvers = {
-  Mutation: {
-    signUp: async (_) => {
-      console.log('test')
-      return 'id'
+  Query: {
+    currentUser: async (_, __, context) => {
+      console.log('context.req.user', context.req.user)
+      return context.req.user
     },
   },
 }

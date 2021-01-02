@@ -13,7 +13,7 @@ app
     const server = express()
 
     server.use(
-      ['/auth/google'],
+      ['/auth/google', '/graphql'],
       createProxyMiddleware({
         target: 'http://localhost:5000',
       }),

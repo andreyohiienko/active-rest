@@ -13,6 +13,10 @@ const authRoutes = (app: Express) => {
       res.redirect('/')
     },
   )
+  app.post('/auth', (req, res) => {
+    console.log('req', req)
+    res.send(req.user)
+  })
 }
 
 export { authRoutes }

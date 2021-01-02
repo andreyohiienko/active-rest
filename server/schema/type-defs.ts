@@ -24,7 +24,7 @@ export const typeDefs = gql`
     uploadMedia(file: Upload!): Media
     removeMedia(id: ID!, name: String): Media
 
-    signUp: User
+    currentUser: User
   }
 
   type User {

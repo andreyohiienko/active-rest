@@ -30,7 +30,7 @@ function createApolloClient() {
   })
 
   const uploadLink = createUploadLink({
-    uri: 'http://localhost:5000/graphql',
+    uri: '/graphql',
     credentials: 'same-origin',
   })
 

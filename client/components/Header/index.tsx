@@ -1,10 +1,19 @@
 import { Button, Col, Row, Space, Grid, Menu, Dropdown, Divider } from 'antd'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from 'components'
 import { Logo } from 'static'
+import { gql, useLazyQuery } from '@apollo/client'
 
 const { useBreakpoint } = Grid
+
+const CURRENT_USER = gql`
+  query CurrentUser {
+    currentUser {
+      id
+    }
+  }
+`
 
 const Header = () => {
   const links = [
@@ -32,6 +41,14 @@ const Header = () => {
       title: 'Sign in',
     },
   ]
+
+  const [getUser, { data, error }] = useLazyQuery(CURRENT_USER)
+
+  useEffect(() => {
+    getUser()
+  }, [getUser])
+
+  console.log('data', data)
 
   const mobileMenu = (
     <Menu className="dropdown-menu">

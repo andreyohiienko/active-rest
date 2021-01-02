@@ -33,11 +33,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({ admin: new AdminAPI() }),
+  context: ({ req }) => ({
+    req,
+  }),
 })
 
 const app = express()
-
-server.applyMiddleware({ app })
 
 app.use(json())
 
@@ -48,10 +49,19 @@ app.use(
   }),
 )
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true,
+//   }),
+// )
+
 app.use(passport.initialize())
 app.use(passport.session())
 
 authRoutes(app)
+
+server.applyMiddleware({ app })
 
 app.use('/images', express.static('images'))
 
