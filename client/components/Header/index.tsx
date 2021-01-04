@@ -10,7 +10,10 @@ const { useBreakpoint } = Grid
 const CURRENT_USER = gql`
   query CurrentUser {
     currentUser {
-      id
+      name
+      googleId
+      role
+      email
     }
   }
 `
@@ -47,8 +50,6 @@ const Header = () => {
   useEffect(() => {
     getUser()
   }, [getUser])
-
-  console.log('data', data)
 
   const mobileMenu = (
     <Menu className="dropdown-menu">

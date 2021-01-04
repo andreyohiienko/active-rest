@@ -6,7 +6,9 @@ interface UserAttrs {
 
 interface UserDoc extends mongoose.Document {
   googleId: string
-  role: 'admin' | 'user'
+  role: string[]
+  email: string
+  name: string
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -18,7 +20,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: String,
+  role: [String],
+  email: String,
+  name: String,
 })
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema)

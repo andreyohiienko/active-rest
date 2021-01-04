@@ -30,8 +30,11 @@ passport.use(
       proxy: true,
     },
     async (_accessToken, _refreshToken, profile, done) => {
+      const { id } = profile
+      const { email, name } = profile._json
+
       try {
-        const existingUser = await User.findOne({ googleId: profile.id })
+        const existingUser = await User.findOne({ googleId: id })
         if (existingUser) {
           return done(undefined, existingUser)
         }
@@ -41,8 +44,10 @@ passport.use(
 
       try {
         const user = await new User({
-          googleId: profile.id,
-          role: 'admin',
+          googleId: id,
+          role: ['user'],
+          email,
+          name,
         }).save()
         done(undefined, user)
       } catch (error) {

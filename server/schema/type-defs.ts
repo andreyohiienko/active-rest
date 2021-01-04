@@ -28,7 +28,10 @@ export const typeDefs = gql`
   }
 
   type User {
-    id: ID
+    googleId: ID
+    email: String
+    name: String
+    role: [String]
   }
 
   type Media {
