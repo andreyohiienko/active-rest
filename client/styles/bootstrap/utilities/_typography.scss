@@ -15,8 +15,11 @@ body {
     //font-size
     @each $name, $values in $font-sizes {
       @each $n, $value in $values {
-        @if($infix == "-#{$n}" or ($infix == "" and $n == 'xs')) {
-          .#{$name}, #{$name} { font-size: $value; }
+        @if ($infix == '-#{$n}' or ($infix == '' and $n == 'xs')) {
+          #{$name}.#{$name},
+          #{$name} {
+            font-size: $value;
+          }
         }
       }
     }
@@ -24,15 +27,28 @@ body {
     //line-height
     @each $name, $values in $line-heights {
       @each $n, $value in $values {
-        @if($infix == "-#{$n}" or ($infix == "" and $n == 'xs')) {
-          .#{$name}, #{$name} { line-height: $value; }
+        @if ($infix == '-#{$n}' or ($infix == '' and $n == 'xs')) {
+          .#{$name},
+          #{$name} {
+            line-height: $value;
+          }
         }
       }
     }
   }
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
   font-family: 'Archivo', sans-serif;
 }

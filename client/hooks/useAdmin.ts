@@ -15,5 +15,5 @@ export function useAdmin() {
     fetchPolicy: 'cache-only',
   })
 
-  return data?.admin.role.includes('admin')
+  return data?.admin?.role?.includes('admin')
 }

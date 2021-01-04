@@ -1,8 +1,15 @@
-import { Button, Carousel, Layout } from 'antd'
+import { Button, Carousel, Layout, Typography } from 'antd'
 import { Container } from 'components'
-import React from 'react'
+import { useAdmin } from 'hooks'
+import React, { useState } from 'react'
+
+const { Title, Paragraph } = Typography
 
 const Hero = () => {
+  const isAdmin = useAdmin()
+  const [title, setTitle] = useState('')
+  const [desc, setDesc] = useState('')
+
   const slides = [
     {
       title: 'Find yourself outside.',
@@ -30,8 +37,15 @@ const Hero = () => {
               style={{ backgroundImage: `url(${bg})` }}
             >
               <Container className="text-center hero__container text-white text-capitalize">
-                <h1>{title}</h1>
-                <p>{desc}</p>
+                <Title
+                  editable={isAdmin ? { onChange: setTitle } : false}
+                  className="h1"
+                >
+                  {title}
+                </Title>
+                <Paragraph editable={isAdmin ? { onChange: setDesc } : false}>
+                  {desc}
+                </Paragraph>
                 <Button href={href} size="large" shape="round" type="primary">
                   Discover
                 </Button>
