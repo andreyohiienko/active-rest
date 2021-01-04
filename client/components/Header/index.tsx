@@ -75,14 +75,22 @@ const Header = () => {
 
   function renderNav() {
     if (screens.md) {
-      return (
-        <Space size="middle">
-          <Button type="text" shape="round" size="large">
-            Sign up
-          </Button>
-          <Link href="/auth/google">Sign in</Link>
-        </Space>
-      )
+      if (!data) {
+        return (
+          <Space size="middle">
+            <Button type="text" shape="round" size="large">
+              Sign up
+            </Button>
+            <Link href="/auth/google">Sign in</Link>
+          </Space>
+        )
+      } else {
+        return (
+          <Space size="middle">
+            <p className="mb-0">{data.currentUser.name}</p>
+          </Space>
+        )
+      }
     }
 
     return (

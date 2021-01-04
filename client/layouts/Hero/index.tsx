@@ -1,11 +1,11 @@
-import { Container } from 'components'
 import { Button, Carousel, Layout } from 'antd'
+import { Container } from 'components'
 import React from 'react'
 
 const Hero = () => {
   const slides = [
     {
-      title: 'Find yourself ourside.',
+      title: 'Find yourself outside.',
       desc:
         'Book unique camping experiences on over 300,000 campsites, cabins, RV parks, public parks and more.',
       href: '/',
