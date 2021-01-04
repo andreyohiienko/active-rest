@@ -75,7 +75,7 @@ const Header = () => {
 
   function renderNav() {
     if (screens.md) {
-      if (!data) {
+      if (!data?.currentUser) {
         return (
           <Space size="middle">
             <Button type="text" shape="round" size="large">
@@ -87,7 +87,7 @@ const Header = () => {
       } else {
         return (
           <Space size="middle">
-            <p className="mb-0">{data.currentUser.name}</p>
+            <p className="mb-0">{data?.currentUser?.name}</p>
           </Space>
         )
       }
