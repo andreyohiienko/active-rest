@@ -30,7 +30,7 @@ function createApolloClient() {
   })
 
   const uploadLink = createUploadLink({
-    uri: '/graphql',
+    uri: `http://localhost:3000/graphql`,
     credentials: 'same-origin',
   })
 
@@ -49,7 +49,7 @@ function createApolloClient() {
   })
 }
 
-export function initializeApollo(initialState: NormalizedCacheObject) {
+export function initializeApollo(initialState?: NormalizedCacheObject) {
   const _apolloClient = apolloClient ?? createApolloClient()
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
