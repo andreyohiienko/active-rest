@@ -6,5 +6,9 @@ export const Auth: IResolvers = {
       console.log('context.req.user', context.req.user)
       return context.req.user
     },
+    signout: async (_, __, context) => {
+      context.req.logout()
+      return { message: 'You are succesfully logged out!' }
+    },
   },
 }

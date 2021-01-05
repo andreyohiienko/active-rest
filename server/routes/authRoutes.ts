@@ -6,6 +6,7 @@ const authRoutes = (app: Express) => {
     '/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }),
   )
+
   app.get(
     '/auth/google/callback',
     passport.authenticate('google'),
@@ -13,10 +14,6 @@ const authRoutes = (app: Express) => {
       res.redirect('/')
     },
   )
-  app.post('/auth', (req, res) => {
-    console.log('req', req)
-    res.send(req.user)
-  })
 }
 
 export { authRoutes }

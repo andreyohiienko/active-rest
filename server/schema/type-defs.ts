@@ -12,6 +12,7 @@ export const typeDefs = gql`
     media(id: ID!): Media
 
     currentUser: User
+    signout: Message
   }
 
   type Mutation {
@@ -25,6 +26,10 @@ export const typeDefs = gql`
     removeMedia(id: ID!, name: String): Media
 
     currentUser: User
+  }
+
+  type Message {
+    message: String
   }
 
   type User {

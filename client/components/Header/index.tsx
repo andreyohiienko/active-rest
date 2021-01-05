@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { Container } from 'components'
 import { Logo } from 'static'
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql, useApolloClient, useLazyQuery } from '@apollo/client'
 
 const { useBreakpoint } = Grid
 
@@ -14,6 +14,14 @@ const CURRENT_USER = gql`
       googleId
       role
       email
+    }
+  }
+`
+
+const SIGNOUT = gql`
+  query Logout {
+    signout {
+      message
     }
   }
 `
@@ -45,11 +53,26 @@ const Header = () => {
     },
   ]
 
-  const [getUser, { data, error }] = useLazyQuery(CURRENT_USER)
+  const [fetchUser, { data }] = useLazyQuery(CURRENT_USER, {
+    nextFetchPolicy: 'cache-only',
+  })
 
   useEffect(() => {
-    getUser()
-  }, [getUser])
+    fetchUser()
+  }, [])
+
+  const [signout] = useLazyQuery(SIGNOUT)
+  const client = useApolloClient()
+
+  async function onSignout() {
+    signout()
+    client.cache.evict({
+      id: 'ROOT_QUERY',
+      fieldName: 'currentUser',
+      broadcast: true,
+    })
+    client.cache.gc()
+  }
 
   const mobileMenu = (
     <Menu className="dropdown-menu">
@@ -88,6 +111,14 @@ const Header = () => {
         return (
           <Space size="middle">
             <p className="mb-0">{data?.currentUser?.name}</p>
+            <Button
+              onClick={onSignout}
+              type="primary"
+              shape="round"
+              size="large"
+            >
+              Sign Out
+            </Button>
           </Space>
         )
       }
