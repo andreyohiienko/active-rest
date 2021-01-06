@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 const ADMIN = gql`
   query Admin {
-    admin: currentUser {
+    currentUser {
       name
       googleId
       role
@@ -15,5 +15,5 @@ export function useAdmin() {
     fetchPolicy: 'cache-only',
   })
 
-  return data?.admin?.role?.includes('admin')
+  return data?.currentUser?.role?.includes('admin')
 }
