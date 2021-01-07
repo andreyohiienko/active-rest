@@ -16,35 +16,51 @@ const Hero: FC<FetchSlides> = ({ slides }) => {
   return (
     <Layout>
       <Carousel effect="fade" draggable autoplay={false} dots={false}>
-        {state.map(({ id, title, desc, image }) => (
-          <div key={title}>
-            <div
-              className="hero bg-cover"
-              style={{ backgroundImage: `url('${serverUrl + image}')` }}
-            >
-              <Container className="text-center hero__container text-white text-capitalize">
-                <Title
-                  editable={
-                    isAdmin ? { onChange: (e) => updateTitle(e, id) } : false
-                  }
-                  className="h1"
+        {state?.map((slide) => {
+          if (slide) {
+            const { id, title, desc, image } = slide
+
+            return (
+              <div key={title}>
+                <div
+                  className="hero bg-cover"
+                  style={{ backgroundImage: `url('${serverUrl + image}')` }}
                 >
-                  {title}
-                </Title>
-                <Paragraph
-                  editable={
-                    isAdmin ? { onChange: (e) => updateDesc(e, id) } : false
-                  }
-                >
-                  {desc}
-                </Paragraph>
-                {/* <Button href={href} size="large" shape="round" type="primary">
+                  <Container className="text-center hero__container text-white text-capitalize">
+                    <Title
+                      editable={
+                        isAdmin
+                          ? {
+                              onChange: (e) =>
+                                updateTitle({ updatedTitle: e, slideId: id }),
+                            }
+                          : false
+                      }
+                      className="h1"
+                    >
+                      {title}
+                    </Title>
+                    <Paragraph
+                      editable={
+                        isAdmin
+                          ? {
+                              onChange: (e) =>
+                                updateDesc({ updatedDesc: e, slideId: id }),
+                            }
+                          : false
+                      }
+                    >
+                      {desc}
+                    </Paragraph>
+                    {/* <Button href={href} size="large" shape="round" type="primary">
                   Discover
                 </Button> */}
-              </Container>
-            </div>
-          </div>
-        ))}
+                  </Container>
+                </div>
+              </div>
+            )
+          }
+        })}
       </Carousel>
     </Layout>
   )

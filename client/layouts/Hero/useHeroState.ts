@@ -1,27 +1,11 @@
 import { Reducer, useReducer } from 'react'
 import { FetchSlides } from 'types'
+import * as actions from './actions'
+import { DescPayload, TitlePayload, Type } from './types'
 
-type Action = TitlePayload | DescPayload
+type InferValueTypes<T> = T extends { [key: string]: infer U } ? U : never
 
-export enum Type {
-  UPDATE_TITLE = 'UPDATE_TITLE',
-  UPDATE_DESC = 'UPDATE_DESC',
-}
-
-interface TitlePayload {
-  type: Type.UPDATE_TITLE
-  payload: {
-    updatedTitle: string
-    slideId: string
-  }
-}
-interface DescPayload {
-  type: Type.UPDATE_DESC
-  payload: {
-    updatedDesc: string
-    slideId: string
-  }
-}
+type Action = ReturnType<InferValueTypes<typeof actions>>
 
 const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
   switch (action.type) {
@@ -58,19 +42,15 @@ const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
   }
 }
 
+const { updateTitleAction, updateDescAction } = actions
+
 const useHeroState = (initialState: FetchSlides['slides']) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  function updateTitle(updatedTitle: string, slideId: string) {
-    dispatch({
-      type: Type.UPDATE_TITLE,
-      payload: { updatedTitle, slideId },
-    })
+  function updateTitle({ updatedTitle, slideId }: TitlePayload) {
+    dispatch(updateTitleAction({ updatedTitle, slideId }))
   }
-  function updateDesc(updatedDesc: string, slideId: string) {
-    dispatch({
-      type: Type.UPDATE_DESC,
-      payload: { updatedDesc, slideId },
-    })
+  function updateDesc({ updatedDesc, slideId }: DescPayload) {
+    dispatch(updateDescAction({ updatedDesc, slideId }))
   }
 
   return { state, updateTitle, updateDesc }
