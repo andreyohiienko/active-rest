@@ -1,13 +1,14 @@
 import { Button, Carousel, Layout, Typography } from 'antd'
 import { Container } from 'components'
 import { useAdmin } from 'hooks'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
+import { FetchSlides } from 'types'
 import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
 
 const { Title, Paragraph } = Typography
 
-const Hero = ({ slides }) => {
+const Hero: FC<FetchSlides> = ({ slides }) => {
   // console.log('list', list)
   const isAdmin = useAdmin()
   const { state, updateTitle, updateDesc } = useHeroState(slides)

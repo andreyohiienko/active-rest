@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
 import { Activities, Approach, Hero, Services } from 'layouts'
-import React from 'react'
+import React, { FC } from 'react'
 import { initializeApollo } from 'apollo'
+import { FetchSlides } from 'types'
 
 const SLIDES = gql`
   query FetchSlides {
@@ -15,7 +16,7 @@ const SLIDES = gql`
   }
 `
 
-const IndexPage = ({ slides }) => {
+const IndexPage: FC<FetchSlides> = ({ slides }) => {
   return (
     <PageLayout title="Active Rest">
       <Hero {...{ slides }} />
