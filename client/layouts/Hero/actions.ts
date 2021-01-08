@@ -1,4 +1,4 @@
-import { Type, TitlePayload, DescPayload } from './types'
+import { Type, TitlePayload, DescPayload, ImagePayload } from './types'
 
 export const updateTitleAction = (payload: TitlePayload) =>
   ({
@@ -8,5 +8,10 @@ export const updateTitleAction = (payload: TitlePayload) =>
 export const updateDescAction = (payload: DescPayload) =>
   ({
     type: Type.UPDATE_DESC,
+    payload,
+  } as const)
+export const updateImageAction = (payload: ImagePayload) =>
+  ({
+    type: Type.UPDATE_IMAGE,
     payload,
   } as const)

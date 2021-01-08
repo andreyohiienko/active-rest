@@ -1,8 +1,9 @@
+import { FileImageFilled } from '@ant-design/icons'
 import { Button, Carousel, Layout, Typography } from 'antd'
 import { Container } from 'components'
 import { useAdmin } from 'hooks'
 import React, { FC } from 'react'
-import { FetchHomePage, FetchHomePage_slides } from 'types'
+import { FetchHomePage } from 'types'
 import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
 
@@ -15,7 +16,7 @@ interface Props {
 const Hero: FC<Props> = ({ slides }) => {
   // console.log('list', list)
   const isAdmin = useAdmin()
-  const { state, updateTitle, updateDesc } = useHeroState(slides)
+  const { state, updateTitle, updateDesc, updateImage } = useHeroState(slides)
 
   return (
     <Layout>
@@ -56,6 +57,11 @@ const Hero: FC<Props> = ({ slides }) => {
                     >
                       {desc}
                     </Paragraph>
+                    {isAdmin && (
+                      <Button type="primary" shape="circle">
+                        <FileImageFilled />
+                      </Button>
+                    )}
                     {/* <Button href={href} size="large" shape="round" type="primary">
                   Discover
                 </Button> */}
