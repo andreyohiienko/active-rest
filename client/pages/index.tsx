@@ -3,11 +3,17 @@ import { PageLayout } from 'components'
 import { Activities, Approach, Hero, Services } from 'layouts'
 import React, { FC } from 'react'
 import { initializeApollo } from 'apollo'
-import { FetchSlides } from 'types'
+import { FetchHomePage } from 'types'
 
-const SLIDES = gql`
-  query FetchSlides {
+const HOME = gql`
+  query FetchHomePage {
     slides {
+      id
+      title
+      desc
+      image
+    }
+    services {
       id
       title
       desc
@@ -16,11 +22,11 @@ const SLIDES = gql`
   }
 `
 
-const IndexPage: FC<FetchSlides> = ({ slides }) => {
+const IndexPage: FC<FetchHomePage> = ({ slides, services }) => {
   return (
     <PageLayout title="Active Rest">
       <Hero {...{ slides }} />
-      <Services />
+      <Services {...{ services }} />
       <Activities />
       <Approach />
     </PageLayout>
@@ -29,7 +35,7 @@ const IndexPage: FC<FetchSlides> = ({ slides }) => {
 
 export async function getStaticProps() {
   const client = initializeApollo()
-  const { data } = await client.query({ query: SLIDES })
+  const { data } = await client.query({ query: HOME })
 
   return {
     props: { ...data },

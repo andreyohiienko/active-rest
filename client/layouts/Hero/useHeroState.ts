@@ -1,12 +1,12 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchSlides } from 'types'
+import { FetchHomePage } from 'types'
 import * as actions from './actions'
 import { DescPayload, TitlePayload, Type } from './types'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
+const reducer: Reducer<FetchHomePage['slides'], Action> = (state, action) => {
   switch (action.type) {
     case Type.UPDATE_TITLE:
       if (state) {
@@ -43,7 +43,7 @@ const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
 
 const { updateTitleAction, updateDescAction } = actions
 
-const useHeroState = (initialState: FetchSlides['slides']) => {
+const useHeroState = (initialState: FetchHomePage['slides']) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   function updateTitle(payload: TitlePayload) {
     dispatch(updateTitleAction(payload))

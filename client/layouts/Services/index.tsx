@@ -1,40 +1,17 @@
 import { Card, Col, Layout, Row, Typography } from 'antd'
 import { Container } from 'components'
 import { useAdmin } from 'hooks'
-import React from 'react'
+import React, { FC } from 'react'
+import { FetchHomePage } from 'types'
 import { useServicesState } from './useServicesState'
 
 const { Title, Paragraph } = Typography
 
-const Services = () => {
-  const services = [
-    {
-      id: '1',
-      title: 'Camping & Day Use',
-      desc:
-        'Return to your favorite spot or discover a new one that’s right for you.',
-      src: 'images/camping-day-use.svg',
-    },
-    {
-      id: '2',
-      title: 'Tours & Tickets',
-      desc: 'Reserve tours and tickets to participate in events.',
-      src: 'images/tour-tickets.svg',
-    },
-    {
-      id: '3',
-      title: 'Permits',
-      desc: 'Obtain permits for access to high-demand locations.',
-      src: 'images/permits.svg',
-    },
-    {
-      id: '4',
-      title: 'Recreation Activities',
-      desc: 'Find the best spots for hunting, fishing & recreational shooting.',
-      src: 'images/recreation-activities.svg',
-    },
-  ]
+interface Props {
+  services: FetchHomePage['services']
+}
 
+const Services: FC<Props> = ({ services }) => {
   const isAdmin = useAdmin()
   const { state, updateTitle, updateDesc } = useServicesState(services)
 
@@ -42,9 +19,9 @@ const Services = () => {
     <Layout className="services pb-lg-75 pb-50">
       <Container>
         <Row gutter={30}>
-          {state.map((service) => {
+          {state?.map((service) => {
             if (service) {
-              const { id, title, desc, src } = service
+              const { id, title, desc, image } = service
               return (
                 <Col
                   key={title}
@@ -57,7 +34,7 @@ const Services = () => {
                     bordered={false}
                     className="service-card w-100"
                   >
-                    <img alt={title} src={src} />
+                    <img alt={title || undefined} src={image || undefined} />
                     <Title
                       editable={
                         isAdmin
