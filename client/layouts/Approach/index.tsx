@@ -3,7 +3,7 @@ import { Container } from 'components'
 import React, { useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
-import { useAdmin } from 'hooks'
+import { isEditable } from 'utils'
 
 const { Title, Paragraph } = Typography
 
@@ -17,7 +17,6 @@ export const Approach = () => {
   const [desc, setDesc] = useState(
     'Get travel planning ideas, helpful tips, and stories from our visitors delivered right to your inbox.',
   )
-  const isAdmin = useAdmin()
 
   return (
     <Layout className="pb-lg-90 pb-50 mt-lg-75 mt-50">
@@ -43,13 +42,13 @@ export const Approach = () => {
           >
             <div className="approach__wrapper py-md-20">
               <Title
-                editable={isAdmin ? { onChange: (e) => setTitle(e) } : false}
+                editable={isEditable(setTitle)}
                 className="text-center text-md-left mb-20 mb-md-10"
               >
                 {title}
               </Title>
               <Paragraph
-                editable={isAdmin ? { onChange: (e) => setDesc(e) } : false}
+                editable={isEditable(setDesc)}
                 className="text-center text-md-left mb-20 mb-md-20"
               >
                 {desc}

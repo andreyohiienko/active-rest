@@ -2,7 +2,7 @@ import { Col, Row, Typography } from 'antd'
 import { Container } from '../Container'
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useAdmin } from 'hooks'
+import { isEditable } from 'utils'
 
 const { Title, Paragraph } = Typography
 
@@ -12,7 +12,6 @@ const Footer = () => {
     { href: '/about', title: 'About' },
   ]
 
-  const isAdmin = useAdmin()
   const [title, setTitle] = useState('Hipcamp is everywhere you want to camp.')
   const [desc, setDesc] = useState(
     ' Discover unique experiences on ranches, nature preserves, farms, vineyards, and public campgrounds across the U.S. Book tent camping, treehouses, cabins, yurts, primitive backcountry sites, car camping, airstreams, tiny houses, RV camping, glamping tents and more. ',
@@ -26,13 +25,13 @@ const Footer = () => {
           <Col md={12}>
             <Title
               level={5}
-              editable={isAdmin ? { onChange: (e) => setTitle(e) } : false}
+              editable={isEditable(setTitle)}
               className="h6 mb-10 pb-10"
             >
               {title}
             </Title>
             <Paragraph
-              editable={isAdmin ? { onChange: (e) => setDesc(e) } : false}
+              editable={isEditable(setDesc)}
               className="footer__desc mb-0"
             >
               {desc}
@@ -40,7 +39,7 @@ const Footer = () => {
           </Col>
           <Col md={12}>
             <Title
-              editable={isAdmin ? { onChange: (e) => setSubTitle(e) } : false}
+              editable={isEditable(setSubTitle)}
               level={5}
               className="text-capitalize mb-20"
             >

@@ -1,8 +1,8 @@
 import { Button, Card, Col, Layout, Row, Typography } from 'antd'
 import { Container } from 'components'
-import { useAdmin } from 'hooks'
 import React, { useState } from 'react'
 import { ActivitiesSign } from 'static'
+import { isEditable } from 'utils'
 
 const { Title } = Typography
 
@@ -82,7 +82,6 @@ export const Activities = () => {
     },
   ]
 
-  const isAdmin = useAdmin()
   const [title, setTitle] = useState('Explore Destinations & Activities')
 
   return (
@@ -91,7 +90,7 @@ export const Activities = () => {
         <ActivitiesSign />
         <Title
           level={2}
-          editable={isAdmin ? { onChange: (e) => setTitle(e) } : false}
+          editable={isEditable(setTitle)}
           className="h2 mt-40 mb-45"
         >
           {title}
