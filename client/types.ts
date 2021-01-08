@@ -1,3 +1,5 @@
+
+
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -6,15 +8,16 @@
 // ====================================================
 
 export interface CurrentUser_currentUser {
-  name: string | null
-  googleId: string | null
-  role: (string | null)[] | null
-  email: string | null
+  name: string | null;
+  googleId: string | null;
+  role: (string | null)[] | null;
+  email: string | null;
 }
 
 export interface CurrentUser {
-  currentUser: CurrentUser_currentUser | null
+  currentUser: CurrentUser_currentUser | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -24,12 +27,13 @@ export interface CurrentUser {
 // ====================================================
 
 export interface Logout_signout {
-  message: string | null
+  message: string | null;
 }
 
 export interface Logout {
-  signout: Logout_signout | null
+  signout: Logout_signout | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -39,15 +43,16 @@ export interface Logout {
 // ====================================================
 
 export interface Medias_list {
-  id: string
-  path: string
-  filename: string
-  mimetype: string
+  id: string;
+  path: string;
+  filename: string;
+  mimetype: string;
 }
 
 export interface Medias {
-  list: (Medias_list | null)[] | null
+  list: (Medias_list | null)[] | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -57,19 +62,20 @@ export interface Medias {
 // ====================================================
 
 export interface uploadMedia_uploadMedia {
-  id: string
-  filename: string
-  path: string
-  mimetype: string
+  id: string;
+  filename: string;
+  path: string;
+  mimetype: string;
 }
 
 export interface uploadMedia {
-  uploadMedia: uploadMedia_uploadMedia | null
+  uploadMedia: uploadMedia_uploadMedia | null;
 }
 
 export interface uploadMediaVariables {
-  file: any
+  file: any;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -79,8 +85,9 @@ export interface uploadMediaVariables {
 // ====================================================
 
 export interface removeMedia {
-  id: string
+  id: string;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -90,15 +97,16 @@ export interface removeMedia {
 // ====================================================
 
 export interface AllMedia_allMedia {
-  id: string
-  path: string
-  filename: string
-  mimetype: string
+  id: string;
+  path: string;
+  filename: string;
+  mimetype: string;
 }
 
 export interface AllMedia {
-  allMedia: (AllMedia_allMedia | null)[] | null
+  allMedia: (AllMedia_allMedia | null)[] | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -108,17 +116,18 @@ export interface AllMedia {
 // ====================================================
 
 export interface Page_page {
-  id: string
-  title: string | null
+  id: string;
+  title: string | null;
 }
 
 export interface Page {
-  page: Page_page | null
+  page: Page_page | null;
 }
 
 export interface PageVariables {
-  id: string
+  id: string;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -128,13 +137,14 @@ export interface PageVariables {
 // ====================================================
 
 export interface Pages_pages {
-  id: string
-  title: string | null
+  id: string;
+  title: string | null;
 }
 
 export interface Pages {
-  pages: (Pages_pages | null)[] | null
+  pages: (Pages_pages | null)[] | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -144,19 +154,20 @@ export interface Pages {
 // ====================================================
 
 export interface Slide_item {
-  id: string
-  title: string
-  desc: string | null
-  image: string | null
+  id: string;
+  title: string;
+  desc: string | null;
+  image: string | null;
 }
 
 export interface Slide {
-  item: Slide_item | null
+  item: Slide_item | null;
 }
 
 export interface SlideVariables {
-  id: string
+  id: string;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -166,15 +177,16 @@ export interface SlideVariables {
 // ====================================================
 
 export interface updateSlide {
-  action: string | null
+  action: string | null;
 }
 
 export interface updateSlideVariables {
-  id: string
-  title?: string | null
-  desc?: string | null
-  image?: string | null
+  id: string;
+  title?: string | null;
+  desc?: string | null;
+  image?: string | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -184,13 +196,14 @@ export interface updateSlideVariables {
 // ====================================================
 
 export interface Slides_list {
-  id: string
-  title: string
+  id: string;
+  title: string;
 }
 
 export interface Slides {
-  list: (Slides_list | null)[] | null
+  list: (Slides_list | null)[] | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -200,17 +213,18 @@ export interface Slides {
 // ====================================================
 
 export interface removeSlide_action {
-  id: string
-  title: string
+  id: string;
+  title: string;
 }
 
 export interface removeSlide {
-  action: removeSlide_action | null
+  action: removeSlide_action | null;
 }
 
 export interface removeSlideVariables {
-  id: string
+  id: string;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -220,36 +234,46 @@ export interface removeSlideVariables {
 // ====================================================
 
 export interface AddSlide_action {
-  id: string
+  id: string;
 }
 
 export interface AddSlide {
-  action: AddSlide_action | null
+  action: AddSlide_action | null;
 }
 
 export interface AddSlideVariables {
-  title: string
-  desc?: string | null
-  image?: string | null
+  title: string;
+  desc?: string | null;
+  image?: string | null;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FetchSlides
+// GraphQL query operation: FetchHomePage
 // ====================================================
 
-export interface FetchSlides_slides {
-  id: string
-  title: string
-  desc: string | null
-  image: string | null
+export interface FetchHomePage_slides {
+  id: string;
+  title: string;
+  desc: string | null;
+  image: string | null;
 }
 
-export interface FetchSlides {
-  slides: (FetchSlides_slides | null)[] | null
+export interface FetchHomePage_services {
+  id: string;
+  title: string | null;
+  desc: string | null;
+  image: string | null;
 }
+
+export interface FetchHomePage {
+  slides: (FetchHomePage_slides | null)[] | null;
+  services: (FetchHomePage_services | null)[] | null;
+}
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -259,11 +283,12 @@ export interface FetchSlides {
 // ====================================================
 
 export interface newMedia {
-  id: string
-  filename: string
-  path: string
-  mimetype: string
+  id: string;
+  filename: string;
+  path: string;
+  mimetype: string;
 }
+
 
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
@@ -273,7 +298,7 @@ export interface newMedia {
 // ====================================================
 
 export interface remove {
-  id: string
+  id: string;
 }
 
 /* tslint:disable */
