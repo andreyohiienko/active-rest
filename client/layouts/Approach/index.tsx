@@ -1,14 +1,24 @@
-import { Button, Col, Input, Layout, Row } from 'antd'
+import { Button, Col, Input, Layout, Row, Typography } from 'antd'
 import { Container } from 'components'
 import React, { useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
+import { useAdmin } from 'hooks'
+
+const { Title, Paragraph } = Typography
 
 export const Approach = () => {
   const [email, setEmail] = useState('')
   const onClick = () => {
     console.log('email', email)
   }
+
+  const [title, setTitle] = useState("Let's Stay in Touch")
+  const [desc, setDesc] = useState(
+    'Get travel planning ideas, helpful tips, and stories from our visitors delivered right to your inbox.',
+  )
+  const isAdmin = useAdmin()
+
   return (
     <Layout className="pb-lg-90 pb-50 mt-lg-75 mt-50">
       <Container className="approach">
@@ -31,14 +41,19 @@ export const Approach = () => {
             md={{ span: 12, pull: 12 }}
             className="d-flex flex-column align-items-center w-100 px-15 mt-40 mt-md-0"
           >
-            <div className="approach__wrapper">
-              <h2 className="text-center text-md-left mb-20 mb-md-10">
-                Let's Stay in Touch
-              </h2>
-              <p className="text-center text-md-left mb-20 mb-md-20">
-                Get travel planning ideas, helpful tips, and stories from our
-                visitors delivered right to your inbox.
-              </p>
+            <div className="approach__wrapper py-md-20">
+              <Title
+                editable={isAdmin ? { onChange: (e) => setTitle(e) } : false}
+                className="text-center text-md-left mb-20 mb-md-10"
+              >
+                {title}
+              </Title>
+              <Paragraph
+                editable={isAdmin ? { onChange: (e) => setDesc(e) } : false}
+                className="text-center text-md-left mb-20 mb-md-20"
+              >
+                {desc}
+              </Paragraph>
               <Input
                 onPressEnter={onClick}
                 onChange={(e) => setEmail(e.target.value)}
