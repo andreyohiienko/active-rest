@@ -1,7 +1,10 @@
-import { Button, Card, Col, Layout, Row } from 'antd'
+import { Button, Card, Col, Layout, Row, Typography } from 'antd'
 import { Container } from 'components'
-import React from 'react'
+import { useAdmin } from 'hooks'
+import React, { useState } from 'react'
 import { ActivitiesSign } from 'static'
+
+const { Title } = Typography
 
 export const Activities = () => {
   const activities = [
@@ -79,11 +82,20 @@ export const Activities = () => {
     },
   ]
 
+  const isAdmin = useAdmin()
+  const [title, setTitle] = useState('Explore Destinations & Activities')
+
   return (
     <Layout className="mt-lg-75 mt-50 pb-lg-75 pb-50">
       <Container className="text-center">
         <ActivitiesSign />
-        <h2 className="mt-40 mb-45">Explore Destinations & Activities</h2>
+        <Title
+          level={2}
+          editable={isAdmin ? { onChange: (e) => setTitle(e) } : false}
+          className="h2 mt-40 mb-45"
+        >
+          {title}
+        </Title>
         <Row gutter={30}>
           {activities.map(({ image, title, desc, price }) => (
             <Col
