@@ -1,37 +1,35 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchSlides } from 'types'
 import * as actions from './actions'
 import { DescPayload, TitlePayload, Type } from './types'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
+const reducer: Reducer<any, Action> = (state, action) => {
   switch (action.type) {
     case Type.UPDATE_TITLE:
       if (state) {
-        return state?.map((slide) => {
-          if (slide && slide.id === action.payload.slideId) {
+        return state.map((service) => {
+          if (service && service.id === action.payload.serviceId) {
             return {
-              ...slide,
+              ...service,
               title: action.payload.updatedTitle,
             }
           }
-          return slide
+          return service
         })
       }
       return state
-
     case Type.UPDATE_DESC:
       if (state) {
-        return state.map((slide) => {
-          if (slide && slide.id === action.payload.slideId) {
+        return state.map((service) => {
+          if (service && service.id === action.payload.serviceId) {
             return {
-              ...slide,
+              ...service,
               desc: action.payload.updatedDesc,
             }
           }
-          return slide
+          return service
         })
       }
       return state
@@ -41,10 +39,11 @@ const reducer: Reducer<FetchSlides['slides'], Action> = (state, action) => {
   }
 }
 
-const { updateTitleAction, updateDescAction } = actions
+const { updateDescAction, updateTitleAction } = actions
 
-const useHeroState = (initialState: FetchSlides['slides']) => {
+export const useServicesState = (initialState) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
   function updateTitle(payload: TitlePayload) {
     dispatch(updateTitleAction(payload))
   }
@@ -54,5 +53,3 @@ const useHeroState = (initialState: FetchSlides['slides']) => {
 
   return { state, updateTitle, updateDesc }
 }
-
-export { useHeroState }
