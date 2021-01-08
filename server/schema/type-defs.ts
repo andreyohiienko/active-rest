@@ -13,6 +13,8 @@ export const typeDefs = gql`
 
     currentUser: User
     signout: Message
+
+    services: [Service]
   }
 
   type Mutation {
@@ -26,6 +28,8 @@ export const typeDefs = gql`
     removeMedia(id: ID!, name: String): Media
 
     currentUser: User
+
+    addService(title: String, desc: String, image: String): Service
   }
 
   type Message {
@@ -54,6 +58,13 @@ export const typeDefs = gql`
   type Slide {
     id: ID!
     title: String!
+    desc: String
+    image: String
+  }
+
+  type Service {
+    id: ID!
+    title: String
     desc: String
     image: String
   }

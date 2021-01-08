@@ -1,4 +1,5 @@
 export { Page, PageDoc } from './page'
 export { Media, MediaDoc } from './media'
 export { Slide, SlideDoc } from './slide'
+export { Service, ServiceDoc } from './service'
 export { User } from './user'
