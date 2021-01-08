@@ -16,8 +16,9 @@ body {
     @each $name, $values in $font-sizes {
       @each $n, $value in $values {
         @if ($infix == '-#{$n}' or ($infix == '' and $n == 'xs')) {
-          #{$name}.#{$name},
-          #{$name} {
+          #{$name},
+          .#{$name},
+          #{$name}.#{$name} {
             font-size: $value;
           }
         }
