@@ -1,18 +1,27 @@
 import { IResolvers } from 'apollo-server-express'
-import mongoose from 'mongoose'
-import { ServiceDoc } from '../models'
-const Service = mongoose.model('Service')
+import mongoose, { Schema } from 'mongoose'
+const SectionServices = mongoose.model('Section_Services')
 
 export const Services: IResolvers = {
   Query: {
     services: async () => {
-      return await Service.find({})
+      return await SectionServices.findOne({ sectionName: 'services' })
     },
   },
   Mutation: {
-    addService: async (_, { title, desc, image }: ServiceDoc) => {
-      const service = new Service({ title, desc, image })
-      return await service.save()
+    saveServices: async (_, { input: { services } }) => {
+      await SectionServices.updateOne({ sectionName: 'services' }, [
+        { $unset: ['services'] },
+        {
+          $set: {
+            services: services.map((service: any) => ({
+              _id: mongoose.Types.ObjectId(),
+              ...service,
+            })),
+          },
+        },
+      ])
+      return 'Services section saved successfully.'
     },
   },
 }

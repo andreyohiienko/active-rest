@@ -14,7 +14,7 @@ export const typeDefs = gql`
     currentUser: User
     signout: Message
 
-    services: [Service]
+    services: Services
   }
 
   type Mutation {
@@ -29,7 +29,7 @@ export const typeDefs = gql`
 
     currentUser: User
 
-    addService(title: String, desc: String, image: String): Service
+    saveServices(input: ServicesInput): String
   }
 
   type Message {
@@ -60,6 +60,22 @@ export const typeDefs = gql`
     title: String!
     desc: String
     image: String
+  }
+
+  input ServicesInput {
+    isVisible: Boolean
+    services: [ServiceInput]
+  }
+
+  input ServiceInput {
+    title: String
+    desc: String
+    image: String
+  }
+
+  type Services {
+    isVisible: Boolean
+    services: [Service]
   }
 
   type Service {

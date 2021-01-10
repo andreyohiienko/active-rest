@@ -1,22 +1,23 @@
-import mongoose from 'mongoose'
+import { Schema, model, Model, Document, VirtualType } from 'mongoose'
 
-interface ServiceAttrs {
+export interface ServiceAttrs {
   title: string
   desc: string
   image: string
 }
 
-export interface ServiceDoc extends mongoose.Document {
+export interface ServiceDoc extends Document {
+  _id: string
   title: string
   desc: string
   image: string
 }
 
-interface ServiceModel extends mongoose.Model<ServiceDoc> {
+interface ServiceModel extends Model<ServiceDoc> {
   build(attrs: ServiceAttrs): ServiceDoc
 }
 
-const serviceSchema = new mongoose.Schema({
+export const serviceSchema = new Schema({
   title: {
     type: String,
     default: '',
@@ -30,14 +31,3 @@ const serviceSchema = new mongoose.Schema({
     default: '',
   },
 })
-
-const Service = mongoose.model<ServiceDoc, ServiceModel>(
-  'Service',
-  serviceSchema,
-)
-
-serviceSchema.statics.build = (attrs: ServiceAttrs) => {
-  return new Service(attrs)
-}
-
-export { Service }
