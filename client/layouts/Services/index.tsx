@@ -15,7 +15,13 @@ import { Container } from 'components'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { FC, useEffect, useState } from 'react'
-import { FetchHomePage } from 'types'
+import {
+  FetchHomePage,
+  TriggerServicesVis,
+  TriggerServicesVisVariables,
+  SaveServices,
+  SaveServicesVariables,
+} from 'types'
 import { useServicesState } from './useServicesState'
 
 const SAVE_SERVICES = gql`
@@ -46,11 +52,16 @@ const Services: FC<Props> = ({ sectionServices }) => {
     createService,
   } = useServicesState(sectionServices?.services || null)
 
-  const [saveServices, { data, loading }] = useMutation(SAVE_SERVICES)
+  const [saveServices, { data, loading }] = useMutation<
+    SaveServices,
+    SaveServicesVariables
+  >(SAVE_SERVICES)
   const [
     triggerVisibility,
     { data: triggerData, loading: triggerLoading },
-  ] = useMutation(SECTION_VISIBILITY)
+  ] = useMutation<TriggerServicesVis, TriggerServicesVisVariables>(
+    SECTION_VISIBILITY,
+  )
 
   useEffect(() => {
     if (data) {

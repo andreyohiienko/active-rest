@@ -77,6 +77,38 @@ export interface MediasMain {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveServices
+// ====================================================
+
+export interface SaveServices {
+  saveServices: string | null;
+}
+
+export interface SaveServicesVariables {
+  services?: (ServiceInput | null)[] | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: TriggerServicesVis
+// ====================================================
+
+export interface TriggerServicesVis {
+  triggerServicesVis: string | null;
+}
+
+export interface TriggerServicesVisVariables {
+  isVisible?: boolean | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: uploadMedia
 // ====================================================
 
@@ -331,6 +363,13 @@ export interface remove {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+// null
+export interface ServiceInput {
+  title?: string | null;
+  desc?: string | null;
+  image?: string | null;
+}
 
 //==============================================================
 // END Enums and Input Objects
