@@ -13,20 +13,23 @@ const HOME = gql`
       desc
       image
     }
-    # services {
-    #   id
-    #   title
-    #   desc
-    #   image
-    # }
+    sectionServices: services {
+      isVisible
+      services {
+        id
+        title
+        desc
+        image
+      }
+    }
   }
 `
 
-const IndexPage: FC<FetchHomePage> = ({ slides, services }) => {
+const IndexPage: FC<FetchHomePage> = ({ slides, sectionServices }) => {
   return (
     <PageLayout title="Active Rest">
       <Hero {...{ slides }} />
-      {/* <Services {...{ services }} /> */}
+      <Services {...{ sectionServices }} />
       <Activities />
       <Approach />
     </PageLayout>

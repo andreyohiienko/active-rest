@@ -8,12 +8,14 @@ import { useServicesState } from './useServicesState'
 const { Title, Paragraph } = Typography
 
 interface Props {
-  services: FetchHomePage['services']
+  sectionServices: FetchHomePage['sectionServices']
 }
 
-const Services: FC<Props> = ({ services }) => {
+const Services: FC<Props> = ({ sectionServices }) => {
   const isAdmin = useAdmin()
-  const { state, updateTitle, updateDesc } = useServicesState(services)
+  const { state, updateTitle, updateDesc } = useServicesState(
+    sectionServices?.services,
+  )
 
   return (
     <Layout className="services pb-lg-75 pb-50">

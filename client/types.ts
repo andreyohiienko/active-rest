@@ -58,6 +58,25 @@ export interface Medias {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: MediasMain
+// ====================================================
+
+export interface MediasMain_list {
+  id: string;
+  path: string;
+  filename: string;
+  mimetype: string;
+}
+
+export interface MediasMain {
+  list: (MediasMain_list | null)[] | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: uploadMedia
 // ====================================================
 
@@ -262,16 +281,21 @@ export interface FetchHomePage_slides {
   image: string | null;
 }
 
-export interface FetchHomePage_services {
+export interface FetchHomePage_sectionServices_services {
   id: string;
   title: string | null;
   desc: string | null;
   image: string | null;
 }
 
+export interface FetchHomePage_sectionServices {
+  isVisible: boolean | null;
+  services: (FetchHomePage_sectionServices_services | null)[] | null;
+}
+
 export interface FetchHomePage {
   slides: (FetchHomePage_slides | null)[] | null;
-  services: (FetchHomePage_services | null)[] | null;
+  sectionServices: FetchHomePage_sectionServices | null;
 }
 
 

@@ -15,7 +15,7 @@ interface Props {
 
 export const SelectImage: FC<Props> = ({ id, setUpdatedImage }) => {
   const MEDIAS = gql`
-    query Medias {
+    query MediasMain {
       list: allMedia {
         id
         path

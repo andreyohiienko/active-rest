@@ -1,16 +1,19 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchHomePage } from 'types'
+import { FetchHomePage, FetchHomePage_sectionServices } from 'types'
 import * as actions from './actions'
 import { DescPayload, TitlePayload, Type } from './types'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<FetchHomePage['services'], Action> = (state, action) => {
+const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
+  state,
+  action,
+) => {
   switch (action.type) {
     case Type.UPDATE_TITLE:
       if (state) {
-        return state.map((service) => {
+        return state?.map((service) => {
           if (service && service.id === action.payload.serviceId) {
             return {
               ...service,
