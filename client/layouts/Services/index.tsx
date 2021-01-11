@@ -34,7 +34,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
   const isAdmin = useAdmin()
   const [isVisible, setIsVisible] = useState(sectionServices?.isVisible)
   const { state, updateTitle, updateDesc } = useServicesState(
-    sectionServices ? sectionServices.services : null,
+    sectionServices?.services || null,
   )
   const [saveServices, { data, loading }] = useMutation(SAVE_SERVICES)
 
@@ -67,7 +67,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
         </Button>
         <Switch
           loading={loading}
-          checked={isVisible !== null ? isVisible : undefined}
+          checked={isVisible || undefined}
           onChange={() => setIsVisible(!isVisible)}
         />
       </Space>
