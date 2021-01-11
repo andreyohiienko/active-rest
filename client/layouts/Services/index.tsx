@@ -45,31 +45,33 @@ const Services: FC<Props> = ({ sectionServices }) => {
   }, [data])
 
   function renderControls() {
-    if (isAdmin) {
-      return (
-        <Space className="mb-10" align="end" size="large">
-          <Button
-            loading={loading}
-            onClick={() =>
-              saveServices({
-                variables: {
-                  services: state?.map((service) => omit(service, ['id'])),
-                },
-              })
-            }
-            type="primary"
-            shape="circle"
-          >
-            <SaveFilled />
-          </Button>
-          <Switch
-            loading={loading}
-            checked={isVisible !== null ? isVisible : undefined}
-            onChange={() => setIsVisible(!isVisible)}
-          />
-        </Space>
-      )
+    if (!isAdmin) {
+      return <></>
     }
+
+    return (
+      <Space className="mb-10" align="end" size="large">
+        <Button
+          loading={loading}
+          onClick={() =>
+            saveServices({
+              variables: {
+                services: state?.map((service) => omit(service, ['id'])),
+              },
+            })
+          }
+          type="primary"
+          shape="circle"
+        >
+          <SaveFilled />
+        </Button>
+        <Switch
+          loading={loading}
+          checked={isVisible !== null ? isVisible : undefined}
+          onChange={() => setIsVisible(!isVisible)}
+        />
+      </Space>
+    )
   }
 
   if (!isVisible && !isAdmin) {
