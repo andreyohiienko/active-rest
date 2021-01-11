@@ -1,6 +1,6 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchHomePage, FetchHomePage_sectionServices } from 'types'
+import { FetchHomePage_sectionServices } from 'types'
 import * as actions from './actions'
 import { DescPayload, TitlePayload, Type } from './types'
 
@@ -45,7 +45,9 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
 
 const { updateDescAction, updateTitleAction } = actions
 
-export const useServicesState = (initialState: FetchHomePage['services']) => {
+export const useServicesState = (
+  initialState: FetchHomePage_sectionServices['services'],
+) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   function updateTitle(payload: TitlePayload) {

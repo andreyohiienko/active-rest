@@ -37,7 +37,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([errorLink, uploadLink]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ addTypename: false }),
     defaultOptions: {
       query: {
         errorPolicy: 'all',
