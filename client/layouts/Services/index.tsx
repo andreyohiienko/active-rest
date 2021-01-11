@@ -1,4 +1,4 @@
-import { SaveFilled } from '@ant-design/icons'
+import { DeleteOutlined, PlusOutlined, SaveFilled } from '@ant-design/icons'
 import { gql, useMutation } from '@apollo/client'
 import {
   Button,
@@ -33,9 +33,13 @@ interface Props {
 const Services: FC<Props> = ({ sectionServices }) => {
   const isAdmin = useAdmin()
   const [isVisible, setIsVisible] = useState(sectionServices?.isVisible)
-  const { state, updateTitle, updateDesc } = useServicesState(
-    sectionServices?.services || null,
-  )
+  const {
+    state,
+    updateTitle,
+    updateDesc,
+    removeService,
+    createService,
+  } = useServicesState(sectionServices?.services || null)
   const [saveServices, { data, loading }] = useMutation(SAVE_SERVICES)
 
   useEffect(() => {
@@ -74,6 +78,24 @@ const Services: FC<Props> = ({ sectionServices }) => {
     )
   }
 
+  function renderAddMoreButton() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    return (
+      <Col span={24} className="text-center">
+        <Button
+          onClick={() => createService()}
+          icon={<PlusOutlined />}
+          type="primary"
+        >
+          Add Service
+        </Button>
+      </Col>
+    )
+  }
+
   if (!isVisible && !isAdmin) {
     return <></>
   }
@@ -82,13 +104,13 @@ const Services: FC<Props> = ({ sectionServices }) => {
     <Layout className="services pb-lg-75 pb-50">
       <Container className="position-relative">
         {renderControls()}
-        <Row gutter={30}>
+        <Row gutter={[30, 30]}>
           {state?.map((service) => {
             if (service) {
               const { id, title, desc, image } = service
               return (
                 <Col
-                  key={title}
+                  key={id}
                   lg={6}
                   sm={12}
                   className="text-center w-100 d-flex align-items-stretch py-10 py-lg-0"
@@ -98,7 +120,19 @@ const Services: FC<Props> = ({ sectionServices }) => {
                     bordered={false}
                     className="service-card w-100"
                   >
-                    <img alt={title || undefined} src={image || undefined} />
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      className="position-absolute pos-right-top z-1"
+                      onClick={() => removeService({ serviceId: id })}
+                    >
+                      <DeleteOutlined />
+                    </Button>
+                    <img
+                      className="service__image"
+                      alt={title || undefined}
+                      src={image || undefined}
+                    />
                     <Title
                       editable={
                         isAdmin
@@ -137,6 +171,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
               )
             }
           })}
+          {renderAddMoreButton()}
         </Row>
       </Container>
     </Layout>

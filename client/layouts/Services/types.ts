@@ -1,6 +1,8 @@
 export enum Type {
   UPDATE_TITLE = 'UPDATE_TITLE',
   UPDATE_DESC = 'UPDATE_DESC',
+  REMOVE_SERVICE = 'REMOVE_SERVICE',
+  CREATE_SERVICE = 'CREATE_SERVICE',
 }
 
 export interface TitlePayload {
@@ -11,4 +13,15 @@ export interface TitlePayload {
 export interface DescPayload {
   updatedDesc: string
   serviceId: string
+}
+
+export interface RemovePayload {
+  serviceId: string
+}
+
+export interface CreatePayload {
+  id: string
+  title: ''
+  desc: ''
+  image: string
 }

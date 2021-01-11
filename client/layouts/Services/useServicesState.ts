@@ -2,7 +2,8 @@ import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
 import { FetchHomePage_sectionServices } from 'types'
 import * as actions from './actions'
-import { DescPayload, TitlePayload, Type } from './types'
+import { DescPayload, RemovePayload, TitlePayload, Type } from './types'
+import { v4 } from 'uuid'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
@@ -24,6 +25,7 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
         })
       }
       return state
+
     case Type.UPDATE_DESC:
       if (state) {
         return state.map((service) => {
@@ -38,12 +40,31 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
       }
       return state
 
+    case Type.REMOVE_SERVICE:
+      if (state) {
+        return state.filter(
+          (service) => service?.id !== action.payload?.serviceId,
+        )
+      }
+      return state
+
+    case Type.CREATE_SERVICE:
+      if (state) {
+        return [...state, action.payload]
+      }
+      return state
+
     default:
       return state
   }
 }
 
-const { updateDescAction, updateTitleAction } = actions
+const {
+  updateDescAction,
+  updateTitleAction,
+  removeServiceAction,
+  createServiceAction,
+} = actions
 
 export const useServicesState = (
   initialState: FetchHomePage_sectionServices['services'],
@@ -56,6 +77,19 @@ export const useServicesState = (
   function updateDesc(payload: DescPayload) {
     dispatch(updateDescAction(payload))
   }
+  function removeService(payload: RemovePayload) {
+    dispatch(removeServiceAction(payload))
+  }
+  function createService() {
+    dispatch(
+      createServiceAction({
+        id: v4(),
+        title: '',
+        desc: '',
+        image: 'images/placeholder.png',
+      }),
+    )
+  }
 
-  return { state, updateTitle, updateDesc }
+  return { state, updateTitle, updateDesc, removeService, createService }
 }

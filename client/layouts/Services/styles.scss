@@ -7,3 +7,9 @@
     margin-top: -160px;
   }
 }
+
+.service {
+  &__image {
+    max-width: 90px;
+  }
+}
