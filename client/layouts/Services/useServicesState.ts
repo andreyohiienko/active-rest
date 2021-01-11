@@ -84,8 +84,8 @@ export const useServicesState = (
     dispatch(
       createServiceAction({
         id: v4(),
-        title: '',
-        desc: '',
+        title: 'Title',
+        desc: 'Description...',
         image: 'images/placeholder.png',
       }),
     )

@@ -21,7 +21,7 @@ export interface RemovePayload {
 
 export interface CreatePayload {
   id: string
-  title: ''
-  desc: ''
-  image: string
+  title: 'Title'
+  desc: 'Description...'
+  image: 'images/placeholder.png'
 }
