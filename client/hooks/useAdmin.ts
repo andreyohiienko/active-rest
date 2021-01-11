@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import { CurrentUser } from 'types'
 const ADMIN = gql`
   query Admin {
     currentUser {
@@ -11,7 +12,7 @@ const ADMIN = gql`
 `
 
 export function useAdmin() {
-  const { data } = useQuery(ADMIN, {
+  const { data } = useQuery<CurrentUser>(ADMIN, {
     fetchPolicy: 'cache-only',
   })
 
