@@ -30,6 +30,7 @@ export const typeDefs = gql`
     currentUser: User
 
     saveServices(input: ServicesInput): String
+    triggerServicesVis(isVisible: Boolean): String
   }
 
   type Message {

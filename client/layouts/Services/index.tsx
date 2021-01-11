@@ -23,6 +23,11 @@ const SAVE_SERVICES = gql`
     saveServices(input: { services: $services })
   }
 `
+const SECTION_VISIBILITY = gql`
+  mutation TriggerServicesVis($isVisible: Boolean) {
+    triggerServicesVis(isVisible: $isVisible)
+  }
+`
 
 const { Title, Paragraph } = Typography
 
@@ -40,7 +45,12 @@ const Services: FC<Props> = ({ sectionServices }) => {
     removeService,
     createService,
   } = useServicesState(sectionServices?.services || null)
+
   const [saveServices, { data, loading }] = useMutation(SAVE_SERVICES)
+  const [
+    triggerVisibility,
+    { data: triggerData, loading: triggerLoading },
+  ] = useMutation(SECTION_VISIBILITY)
 
   useEffect(() => {
     if (data) {
@@ -48,9 +58,24 @@ const Services: FC<Props> = ({ sectionServices }) => {
     }
   }, [data])
 
+  useEffect(() => {
+    if (triggerData) {
+      message.success(triggerData.triggerServicesVis)
+    }
+  }, [triggerData])
+
   function renderControls() {
     if (!isAdmin) {
       return <></>
+    }
+
+    function onSwitchChange() {
+      triggerVisibility({
+        variables: {
+          isVisible: !isVisible,
+        },
+      })
+      setIsVisible(!isVisible)
     }
 
     return (
@@ -70,9 +95,9 @@ const Services: FC<Props> = ({ sectionServices }) => {
           <SaveFilled />
         </Button>
         <Switch
-          loading={loading}
+          loading={loading || triggerLoading}
           checked={isVisible || undefined}
-          onChange={() => setIsVisible(!isVisible)}
+          onChange={() => onSwitchChange()}
         />
       </Space>
     )
@@ -93,6 +118,23 @@ const Services: FC<Props> = ({ sectionServices }) => {
           Add Service
         </Button>
       </Col>
+    )
+  }
+
+  function renderRemoveButton(id: string) {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    return (
+      <Button
+        type="primary"
+        shape="circle"
+        className="position-absolute pos-right-top z-1"
+        onClick={() => removeService({ serviceId: id })}
+      >
+        <DeleteOutlined />
+      </Button>
     )
   }
 
@@ -120,14 +162,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
                     bordered={false}
                     className="service-card w-100"
                   >
-                    <Button
-                      type="primary"
-                      shape="circle"
-                      className="position-absolute pos-right-top z-1"
-                      onClick={() => removeService({ serviceId: id })}
-                    >
-                      <DeleteOutlined />
-                    </Button>
+                    {renderRemoveButton(id)}
                     <img
                       className="service__image"
                       alt={title || undefined}

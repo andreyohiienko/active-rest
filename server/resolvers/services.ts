@@ -23,5 +23,15 @@ export const Services: IResolvers = {
       ])
       return 'Services section saved successfully.'
     },
+    triggerServicesVis: async (_, { isVisible }) => {
+      await SectionServices.updateOne(
+        { sectionName: 'services' },
+        { isVisible: !isVisible },
+      )
+
+      return `Section services cuccessfully ${
+        !isVisible ? 'hidden' : 'showed'
+      }!`
+    },
   },
 }
