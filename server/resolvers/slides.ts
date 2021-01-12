@@ -21,6 +21,9 @@ export const Slides: IResolvers<any, FetchSlides> = {
     slide: async (_, { id }) => {
       return await Slide.findById(id)
     },
+    hero: async () => {
+      return await Hero.findOne({ sectionName: 'hero' })
+    },
   },
   Mutation: {
     saveSlides: async (_, { input: { slides } }: { input: HeroAttrs }) => {

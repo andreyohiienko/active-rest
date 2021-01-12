@@ -58,6 +58,18 @@
               "deprecationReason": null
             },
             {
+              "name": "hero",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Hero",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "slides",
               "description": null,
               "args": [],
@@ -715,6 +727,33 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Hero",
+          "description": null,
+          "fields": [
+            {
+              "name": "slides",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Slide",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

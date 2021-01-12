@@ -322,11 +322,15 @@ export interface AddSlideVariables {
 // GraphQL query operation: FetchHomePage
 // ====================================================
 
-export interface FetchHomePage_slides {
+export interface FetchHomePage_hero_slides {
   id: string;
   title: string;
   desc: string | null;
   image: string | null;
+}
+
+export interface FetchHomePage_hero {
+  slides: (FetchHomePage_hero_slides | null)[] | null;
 }
 
 export interface FetchHomePage_sectionServices_services {
@@ -342,7 +346,7 @@ export interface FetchHomePage_sectionServices {
 }
 
 export interface FetchHomePage {
-  slides: (FetchHomePage_slides | null)[] | null;
+  hero: FetchHomePage_hero | null;
   sectionServices: FetchHomePage_sectionServices | null;
 }
 

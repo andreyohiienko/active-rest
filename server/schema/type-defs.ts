@@ -5,6 +5,7 @@ export const typeDefs = gql`
     pages: [Page]
     page(id: ID!): Page
 
+    hero: Hero
     slides: [Slide]
     slide(id: ID!): Slide
 
@@ -55,6 +56,10 @@ export const typeDefs = gql`
   type Page {
     id: ID!
     title: String
+  }
+
+  type Hero {
+    slides: [Slide]
   }
 
   type Slide {

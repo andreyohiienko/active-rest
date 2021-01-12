@@ -18,12 +18,14 @@ const SAVE_HERO = gql`
 const { Title, Paragraph } = Typography
 
 interface Props {
-  slides: FetchHomePage['slides']
+  hero: FetchHomePage['hero']
 }
 
-const Hero: FC<Props> = ({ slides }) => {
+const Hero: FC<Props> = ({ hero }) => {
   const isAdmin = useAdmin()
-  const { state, updateTitle, updateDesc, updateImage } = useHeroState(slides)
+  const { state, updateTitle, updateDesc, updateImage } = useHeroState(
+    hero?.slides || null,
+  )
 
   const [saveSection, { data, loading }] = useMutation<
     SaveSlides,

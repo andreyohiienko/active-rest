@@ -7,11 +7,13 @@ import { FetchHomePage } from 'types'
 
 const HOME = gql`
   query FetchHomePage {
-    slides {
-      id
-      title
-      desc
-      image
+    hero {
+      slides {
+        id
+        title
+        desc
+        image
+      }
     }
     sectionServices: services {
       isVisible
@@ -25,10 +27,10 @@ const HOME = gql`
   }
 `
 
-const IndexPage: FC<FetchHomePage> = ({ slides, sectionServices }) => {
+const IndexPage: FC<FetchHomePage> = ({ hero, sectionServices }) => {
   return (
     <PageLayout title="Active Rest">
-      <Hero {...{ slides }} />
+      <Hero {...{ hero }} />
       <Services {...{ sectionServices }} />
       <Activities />
       <Approach />
