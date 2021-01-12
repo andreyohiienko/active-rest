@@ -1,4 +1,4 @@
-import { DeleteOutlined, PlusOutlined, SaveFilled } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { gql, useMutation } from '@apollo/client'
 import {
   Button,
@@ -8,19 +8,23 @@ import {
   message,
   Row,
   Space,
-  Switch,
   Typography,
 } from 'antd'
-import { Container } from 'components'
+import {
+  ButtonDelete,
+  ButtonSave,
+  SwitchVisibility,
+  Container,
+} from 'components'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { FC, useEffect, useState } from 'react'
 import {
   FetchHomePage,
-  TriggerServicesVis,
-  TriggerServicesVisVariables,
   SaveServices,
   SaveServicesVariables,
+  TriggerServicesVis,
+  TriggerServicesVisVariables,
 } from 'types'
 import { useServicesState } from './useServicesState'
 
@@ -91,7 +95,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
 
     return (
       <Space className="mb-10" align="end" size="large">
-        <Button
+        <ButtonSave
           loading={loading}
           onClick={() =>
             saveServices({
@@ -100,12 +104,8 @@ const Services: FC<Props> = ({ sectionServices }) => {
               },
             })
           }
-          type="primary"
-          shape="circle"
-        >
-          <SaveFilled />
-        </Button>
-        <Switch
+        />
+        <SwitchVisibility
           loading={loading || triggerLoading}
           checked={isVisible || undefined}
           onChange={() => onSwitchChange()}
@@ -138,14 +138,10 @@ const Services: FC<Props> = ({ sectionServices }) => {
     }
 
     return (
-      <Button
-        type="primary"
-        shape="circle"
+      <ButtonDelete
         className="position-absolute pos-right-top z-1"
         onClick={() => removeService({ serviceId: id })}
-      >
-        <DeleteOutlined />
-      </Button>
+      />
     )
   }
 
