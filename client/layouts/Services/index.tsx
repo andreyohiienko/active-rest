@@ -204,7 +204,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
                             }
                           : false
                       }
-                      className="mb-0"
+                      className="mb-0f"
                     >
                       {desc}
                     </Paragraph>
