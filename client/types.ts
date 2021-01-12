@@ -77,6 +77,22 @@ export interface MediasMain {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveSlides
+// ====================================================
+
+export interface SaveSlides {
+  saveSlides: string | null;
+}
+
+export interface SaveSlidesVariables {
+  slides?: (SlideInput | null)[] | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveServices
 // ====================================================
 
@@ -363,6 +379,13 @@ export interface remove {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+// null
+export interface SlideInput {
+  title?: string | null;
+  desc?: string | null;
+  image?: string | null;
+}
 
 // null
 export interface ServiceInput {

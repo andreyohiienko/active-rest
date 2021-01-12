@@ -1,11 +1,19 @@
-import { Carousel, Layout, Typography } from 'antd'
-import { Container } from 'components'
+import { gql, useMutation } from '@apollo/client'
+import { Carousel, Layout, message, Typography } from 'antd'
+import { ButtonSave, Container } from 'components'
 import { SelectImage } from 'components/SelectImage/main'
 import { useAdmin } from 'hooks'
-import React, { FC } from 'react'
-import { FetchHomePage } from 'types'
+import { omit } from 'lodash'
+import React, { FC, useEffect } from 'react'
+import { FetchHomePage, SaveSlides, SaveSlidesVariables } from 'types'
 import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
+
+const SAVE_HERO = gql`
+  mutation SaveSlides($slides: [SlideInput]) {
+    saveSlides(input: { slides: $slides })
+  }
+`
 
 const { Title, Paragraph } = Typography
 
@@ -17,8 +25,30 @@ const Hero: FC<Props> = ({ slides }) => {
   const isAdmin = useAdmin()
   const { state, updateTitle, updateDesc, updateImage } = useHeroState(slides)
 
+  const [saveSection, { data, loading }] = useMutation<
+    SaveSlides,
+    SaveSlidesVariables
+  >(SAVE_HERO)
+
+  useEffect(() => {
+    if (data) {
+      message.success(data.saveSlides)
+    }
+  }, [data])
+
   return (
     <Layout>
+      <ButtonSave
+        loading={loading}
+        className="position-absolute z-1"
+        onClick={() =>
+          saveSection({
+            variables: {
+              slides: state?.map((slide) => omit(slide, ['id'])),
+            },
+          })
+        }
+      />
       <Carousel effect="fade" draggable autoplay={false} dots={false}>
         {state?.map((slide) => {
           if (slide) {

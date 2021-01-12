@@ -24,6 +24,7 @@ export const Slides: IResolvers<any, FetchSlides> = {
   },
   Mutation: {
     saveSlides: async (_, { input: { slides } }: { input: HeroAttrs }) => {
+      console.log('slides', slides)
       await Hero.updateOne({ sectionName: 'hero' }, [
         { $unset: ['slides'] },
         {
