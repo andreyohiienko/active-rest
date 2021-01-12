@@ -188,7 +188,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
                           : false
                       }
                       level={3}
-                      className="h3 mt-15 pt-5 mb-10"
+                      className="h3 mt-15f pt-5f mb-10f"
                     >
                       {title}
                     </Title>

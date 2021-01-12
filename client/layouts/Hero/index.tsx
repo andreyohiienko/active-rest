@@ -83,7 +83,7 @@ const Hero: FC<Props> = ({ hero }) => {
                             }
                           : false
                       }
-                      className="h1 text-capitalize"
+                      className="h1 text-capitalize mb-40f"
                     >
                       {title}
                     </Title>
