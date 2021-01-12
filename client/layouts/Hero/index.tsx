@@ -50,9 +50,7 @@ const Hero: FC<Props> = ({ hero }) => {
           onClick={() =>
             saveSection({
               variables: {
-                slides: state?.map((slide) =>
-                  omit(slide, ['id', '__typename']),
-                ),
+                slides: state?.map((slide) => omit(slide, ['id'])),
               },
             })
           }

@@ -100,9 +100,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
           onClick={() =>
             saveServices({
               variables: {
-                services: state?.map((service) =>
-                  omit(service, ['id', '__typename']),
-                ),
+                services: state?.map((service) => omit(service, ['id'])),
               },
             })
           }

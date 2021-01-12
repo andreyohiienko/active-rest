@@ -7,6 +7,7 @@ import {
 } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 import { onError } from '@apollo/client/link/error'
+import { omitDeep } from 'utils'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
@@ -34,9 +35,18 @@ function createApolloClient() {
     credentials: 'same-origin',
   })
 
+  const cleanTypeName = new ApolloLink((operation, forward) => {
+    if (operation.variables) {
+      operation.variables = omitDeep(operation.variables, ['__typename'])
+    }
+    return forward(operation).map((data) => {
+      return data
+    })
+  })
+
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([errorLink, uploadLink]),
+    link: ApolloLink.from([errorLink, cleanTypeName, uploadLink]),
     cache: new InMemoryCache(),
     defaultOptions: {
       query: {

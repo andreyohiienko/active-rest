@@ -116,8 +116,6 @@ const Files = () => {
               `,
             })
 
-            console.log('removedMedia', removedMedia)
-
             return existingMediaRefs.filter(
               (mediaRef: Reference) => mediaRef.__ref !== removedMedia?.__ref,
             )
