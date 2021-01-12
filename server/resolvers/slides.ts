@@ -1,7 +1,8 @@
 import { IResolvers, UserInputError } from 'apollo-server-express'
-import mongoose from 'mongoose'
-import { SlideDoc } from '../models'
-const Slide = mongoose.model('Slide')
+import { model, Types } from 'mongoose'
+import { HeroAttrs, SlideDoc } from '../models'
+const Slide = model('Slide')
+const Hero = model('Hero')
 
 interface FetchSlides {
   dataSources: {
@@ -22,10 +23,22 @@ export const Slides: IResolvers<any, FetchSlides> = {
     },
   },
   Mutation: {
+    saveSlides: async (_, { input: { slides } }: { input: HeroAttrs }) => {
+      await Hero.updateOne({ sectionName: 'hero' }, [
+        { $unset: ['slides'] },
+        {
+          $set: {
+            slides: slides.map((slide) => ({
+              _id: Types.ObjectId(),
+              ...slide,
+            })),
+          },
+        },
+      ])
+
+      return 'Hero section saved successfully.'
+    },
     addSlide: async (_p, { title, desc, image }) => {
-      console.log('title', title)
-      console.log('desc', desc)
-      console.log('image', image)
       const slide = new Slide({ title, desc, image })
       return await slide.save()
     },

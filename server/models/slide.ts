@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-interface SlideAttrs {
+export interface SlideAttrs {
   title: string
   desc: string
   image: string
@@ -16,7 +16,7 @@ interface SlideModel extends mongoose.Model<SlideDoc> {
   build(attrs: SlideAttrs): SlideDoc
 }
 
-const slideSchema = new mongoose.Schema({
+export const slideSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,

@@ -20,6 +20,7 @@ export const typeDefs = gql`
   type Mutation {
     addPage(title: String): Page
 
+    saveSlides(input: SlidesInput): String
     addSlide(title: String!, desc: String, image: String): Slide
     removeSlide(id: ID!): Slide
     updateSlide(id: ID!, title: String, desc: String, image: String): String
@@ -59,6 +60,16 @@ export const typeDefs = gql`
   type Slide {
     id: ID!
     title: String!
+    desc: String
+    image: String
+  }
+
+  input SlidesInput {
+    slides: [SlideInput]
+  }
+
+  input SlideInput {
+    title: String
     desc: String
     image: String
   }
