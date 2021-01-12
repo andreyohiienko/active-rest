@@ -38,19 +38,30 @@ const Hero: FC<Props> = ({ hero }) => {
     }
   }, [data])
 
+  function renderSaveButton() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    return (
+      <div className="position-absolute z-1">
+        <ButtonSave
+          loading={loading}
+          onClick={() =>
+            saveSection({
+              variables: {
+                slides: state?.map((slide) => omit(slide, ['id'])),
+              },
+            })
+          }
+        />
+      </div>
+    )
+  }
+
   return (
     <Layout>
-      <ButtonSave
-        loading={loading}
-        className="position-absolute z-1"
-        onClick={() =>
-          saveSection({
-            variables: {
-              slides: state?.map((slide) => omit(slide, ['id'])),
-            },
-          })
-        }
-      />
+      {renderSaveButton()}
       <Carousel effect="fade" draggable autoplay={false} dots={false}>
         {state?.map((slide) => {
           if (slide) {
@@ -62,7 +73,7 @@ const Hero: FC<Props> = ({ hero }) => {
                   className="hero bg-cover"
                   style={{ backgroundImage: `url('${serverUrl + image}')` }}
                 >
-                  <Container className="text-center hero__container text-white text-capitalize">
+                  <Container className="text-center hero__container text-white">
                     <Title
                       editable={
                         isAdmin
@@ -72,7 +83,7 @@ const Hero: FC<Props> = ({ hero }) => {
                             }
                           : false
                       }
-                      className="h1"
+                      className="h1 text-capitalize"
                     >
                       {title}
                     </Title>
