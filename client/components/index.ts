@@ -3,4 +3,9 @@ export { Footer } from './Footer'
 export { Header } from './Header'
 export { PageLayout } from './PageLayout'
 export { SelectImage } from './SelectImage'
-export { ButtonSave, ButtonDelete, SwitchVisibility } from './Buttons'
+export {
+  ButtonSave,
+  ButtonDelete,
+  ButtonImage,
+  SwitchVisibility,
+} from './Buttons'

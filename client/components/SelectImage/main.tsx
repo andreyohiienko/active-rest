@@ -7,6 +7,7 @@ import { serverUrl } from 'utils'
 import { FileImageFilled } from '@ant-design/icons'
 import { ImagePayload } from 'layouts/Hero/types'
 import { useAdmin } from 'hooks'
+import { ButtonImage } from 'components/Buttons'
 
 interface Props {
   id?: string | null
@@ -101,9 +102,7 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage }) => {
   if (isAdmin) {
     return (
       <>
-        <Button onClick={onClick} type="primary" shape="circle">
-          <FileImageFilled />
-        </Button>
+        <ButtonImage onClick={onClick} />
         <Modal
           title="Select image"
           visible={visible}

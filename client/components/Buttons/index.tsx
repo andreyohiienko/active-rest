@@ -1,4 +1,4 @@
-import { DeleteOutlined, SaveFilled } from '@ant-design/icons'
+import { DeleteOutlined, FileImageFilled, SaveFilled } from '@ant-design/icons'
 import { Button, Tooltip, Switch } from 'antd'
 import { ButtonProps } from 'antd/lib/button'
 import { SwitchProps } from 'antd/lib/switch'
@@ -22,10 +22,18 @@ const ButtonDelete = (props: ButtonProps) => (
   </Tooltip>
 )
 
+const ButtonImage = (props: ButtonProps) => (
+  <Tooltip title="Change image">
+    <Button {...props} type="primary" shape="circle">
+      <FileImageFilled />
+    </Button>
+  </Tooltip>
+)
+
 const SwitchVisibility = (props: SwitchProps) => (
   <Tooltip title={`Make section ${props.checked ? 'invisible' : 'visible'}`}>
     <Switch {...props} />
   </Tooltip>
 )
 
-export { ButtonSave, ButtonDelete, SwitchVisibility }
+export { ButtonSave, ButtonDelete, ButtonImage, SwitchVisibility }
