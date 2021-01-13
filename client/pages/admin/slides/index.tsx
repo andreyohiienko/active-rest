@@ -72,7 +72,7 @@ const SlidesPage = () => {
 
   async function onRemove(id: string) {
     try {
-      const { data } = await removeAction({ variables: { id: id } })
+      const { data } = await removeAction({ variables: { id } })
       if (data) {
         message.success(`${data?.action?.title} slide removed successfully.`)
       }

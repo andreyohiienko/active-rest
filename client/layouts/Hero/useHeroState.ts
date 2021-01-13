@@ -14,7 +14,7 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
     case Type.UPDATE_TITLE:
       if (state) {
         return state?.map((slide) => {
-          if (slide && slide.id === action.payload.itemId) {
+          if (slide && slide.id === action.payload.id) {
             return {
               ...slide,
               title: action.payload.updatedTitle,
@@ -28,7 +28,7 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
     case Type.UPDATE_DESC:
       if (state) {
         return state.map((slide) => {
-          if (slide && slide.id === action.payload.itemId) {
+          if (slide && slide.id === action.payload.id) {
             return {
               ...slide,
               desc: action.payload.updatedDesc,
@@ -41,7 +41,7 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
     case Type.UPDATE_IMAGE:
       if (state) {
         return state.map((slide) => {
-          if (slide && slide.id === action.payload.itemId) {
+          if (slide && slide.id === action.payload.id) {
             return {
               ...slide,
               image: action.payload.updatedImage,

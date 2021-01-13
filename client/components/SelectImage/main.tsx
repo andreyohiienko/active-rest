@@ -9,7 +9,7 @@ import { ButtonImage } from 'components/Buttons'
 
 interface ImagePayload {
   updatedImage: string
-  itemId: string
+  id: string
 }
 interface Props {
   id?: string | null
@@ -97,7 +97,7 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage, className }) => {
 
   function onSelect() {
     if (detail && id) {
-      setUpdatedImage({ updatedImage: detail.path, itemId: id })
+      setUpdatedImage({ updatedImage: detail.path, id })
       setVisible(false)
     }
   }
