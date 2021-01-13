@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
 import { FetchHomePage_hero } from 'types'
@@ -61,6 +62,10 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
       return state
 
     case Type.REMOVE_SLIDE:
+      if (state?.length === 1) {
+        message.warning('Sorry, at least 1 slide should remains.')
+        return state
+      }
       if (state) {
         return state.filter((slide) => slide?.id !== action.payload.id)
       }
