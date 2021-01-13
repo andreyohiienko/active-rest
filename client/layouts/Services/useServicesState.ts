@@ -10,6 +10,7 @@ import {
   Type,
 } from './types'
 import { v4 } from 'uuid'
+import { message } from 'antd'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
@@ -61,6 +62,10 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
       return state
 
     case Type.REMOVE_SERVICE:
+      if (state?.length === 1) {
+        message.warning('Sorry, at least 1 service should remain.')
+        return state
+      }
       if (state) {
         return state.filter((service) => service?.id !== action.payload.id)
       }

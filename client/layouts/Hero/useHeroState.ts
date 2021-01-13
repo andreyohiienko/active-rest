@@ -63,7 +63,7 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
 
     case Type.REMOVE_SLIDE:
       if (state?.length === 1) {
-        message.warning('Sorry, at least 1 slide should remains.')
+        message.warning('Sorry, at least 1 slide should remain.')
         return state
       }
       if (state) {
