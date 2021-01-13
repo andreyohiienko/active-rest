@@ -26,7 +26,7 @@ export const Services: IResolvers = {
     triggerServicesVis: async (_, { isVisible }) => {
       await SectionServices.updateOne(
         { sectionName: 'services' },
-        { isVisible: !isVisible },
+        { isVisible: isVisible },
       )
 
       return `Section services successfully ${
