@@ -4,6 +4,7 @@ import {
   DescPayload,
   RemovePayload,
   CreatePayload,
+  ImagePayload,
 } from './types'
 
 export const updateTitleAction = (payload: TitlePayload) =>
@@ -19,6 +20,11 @@ export const updateDescAction = (payload: DescPayload) =>
 export const removeServiceAction = (payload: RemovePayload) =>
   ({
     type: Type.REMOVE_SERVICE,
+    payload,
+  } as const)
+export const updateImageAction = (payload: ImagePayload) =>
+  ({
+    type: Type.UPDATE_IMAGE,
     payload,
   } as const)
 export const createServiceAction = (payload: CreatePayload) =>

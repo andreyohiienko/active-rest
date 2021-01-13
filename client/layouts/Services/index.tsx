@@ -16,6 +16,7 @@ import {
   SwitchVisibility,
   Container,
 } from 'components'
+import { SelectImage } from 'components/SelectImage/main'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { FC, useEffect, useState } from 'react'
@@ -26,6 +27,7 @@ import {
   TriggerServicesVis,
   TriggerServicesVisVariables,
 } from 'types'
+import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
 
 const SAVE_SERVICES = gql`
@@ -53,6 +55,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
     updateTitle,
     updateDesc,
     removeService,
+    updateImage,
     createService,
   } = useServicesState(sectionServices?.services || null)
 
@@ -170,11 +173,18 @@ const Services: FC<Props> = ({ sectionServices }) => {
                     className="service-card w-100"
                   >
                     {renderRemoveButton(id)}
-                    <img
-                      className="service__image"
-                      alt={title || undefined}
-                      src={image || undefined}
-                    />
+                    <div className="d-inline-block position-relative">
+                      <SelectImage
+                        id={id}
+                        setUpdatedImage={updateImage}
+                        className="position-absolute"
+                      />
+                      <img
+                        className="service__image"
+                        alt={title || undefined}
+                        src={serverUrl + image || undefined}
+                      />
+                    </div>
                     <Title
                       editable={
                         isAdmin

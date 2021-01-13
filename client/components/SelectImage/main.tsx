@@ -5,16 +5,18 @@ import { Medias, Medias_list } from 'types'
 import classNames from 'classnames'
 import { serverUrl } from 'utils'
 import { FileImageFilled } from '@ant-design/icons'
-import { ImagePayload } from 'layouts/Hero/types'
+// import { ImagePayload } from 'layouts/Hero/types'
+import { ImagePayload } from 'layouts/Services/types'
 import { useAdmin } from 'hooks'
 import { ButtonImage } from 'components/Buttons'
 
 interface Props {
   id?: string | null
   setUpdatedImage: (payload: ImagePayload) => void
+  className?: string
 }
 
-export const SelectImage: FC<Props> = ({ id, setUpdatedImage }) => {
+export const SelectImage: FC<Props> = ({ id, setUpdatedImage, className }) => {
   const MEDIAS = gql`
     query MediasMain {
       list: allMedia {
@@ -94,7 +96,7 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage }) => {
 
   function onSelect() {
     if (detail && id) {
-      setUpdatedImage({ updatedImage: detail.path, slideId: id })
+      setUpdatedImage({ updatedImage: detail.path, serviceId: id })
       setVisible(false)
     }
   }
@@ -102,7 +104,7 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage }) => {
   if (isAdmin) {
     return (
       <>
-        <ButtonImage onClick={onClick} />
+        <ButtonImage className={className} onClick={onClick} />
         <Modal
           title="Select image"
           visible={visible}
