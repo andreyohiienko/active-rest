@@ -29,7 +29,7 @@ export const Services: IResolvers = {
         { isVisible: !isVisible },
       )
 
-      return `Section services cuccessfully ${
+      return `Section services successfully ${
         !isVisible ? 'hidden' : 'showed'
       }!`
     },
