@@ -97,7 +97,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
     }
 
     return (
-      <Space className="mb-10" align="end" size="large">
+      <Space className="mb-10" align="center" size="large">
         <ButtonSave
           loading={loading}
           onClick={() =>

@@ -1,5 +1,6 @@
-import { Button, Card, Col, Layout, Row, Typography } from 'antd'
-import { Container } from 'components'
+import { Button, Card, Col, Layout, Row, Space, Typography } from 'antd'
+import { ButtonSave, Container, SwitchVisibility } from 'components'
+import { useAdmin } from 'hooks'
 import React, { useState } from 'react'
 import { ActivitiesSign } from 'static'
 import { isEditable } from 'utils'
@@ -83,10 +84,51 @@ export const Activities = () => {
   ]
 
   const [title, setTitle] = useState('Explore Destinations & Activities')
+  const isAdmin = useAdmin()
+
+  function renderControls() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    function onSwitchChange() {
+      // triggerVisibility({
+      //   variables: {
+      //     isVisible: !isVisible,
+      //   },
+      // })
+      // setIsVisible(!isVisible)
+    }
+
+    return (
+      <Row>
+        <Col>
+          <Space align="center" size="large">
+            <ButtonSave
+            // loading={loading}
+            // onClick={() =>
+            //   saveServices({
+            //     variables: {
+            //       services: state?.map((service) => omit(service, ['id'])),
+            //     },
+            //   })
+            // }
+            />
+            <SwitchVisibility
+              // loading={loading || triggerLoading}
+              // checked={isVisible || undefined}
+              onChange={() => onSwitchChange()}
+            />
+          </Space>
+        </Col>
+      </Row>
+    )
+  }
 
   return (
     <Layout className="mt-lg-75 mt-50 pb-lg-75 pb-50">
       <Container className="text-center">
+        {renderControls()}
         <ActivitiesSign />
         <Title
           level={2}
