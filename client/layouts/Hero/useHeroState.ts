@@ -38,6 +38,7 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
         })
       }
       return state
+
     case Type.UPDATE_IMAGE:
       if (state) {
         return state.map((slide) => {
@@ -49,6 +50,18 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
           }
           return slide
         })
+      }
+      return state
+
+    case Type.REMOVE_SLIDE:
+      if (state) {
+        return state.filter((slide) => slide?.id !== action.payload.id)
+      }
+      return state
+
+    case Type.CREATE_SLIDE:
+      if (state) {
+        return [...state, action.payload]
       }
       return state
 

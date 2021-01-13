@@ -46,12 +46,6 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
       }
       return state
 
-    case Type.REMOVE_SERVICE:
-      if (state) {
-        return state.filter((service) => service?.id !== action.payload?.id)
-      }
-      return state
-
     case Type.UPDATE_IMAGE:
       if (state) {
         return state.map((slide) => {
@@ -63,6 +57,12 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
           }
           return slide
         })
+      }
+      return state
+
+    case Type.REMOVE_SERVICE:
+      if (state) {
+        return state.filter((service) => service?.id !== action.payload.id)
       }
       return state
 
