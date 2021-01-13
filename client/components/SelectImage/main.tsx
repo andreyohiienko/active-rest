@@ -4,12 +4,13 @@ import React, { FC, useState } from 'react'
 import { Medias, Medias_list } from 'types'
 import classNames from 'classnames'
 import { serverUrl } from 'utils'
-import { FileImageFilled } from '@ant-design/icons'
-// import { ImagePayload } from 'layouts/Hero/types'
-import { ImagePayload } from 'layouts/Services/types'
 import { useAdmin } from 'hooks'
 import { ButtonImage } from 'components/Buttons'
 
+interface ImagePayload {
+  updatedImage: string
+  itemId: string
+}
 interface Props {
   id?: string | null
   setUpdatedImage: (payload: ImagePayload) => void
@@ -96,7 +97,7 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage, className }) => {
 
   function onSelect() {
     if (detail && id) {
-      setUpdatedImage({ updatedImage: detail.path, serviceId: id })
+      setUpdatedImage({ updatedImage: detail.path, itemId: id })
       setVisible(false)
     }
   }

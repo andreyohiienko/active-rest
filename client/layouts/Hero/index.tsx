@@ -79,7 +79,7 @@ const Hero: FC<Props> = ({ hero }) => {
                         isAdmin
                           ? {
                               onChange: (e) =>
-                                updateTitle({ updatedTitle: e, slideId: id }),
+                                updateTitle({ updatedTitle: e, itemId: id }),
                             }
                           : false
                       }
@@ -92,7 +92,7 @@ const Hero: FC<Props> = ({ hero }) => {
                         isAdmin
                           ? {
                               onChange: (e) =>
-                                updateDesc({ updatedDesc: e, slideId: id }),
+                                updateDesc({ updatedDesc: e, itemId: id }),
                             }
                           : false
                       }

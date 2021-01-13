@@ -8,21 +8,21 @@ export enum Type {
 
 export interface TitlePayload {
   updatedTitle: string
-  serviceId: string
+  itemId: string
 }
 
 export interface DescPayload {
   updatedDesc: string
-  serviceId: string
+  itemId: string
 }
 
 export interface RemovePayload {
-  serviceId: string
+  itemId: string
 }
 
 export interface ImagePayload {
   updatedImage: string
-  serviceId: string
+  itemId: string
 }
 
 export interface CreatePayload {

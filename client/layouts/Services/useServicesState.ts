@@ -21,7 +21,7 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
     case Type.UPDATE_TITLE:
       if (state) {
         return state?.map((service) => {
-          if (service && service.id === action.payload.serviceId) {
+          if (service && service.id === action.payload.itemId) {
             return {
               ...service,
               title: action.payload.updatedTitle,
@@ -35,7 +35,7 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
     case Type.UPDATE_DESC:
       if (state) {
         return state.map((service) => {
-          if (service && service.id === action.payload.serviceId) {
+          if (service && service.id === action.payload.itemId) {
             return {
               ...service,
               desc: action.payload.updatedDesc,
@@ -48,16 +48,14 @@ const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
 
     case Type.REMOVE_SERVICE:
       if (state) {
-        return state.filter(
-          (service) => service?.id !== action.payload?.serviceId,
-        )
+        return state.filter((service) => service?.id !== action.payload?.itemId)
       }
       return state
 
     case Type.UPDATE_IMAGE:
       if (state) {
         return state.map((slide) => {
-          if (slide && slide.id === action.payload.serviceId) {
+          if (slide && slide.id === action.payload.itemId) {
             return {
               ...slide,
               image: action.payload.updatedImage,

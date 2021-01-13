@@ -6,15 +6,15 @@ export enum Type {
 
 export interface TitlePayload {
   updatedTitle: string
-  slideId: string
+  itemId: string
 }
 
 export interface DescPayload {
   updatedDesc: string
-  slideId: string
+  itemId: string
 }
 
 export interface ImagePayload {
   updatedImage: string
-  slideId: string
+  itemId: string
 }

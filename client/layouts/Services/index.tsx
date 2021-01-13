@@ -143,7 +143,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
     return (
       <ButtonDelete
         className="position-absolute pos-right-top z-1"
-        onClick={() => removeService({ serviceId: id })}
+        onClick={() => removeService({ itemId: id })}
       />
     )
   }
@@ -191,7 +191,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
                           ? {
                               onChange: (e) =>
                                 updateTitle({
-                                  serviceId: id,
+                                  itemId: id,
                                   updatedTitle: e,
                                 }),
                             }
@@ -208,7 +208,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
                           ? {
                               onChange: (e) =>
                                 updateDesc({
-                                  serviceId: id,
+                                  itemId: id,
                                   updatedDesc: e,
                                 }),
                             }
