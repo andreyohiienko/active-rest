@@ -3,10 +3,10 @@ import { ApolloServer } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import './models'
 import { typeDefs } from './schema/type-defs'
-import { Slides, Pages, Medias, Auth, Services } from './resolvers'
+import { Slides, Pages, Medias, Auth, Services, Activities } from './resolvers'
 import { AdminAPI } from './dataSources'
 import express from 'express'
-import { merge } from 'lodash'
+import { map, merge } from 'lodash'
 import { cookieKey, mongoURI } from './keys'
 import cookieSession from 'cookie-session'
 import passport from 'passport'
@@ -27,7 +27,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = merge(Auth, Slides, Pages, Medias, Services)
+const resolvers = merge(Auth, Slides, Pages, Medias, Services, Activities)
 
 const server = new ApolloServer({
   typeDefs,

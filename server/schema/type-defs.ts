@@ -16,6 +16,7 @@ export const typeDefs = gql`
     signout: Message
 
     services: Services
+    activities: Activities
   }
 
   type Mutation {
@@ -33,6 +34,9 @@ export const typeDefs = gql`
 
     saveServices(input: ServicesInput): String
     triggerServicesVis(isVisible: Boolean): String
+
+    saveActivities(input: ActivitiesInput): String
+    triggerActivitiesVis(isVisible: Boolean): String
   }
 
   type Message {
@@ -58,6 +62,7 @@ export const typeDefs = gql`
     title: String
   }
 
+  # Start of Slides
   type Hero {
     slides: [Slide]
   }
@@ -78,7 +83,9 @@ export const typeDefs = gql`
     desc: String
     image: String
   }
+  # End of Slides
 
+  # Start of Services
   input ServicesInput {
     isVisible: Boolean
     services: [ServiceInput]
@@ -101,4 +108,17 @@ export const typeDefs = gql`
     desc: String
     image: String
   }
+  # End of Services
+
+  # Start of Activities
+  type Activities {
+    isVisible: Boolean
+    title: String
+  }
+
+  input ActivitiesInput {
+    isVisible: Boolean
+    title: String
+  }
+  # End of Activities
 `

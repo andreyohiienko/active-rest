@@ -10,4 +10,7 @@ export {
   SectionServicesAttrs,
   SectionServicesDoc,
 } from './section-services'
+
+export { SectionActivities, SectionActivitiesAttrs } from './section-activities'
+
 export { User } from './user'

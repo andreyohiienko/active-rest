@@ -1,6 +1,7 @@
 import { IResolvers } from 'apollo-server-express'
-import mongoose, { Schema } from 'mongoose'
-const SectionServices = mongoose.model('Section_Services')
+import { model, Types } from 'mongoose'
+import { SectionServicesAttrs } from '../models'
+const SectionServices = model('Section_Services')
 
 export const Services: IResolvers = {
   Query: {
@@ -9,13 +10,16 @@ export const Services: IResolvers = {
     },
   },
   Mutation: {
-    saveServices: async (_, { input: { services } }) => {
+    saveServices: async (
+      _,
+      { input: { services } }: { input: SectionServicesAttrs },
+    ) => {
       await SectionServices.updateOne({ sectionName: 'services' }, [
         { $unset: ['services'] },
         {
           $set: {
             services: services.map((service: any) => ({
-              _id: mongoose.Types.ObjectId(),
+              _id: Types.ObjectId(),
               ...service,
             })),
           },
@@ -23,10 +27,10 @@ export const Services: IResolvers = {
       ])
       return 'Services section saved successfully.'
     },
-    triggerServicesVis: async (_, { isVisible }) => {
+    triggerServicesVis: async (_, { isVisible }: SectionServicesAttrs) => {
       await SectionServices.updateOne(
         { sectionName: 'services' },
-        { isVisible: isVisible },
+        { isVisible },
       )
 
       return `Section services successfully ${
