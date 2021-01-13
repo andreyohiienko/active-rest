@@ -25,13 +25,13 @@ export const updateImageAction = (payload: ImagePayload) =>
     payload,
   } as const)
 
-export const removeSLIDEAction = (payload: RemovePayload) =>
+export const removeSlideAction = (payload: RemovePayload) =>
   ({
     type: Type.REMOVE_SLIDE,
     payload,
   } as const)
 
-export const createSLIDEAction = (payload: CreatePayload) =>
+export const createSlideAction = (payload: CreatePayload) =>
   ({
     type: Type.CREATE_SLIDE,
     payload,

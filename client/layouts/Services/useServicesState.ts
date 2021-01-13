@@ -96,12 +96,11 @@ export const useServicesState = (
   function updateDesc(payload: DescPayload) {
     dispatch(updateDescAction(payload))
   }
+  function updateImage(payload: ImagePayload) {
+    dispatch(updateImageAction(payload))
+  }
   function removeService(payload: RemovePayload) {
     dispatch(removeServiceAction(payload))
-  }
-  function updateImage(payload: ImagePayload) {
-    console.log('payload', payload)
-    dispatch(updateImageAction(payload))
   }
   function createService() {
     dispatch(
@@ -118,8 +117,8 @@ export const useServicesState = (
     state,
     updateTitle,
     updateDesc,
-    removeService,
     updateImage,
+    removeService,
     createService,
   }
 }

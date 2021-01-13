@@ -1,10 +1,11 @@
+import { PlusOutlined } from '@ant-design/icons'
 import { gql, useMutation } from '@apollo/client'
-import { Carousel, Layout, message, Typography } from 'antd'
-import { ButtonSave, Container } from 'components'
+import { Button, Carousel, Layout, message, Space, Typography } from 'antd'
+import { ButtonDelete, ButtonSave, Container } from 'components'
 import { SelectImage } from 'components/SelectImage/main'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { FetchHomePage, SaveSlides, SaveSlidesVariables } from 'types'
 import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
@@ -23,9 +24,15 @@ interface Props {
 
 const Hero: FC<Props> = ({ hero }) => {
   const isAdmin = useAdmin()
-  const { state, updateTitle, updateDesc, updateImage } = useHeroState(
-    hero?.slides || null,
-  )
+  const {
+    state,
+    updateTitle,
+    updateDesc,
+    updateImage,
+    removeSlide,
+    createSlide,
+  } = useHeroState(hero?.slides || null)
+  const ref = useRef<Carousel>(null)
 
   const [saveSection, { data, loading }] = useMutation<
     SaveSlides,
@@ -59,10 +66,48 @@ const Hero: FC<Props> = ({ hero }) => {
     )
   }
 
+  function renderRemoveButton(id: string) {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    return (
+      <ButtonDelete
+        className="position-absolute pos-right-top z-1"
+        onClick={() => removeSlide({ id })}
+      />
+    )
+  }
+
+  function renderAddMoreButton() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    function onClick() {
+      createSlide()
+      if (state) {
+        ref.current?.goTo(state.length)
+      }
+    }
+
+    return (
+      <Button onClick={onClick} type="primary" icon={<PlusOutlined />}>
+        Add Slide
+      </Button>
+    )
+  }
+
   return (
     <Layout>
       {renderSaveButton()}
-      <Carousel effect="fade" draggable autoplay={false} dots={false}>
+      <Carousel
+        ref={ref}
+        effect="fade"
+        draggable
+        autoplay={!isAdmin}
+        dots={false}
+      >
         {state?.map((slide) => {
           if (slide) {
             const { id, title, desc, image } = slide
@@ -74,6 +119,7 @@ const Hero: FC<Props> = ({ hero }) => {
                   style={{ backgroundImage: `url('${serverUrl + image}')` }}
                 >
                   <Container className="text-center hero__container text-white">
+                    {renderRemoveButton(id)}
                     <Title
                       editable={
                         isAdmin
@@ -99,7 +145,10 @@ const Hero: FC<Props> = ({ hero }) => {
                     >
                       {desc}
                     </Paragraph>
-                    <SelectImage id={id} setUpdatedImage={updateImage} />
+                    <Space direction="vertical" size="large">
+                      <SelectImage id={id} setUpdatedImage={updateImage} />
+                      {renderAddMoreButton()}
+                    </Space>
                   </Container>
                 </div>
               </div>

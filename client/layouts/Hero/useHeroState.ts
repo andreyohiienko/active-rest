@@ -1,8 +1,15 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
 import { FetchHomePage_hero } from 'types'
+import { v4 } from 'uuid'
 import * as actions from './actions'
-import { DescPayload, ImagePayload, TitlePayload, Type } from './types'
+import {
+  DescPayload,
+  ImagePayload,
+  RemovePayload,
+  TitlePayload,
+  Type,
+} from './types'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
@@ -70,7 +77,13 @@ const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
   }
 }
 
-const { updateTitleAction, updateDescAction, updateImageAction } = actions
+const {
+  updateTitleAction,
+  updateDescAction,
+  updateImageAction,
+  removeSlideAction,
+  createSlideAction,
+} = actions
 
 const useHeroState = (initialState: FetchHomePage_hero['slides']) => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -84,7 +97,29 @@ const useHeroState = (initialState: FetchHomePage_hero['slides']) => {
     dispatch(updateImageAction(payload))
   }
 
-  return { state, updateTitle, updateDesc, updateImage }
+  function removeSlide(payload: RemovePayload) {
+    dispatch(removeSlideAction(payload))
+  }
+
+  function createSlide() {
+    dispatch(
+      createSlideAction({
+        id: v4(),
+        title: 'Title',
+        desc: 'Description...',
+        image: 'images/placeholder.png',
+      }),
+    )
+  }
+
+  return {
+    state,
+    updateTitle,
+    updateDesc,
+    updateImage,
+    removeSlide,
+    createSlide,
+  }
 }
 
 export { useHeroState }
