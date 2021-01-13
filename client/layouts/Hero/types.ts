@@ -1,7 +1,7 @@
 export enum Type {
-  UPDATE_TITLE = 'UPDATE_TITLE',
-  UPDATE_DESC = 'UPDATE_DESC',
-  UPDATE_IMAGE = 'UPDATE_IMAGE',
+  UPDATE_TITLE,
+  UPDATE_DESC,
+  UPDATE_IMAGE,
 }
 
 export interface TitlePayload {
