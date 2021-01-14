@@ -37,6 +37,9 @@ export const typeDefs = gql`
 
     saveActivities(input: ActivitiesInput): String
     triggerActivitiesVis(isVisible: Boolean): String
+
+    saveApproach(input: ApproachInput): String
+    triggerApproachVis(isVisible: Boolean): String
   }
 
   type Message {
@@ -120,4 +123,11 @@ export const typeDefs = gql`
     title: String
   }
   # End of Activities
+
+  # Start of Approach
+  input ApproachInput {
+    title: String
+    desc: String
+  }
+  # End of Approach
 `
