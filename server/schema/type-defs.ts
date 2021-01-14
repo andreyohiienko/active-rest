@@ -117,7 +117,6 @@ export const typeDefs = gql`
   }
 
   input ActivitiesInput {
-    isVisible: Boolean
     title: String
   }
   # End of Activities

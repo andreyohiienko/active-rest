@@ -1,6 +1,15 @@
 @import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 @import './bootstrap';
 
+.hidden-section {
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 //Import all styles.scss files from /components folder
-@import "../components/**/styles.scss";
-@import "../layouts/**/styles.scss";
+@import '../components/**/styles.scss';
+@import '../layouts/**/styles.scss';

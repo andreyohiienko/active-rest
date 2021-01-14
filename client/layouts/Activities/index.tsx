@@ -1,13 +1,47 @@
-import { Button, Card, Col, Layout, Row, Space, Typography } from 'antd'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import {
+  Button,
+  Card,
+  Col,
+  Layout,
+  message,
+  Row,
+  Space,
+  Typography,
+} from 'antd'
 import { ButtonSave, Container, SwitchVisibility } from 'components'
 import { useAdmin } from 'hooks'
-import React, { useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ActivitiesSign } from 'static'
+import {
+  FetchHomePage,
+  SaveActivities,
+  SaveActivitiesVariables,
+  TriggerActivitiesVis,
+  TriggerActivitiesVisVariables,
+} from 'types'
 import { isEditable } from 'utils'
+import classNames from 'classnames'
+
+const SAVE_ACTIVITIES = gql`
+  mutation SaveActivities($title: String) {
+    saveActivities(input: { title: $title })
+  }
+`
+
+const SECTION_VISIBILITY = gql`
+  mutation TriggerActivitiesVis($isVisible: Boolean) {
+    triggerActivitiesVis(isVisible: $isVisible)
+  }
+`
 
 const { Title } = Typography
 
-export const Activities = () => {
+interface Props {
+  sectionActivities: FetchHomePage['sectionActivities']
+}
+
+export const Activities: FC<Props> = ({ sectionActivities }) => {
   const activities = [
     {
       image: 'https://picsum.photos/277/180',
@@ -83,8 +117,31 @@ export const Activities = () => {
     },
   ]
 
-  const [title, setTitle] = useState('Explore Destinations & Activities')
+  const [title, setTitle] = useState(sectionActivities?.title)
   const isAdmin = useAdmin()
+  const [isVisible, setIsVisible] = useState(sectionActivities?.isVisible)
+  const [saveActivities, { data, loading }] = useMutation<
+    SaveActivities,
+    SaveActivitiesVariables
+  >(SAVE_ACTIVITIES)
+  const [
+    triggerVisibility,
+    { data: triggerData, loading: triggerLoading },
+  ] = useMutation<TriggerActivitiesVis, TriggerActivitiesVisVariables>(
+    SECTION_VISIBILITY,
+  )
+
+  useEffect(() => {
+    if (data) {
+      message.success(data.saveActivities)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (triggerData) {
+      message.success(triggerData.triggerActivitiesVis)
+    }
+  }, [triggerData])
 
   function renderControls() {
     if (!isAdmin) {
@@ -92,12 +149,12 @@ export const Activities = () => {
     }
 
     function onSwitchChange() {
-      // triggerVisibility({
-      //   variables: {
-      //     isVisible: !isVisible,
-      //   },
-      // })
-      // setIsVisible(!isVisible)
+      triggerVisibility({
+        variables: {
+          isVisible: !isVisible,
+        },
+      })
+      setIsVisible(!isVisible)
     }
 
     return (
@@ -105,18 +162,18 @@ export const Activities = () => {
         <Col>
           <Space align="center" size="large">
             <ButtonSave
-            // loading={loading}
-            // onClick={() =>
-            //   saveServices({
-            //     variables: {
-            //       services: state?.map((service) => omit(service, ['id'])),
-            //     },
-            //   })
-            // }
+              loading={loading}
+              onClick={() =>
+                saveActivities({
+                  variables: {
+                    title,
+                  },
+                })
+              }
             />
             <SwitchVisibility
-              // loading={loading || triggerLoading}
-              // checked={isVisible || undefined}
+              loading={loading || triggerLoading}
+              checked={isVisible || undefined}
               onChange={() => onSwitchChange()}
             />
           </Space>
@@ -126,14 +183,18 @@ export const Activities = () => {
   }
 
   return (
-    <Layout className="mt-lg-75 mt-50 pb-lg-75 pb-50">
+    <Layout
+      className={classNames('mt-lg-75 mt-50 pb-lg-75 pb-50', {
+        'hidden-section': !isVisible,
+      })}
+    >
       <Container className="text-center">
         {renderControls()}
         <ActivitiesSign />
         <Title
           level={2}
           editable={isEditable(setTitle)}
-          className="h2 mt-40 mb-45"
+          className="h2 mt-40f mb-45f"
         >
           {title}
         </Title>

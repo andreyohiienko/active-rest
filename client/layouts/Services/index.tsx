@@ -29,6 +29,7 @@ import {
 } from 'types'
 import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
+import classNames from 'classnames'
 
 const SAVE_SERVICES = gql`
   mutation SaveServices($services: [ServiceInput]) {
@@ -153,7 +154,11 @@ const Services: FC<Props> = ({ sectionServices }) => {
   }
 
   return (
-    <Layout className="services pb-lg-75 pb-50">
+    <Layout
+      className={classNames('services pb-lg-75 pb-50', {
+        'hidden-section': !isVisible,
+      })}
+    >
       <Container className="position-relative">
         {renderControls()}
         <Row gutter={[30, 30]}>

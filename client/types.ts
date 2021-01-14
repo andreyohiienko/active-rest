@@ -77,6 +77,38 @@ export interface MediasMain {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveActivities
+// ====================================================
+
+export interface SaveActivities {
+  saveActivities: string | null;
+}
+
+export interface SaveActivitiesVariables {
+  title?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: TriggerActivitiesVis
+// ====================================================
+
+export interface TriggerActivitiesVis {
+  triggerActivitiesVis: string | null;
+}
+
+export interface TriggerActivitiesVisVariables {
+  isVisible?: boolean | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveSlides
 // ====================================================
 
@@ -345,9 +377,15 @@ export interface FetchHomePage_sectionServices {
   services: (FetchHomePage_sectionServices_services | null)[] | null;
 }
 
+export interface FetchHomePage_sectionActivities {
+  isVisible: boolean | null;
+  title: string | null;
+}
+
 export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
   sectionServices: FetchHomePage_sectionServices | null;
+  sectionActivities: FetchHomePage_sectionActivities | null;
 }
 
 
