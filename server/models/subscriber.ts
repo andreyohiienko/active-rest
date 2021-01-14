@@ -1,4 +1,5 @@
 import { Document, model, Model, Schema } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
 interface SubscriberAttrs {
   email: string
@@ -20,13 +21,17 @@ interface SubscriberModel extends Model<SubscriberDoc> {
 }
 
 const subscriberSchema = new Schema({
-  email: String,
+  email: {
+    type: String,
+    unique: 'Sorry, {VALUE} email is already exists. Please try another email.',
+  },
   status: {
     type: String,
     enum: Object.values(Status),
     default: Status.SUBSCRIBED,
   },
 })
+subscriberSchema.plugin(uniqueValidator)
 
 const Subscriber = model<SubscriberDoc, SubscriberModel>(
   'subscriber',

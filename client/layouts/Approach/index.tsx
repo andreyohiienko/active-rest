@@ -21,6 +21,8 @@ import {
   SaveApproachVariables,
   TriggerApproachVis,
   TriggerApproachVisVariables,
+  AddSubscriber,
+  AddSubscriberVariables,
 } from 'types'
 import classNames from 'classnames'
 
@@ -33,6 +35,16 @@ const SAVE_APPROACH = gql`
 const SECTION_VISIBILITY = gql`
   mutation TriggerApproachVis($isVisible: Boolean) {
     triggerApproachVis(isVisible: $isVisible)
+  }
+`
+
+const SUBSCRIBE = gql`
+  mutation AddSubscriber($email: String) {
+    addSubscriber(email: $email) {
+      id
+      email
+      status
+    }
   }
 `
 
@@ -50,7 +62,14 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
 
   const [email, setEmail] = useState('')
   const onClick = () => {
-    console.log('email', email)
+    if (email) {
+      subscribe({
+        variables: {
+          email,
+        },
+      })
+      setEmail('')
+    }
   }
 
   const [saveApproach, { data, loading }] = useMutation<
@@ -64,6 +83,11 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
     SECTION_VISIBILITY,
   )
 
+  const [
+    subscribe,
+    { data: subsData, loading: subsLoading, error: subsError },
+  ] = useMutation<AddSubscriber, AddSubscriberVariables>(SUBSCRIBE)
+
   useEffect(() => {
     if (data) {
       message.success(data.saveApproach)
@@ -75,6 +99,20 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
       message.success(triggerData.triggerApproachVis)
     }
   }, [triggerData])
+
+  useEffect(() => {
+    if (subsData?.addSubscriber?.email) {
+      message.success(
+        `Thanks for subscription! You will receive our updates on email ${subsData.addSubscriber?.email}!`,
+      )
+    }
+  }, [subsData])
+
+  useEffect(() => {
+    if (subsError) {
+      message.error(subsError.message)
+    }
+  }, [subsError])
 
   function renderControls() {
     if (!isAdmin) {
@@ -174,6 +212,7 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
                 }
                 suffix={
                   <Button
+                    loading={subsLoading}
                     onClick={onClick}
                     style={{
                       padding: 0,

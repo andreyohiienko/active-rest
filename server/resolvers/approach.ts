@@ -2,6 +2,7 @@ import { IResolvers } from 'apollo-server-express'
 import { model } from 'mongoose'
 import { SectionApproachAttrs } from '../models'
 const SectionApproach = model('section_approach')
+const Subscriber = model('subscriber')
 
 export const Approach: IResolvers = {
   Query: {
@@ -30,6 +31,11 @@ export const Approach: IResolvers = {
       )
 
       return `Section approach successfully ${!isVisible ? 'hidden' : 'showed'}`
+    },
+    addSubscriber: async (_, { email }) => {
+      const subscriber = new Subscriber({ email })
+
+      return await subscriber.save()
     },
   },
 }

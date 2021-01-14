@@ -42,6 +42,7 @@ export const typeDefs = gql`
 
     saveApproach(input: ApproachInput): String
     triggerApproachVis(isVisible: Boolean): String
+    addSubscriber(email: String): Subscriber
   }
 
   type Message {
@@ -136,6 +137,12 @@ export const typeDefs = gql`
     isVisible: Boolean
     title: String
     desc: String
+  }
+
+  type Subscriber {
+    id: ID!
+    email: String
+    status: String
   }
   # End of Approach
 `

@@ -142,6 +142,28 @@ export interface TriggerApproachVisVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: AddSubscriber
+// ====================================================
+
+export interface AddSubscriber_addSubscriber {
+  id: string;
+  email: string | null;
+  status: string | null;
+}
+
+export interface AddSubscriber {
+  addSubscriber: AddSubscriber_addSubscriber | null;
+}
+
+export interface AddSubscriberVariables {
+  email?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveSlides
 // ====================================================
 
