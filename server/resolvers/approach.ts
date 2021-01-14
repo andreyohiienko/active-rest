@@ -14,7 +14,7 @@ export const Approach: IResolvers = {
       _,
       { input: { title, desc } }: { input: SectionApproachAttrs },
     ) => {
-      SectionApproach.updateOne(
+      await SectionApproach.updateOne(
         { sectionName: 'approach' },
         {
           title,
@@ -29,7 +29,7 @@ export const Approach: IResolvers = {
         { isVisible },
       )
 
-      return `Section showed successfully ${!isVisible ? 'hidden' : 'showed'}`
+      return `Section approach successfully ${!isVisible ? 'hidden' : 'showed'}`
     },
   },
 }

@@ -109,6 +109,39 @@ export interface TriggerActivitiesVisVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveApproach
+// ====================================================
+
+export interface SaveApproach {
+  saveApproach: string | null;
+}
+
+export interface SaveApproachVariables {
+  title?: string | null;
+  desc?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: TriggerApproachVis
+// ====================================================
+
+export interface TriggerApproachVis {
+  triggerApproachVis: string | null;
+}
+
+export interface TriggerApproachVisVariables {
+  isVisible?: boolean | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveSlides
 // ====================================================
 
@@ -382,10 +415,17 @@ export interface FetchHomePage_sectionActivities {
   title: string | null;
 }
 
+export interface FetchHomePage_sectionApproach {
+  isVisible: boolean | null;
+  title: string | null;
+  desc: string | null;
+}
+
 export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
   sectionServices: FetchHomePage_sectionServices | null;
   sectionActivities: FetchHomePage_sectionActivities | null;
+  sectionApproach: FetchHomePage_sectionApproach | null;
 }
 
 

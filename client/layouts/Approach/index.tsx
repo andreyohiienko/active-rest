@@ -1,31 +1,132 @@
-import { Button, Col, Input, Layout, Row, Typography } from 'antd'
-import { Container } from 'components'
-import React, { useState } from 'react'
+import {
+  Button,
+  Col,
+  Input,
+  Layout,
+  message,
+  Row,
+  Space,
+  Typography,
+} from 'antd'
+import { ButtonSave, Container, SwitchVisibility } from 'components'
+import React, { FC, useEffect, useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
 import { isEditable } from 'utils'
+import { useAdmin } from 'hooks'
+import { gql, useMutation } from '@apollo/client'
+import {
+  FetchHomePage,
+  SaveApproach,
+  SaveApproachVariables,
+  TriggerApproachVis,
+  TriggerApproachVisVariables,
+} from 'types'
+import classNames from 'classnames'
+
+const SAVE_APPROACH = gql`
+  mutation SaveApproach($title: String, $desc: String) {
+    saveApproach(input: { title: $title, desc: $desc })
+  }
+`
+
+const SECTION_VISIBILITY = gql`
+  mutation TriggerApproachVis($isVisible: Boolean) {
+    triggerApproachVis(isVisible: $isVisible)
+  }
+`
 
 const { Title, Paragraph } = Typography
 
-export const Approach = () => {
+interface Props {
+  sectionApproach: FetchHomePage['sectionApproach']
+}
+
+export const Approach: FC<Props> = ({ sectionApproach }) => {
+  const isAdmin = useAdmin()
+  const [title, setTitle] = useState(sectionApproach?.title)
+  const [desc, setDesc] = useState(sectionApproach?.desc)
+  const [isVisible, setIsVisible] = useState(sectionApproach?.isVisible)
+
   const [email, setEmail] = useState('')
   const onClick = () => {
     console.log('email', email)
   }
 
-  const [title, setTitle] = useState("Let's Stay in Touch")
-  const [desc, setDesc] = useState(
-    'Get travel planning ideas, helpful tips, and stories from our visitors delivered right to your inbox.',
+  const [saveApproach, { data, loading }] = useMutation<
+    SaveApproach,
+    SaveApproachVariables
+  >(SAVE_APPROACH)
+  const [
+    triggerVisibility,
+    { data: triggerData, loading: triggerLoading },
+  ] = useMutation<TriggerApproachVis, TriggerApproachVisVariables>(
+    SECTION_VISIBILITY,
   )
 
+  useEffect(() => {
+    if (data) {
+      message.success(data.saveApproach)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (triggerData) {
+      message.success(triggerData.triggerApproachVis)
+    }
+  }, [triggerData])
+
+  function renderControls() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    function onSwitchChange() {
+      triggerVisibility({
+        variables: {
+          isVisible: !isVisible,
+        },
+      })
+      setIsVisible(!isVisible)
+    }
+
+    return (
+      <Col className="m-10" span={24}>
+        <Space align="center" size="large">
+          <ButtonSave
+            loading={loading}
+            onClick={() =>
+              saveApproach({
+                variables: {
+                  title,
+                  desc,
+                },
+              })
+            }
+          />
+          <SwitchVisibility
+            loading={loading || triggerLoading}
+            checked={isVisible || undefined}
+            onChange={() => onSwitchChange()}
+          />
+        </Space>
+      </Col>
+    )
+  }
+
   return (
-    <Layout className="pb-lg-90 pb-50 mt-lg-75 mt-50">
+    <Layout
+      className={classNames('pb-lg-90 pb-50 mt-lg-75 mt-50', {
+        'hidden-section': !isVisible,
+      })}
+    >
       <Container className="approach">
         <Row
           align="middle"
           className="approach__row rounded bg-cover py-40 py-md-0"
           style={{ backgroundImage: 'url(/images/approach-bg.svg)' }}
         >
+          {renderControls()}
           <Col
             md={{ span: 12, push: 12 }}
             className="d-flex justify-content-center w-100 px-15 px-md-0"
@@ -40,10 +141,11 @@ export const Approach = () => {
             md={{ span: 12, pull: 12 }}
             className="d-flex flex-column align-items-center w-100 px-15 mt-40 mt-md-0"
           >
-            <div className="approach__wrapper py-md-20">
+            <div className="approach__wrapper py-md-20 w-100">
               <Title
+                level={2}
                 editable={isEditable(setTitle)}
-                className="text-center text-md-left mb-20 mb-md-10"
+                className="h2 text-center text-md-left mb-20f mb-md-10f"
               >
                 {title}
               </Title>

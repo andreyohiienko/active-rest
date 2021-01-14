@@ -17,6 +17,8 @@ export const typeDefs = gql`
 
     services: Services
     activities: Activities
+
+    approach: Approach
   }
 
   type Mutation {
@@ -126,6 +128,12 @@ export const typeDefs = gql`
 
   # Start of Approach
   input ApproachInput {
+    title: String
+    desc: String
+  }
+
+  type Approach {
+    isVisible: Boolean
     title: String
     desc: String
   }

@@ -28,6 +28,11 @@ const HOME = gql`
       isVisible
       title
     }
+    sectionApproach: approach {
+      isVisible
+      title
+      desc
+    }
   }
 `
 
@@ -35,13 +40,14 @@ const IndexPage: FC<FetchHomePage> = ({
   hero,
   sectionServices,
   sectionActivities,
+  sectionApproach,
 }) => {
   return (
     <PageLayout title="Active Rest">
       <Hero {...{ hero }} />
       <Services {...{ sectionServices }} />
       <Activities {...{ sectionActivities }} />
-      <Approach />
+      <Approach {...{ sectionApproach }} />
     </PageLayout>
   )
 }
