@@ -14,5 +14,6 @@ export {
 export { SectionActivities, SectionActivitiesAttrs } from './section-activities'
 
 export { SectionApproach, SectionApproachAttrs } from './section-approach'
+export { Subscriber } from './subscriber'
 
 export { User } from './user'
