@@ -1,5 +1,4 @@
 import { Document, model, Model, Schema } from 'mongoose'
-import { SectionActivitiesAttrs } from './section-activities'
 
 export interface SectionApproachAttrs {
   isVisible: boolean
