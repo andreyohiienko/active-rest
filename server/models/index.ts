@@ -13,4 +13,6 @@ export {
 
 export { SectionActivities, SectionActivitiesAttrs } from './section-activities'
 
+export { SectionApproach, SectionApproachAttrs } from './section-approach'
+
 export { User } from './user'
