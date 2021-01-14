@@ -110,7 +110,7 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
 
   useEffect(() => {
     if (subsError) {
-      message.error(subsError.message)
+      message.error(subsError.message.split(': ')[2])
     }
   }, [subsError])
 
