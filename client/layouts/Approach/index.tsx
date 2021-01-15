@@ -12,7 +12,6 @@ import { ButtonSave, Container, SwitchVisibility } from 'components'
 import React, { FC, useEffect, useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
-import { isEditable } from 'utils'
 import { useAdmin } from 'hooks'
 import { gql, useMutation } from '@apollo/client'
 import {
@@ -152,6 +151,10 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
     )
   }
 
+  if (!isVisible && !isAdmin) {
+    return <></>
+  }
+
   return (
     <Layout
       className={classNames('pb-lg-90 pb-50 mt-lg-75 mt-50', {
@@ -182,13 +185,17 @@ export const Approach: FC<Props> = ({ sectionApproach }) => {
             <div className="approach__wrapper py-md-20 w-100">
               <Title
                 level={2}
-                editable={isEditable(setTitle)}
+                editable={
+                  isAdmin ? { onChange: (e: string) => setTitle(e) } : false
+                }
                 className="h2 text-center text-md-left mb-20f mb-md-10f"
               >
                 {title}
               </Title>
               <Paragraph
-                editable={isEditable(setDesc)}
+                editable={
+                  isAdmin ? { onChange: (e: string) => setDesc(e) } : false
+                }
                 className="text-center text-md-left mb-20 mb-md-20"
               >
                 {desc}

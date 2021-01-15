@@ -20,7 +20,6 @@ import {
   TriggerActivitiesVis,
   TriggerActivitiesVisVariables,
 } from 'types'
-import { isEditable } from 'utils'
 import classNames from 'classnames'
 
 const SAVE_ACTIVITIES = gql`
@@ -182,6 +181,10 @@ export const Activities: FC<Props> = ({ sectionActivities }) => {
     )
   }
 
+  if (!isVisible && !isAdmin) {
+    return <></>
+  }
+
   return (
     <Layout
       className={classNames('mt-lg-75 mt-50 pb-lg-75 pb-50', {
@@ -193,7 +196,7 @@ export const Activities: FC<Props> = ({ sectionActivities }) => {
         <ActivitiesSign />
         <Title
           level={2}
-          editable={isEditable(setTitle)}
+          editable={isAdmin ? { onChange: (e: string) => setTitle(e) } : false}
           className="h2 mt-40f mb-45f"
         >
           {title}
