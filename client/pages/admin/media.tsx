@@ -138,7 +138,7 @@ const Files = () => {
     }
   }
 
-  const { error, loading, data } = useQuery(ALL_MEDIA)
+  const { data } = useQuery(ALL_MEDIA)
 
   const fileList = data?.allMedia?.map(
     ({ id, path, filename, mimetype }: Media) => ({

@@ -5,7 +5,7 @@ import '../styles/index.less'
 import '../styles/index.scss'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const client = useApollo(pageProps.initialApolloState)
+  const client = useApollo(pageProps)
 
   return (
     <ApolloProvider client={client}>

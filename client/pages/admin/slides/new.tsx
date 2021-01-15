@@ -3,7 +3,7 @@ import { Button, Col, Row, Typography } from 'antd'
 import { Container, SelectImage } from 'components'
 import { Dashboard } from 'HOC'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AddSlide } from 'types'
 import { SLIDES } from './index'
 

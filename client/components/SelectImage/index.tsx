@@ -23,7 +23,7 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
     }
   `
 
-  const [getMedias, { error, loading, data }] = useLazyQuery<Medias>(MEDIAS)
+  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
 
   const [visible, setVisible] = useState(false)
   // const [confirmLoading, setConfirmLoading] = useState(false)

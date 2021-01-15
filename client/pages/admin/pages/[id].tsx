@@ -20,7 +20,7 @@ const Page = () => {
     }
   `
 
-  const { error, loading, data } = useQuery(PAGE, {
+  const { data } = useQuery(PAGE, {
     variables: { id: router?.query.id },
   })
 
