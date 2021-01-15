@@ -17,3 +17,5 @@ export { SectionApproach, SectionApproachAttrs } from './section-approach'
 export { Subscriber } from './subscriber'
 
 export { User } from './user'
+
+export { Footer } from './footer'
