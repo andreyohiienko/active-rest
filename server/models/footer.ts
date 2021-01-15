@@ -7,6 +7,7 @@ interface FooterAttrs {
 }
 
 interface FooterDoc extends Document {
+  sectionName: string
   title: string
   desc: string
   subtitle: string
@@ -17,9 +18,13 @@ interface FooterModel extends Model<FooterDoc> {
 }
 
 const footerSchema = new Schema({
+  sectionName: {
+    type: String,
+    default: 'footer',
+  },
   title: String,
   desc: String,
-  subtitle: String,
+  subTitle: String,
 })
 
 const Footer = model<FooterDoc, FooterModel>('Footer', footerSchema)

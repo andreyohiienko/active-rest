@@ -11,6 +11,7 @@ import {
   Services,
   Activities,
   Approach,
+  FooterResolver,
 } from './resolvers'
 import { AdminAPI } from './dataSources'
 import express from 'express'
@@ -43,6 +44,7 @@ const resolvers = merge(
   Services,
   Activities,
   Approach,
+  FooterResolver,
 )
 
 const server = new ApolloServer({

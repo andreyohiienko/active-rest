@@ -21,6 +21,7 @@ export const Approach: IResolvers = {
           title,
           desc,
         },
+        { upsert: true }, // Creates a new document if no documents match the filter.
       )
       return 'Approach section saved successfully.'
     },
@@ -28,6 +29,7 @@ export const Approach: IResolvers = {
       await SectionApproach.updateOne(
         { sectionName: 'approach' },
         { isVisible },
+        { upsert: true }, // Creates a new document if no documents match the filter.
       )
 
       return `Section approach successfully ${!isVisible ? 'hidden' : 'showed'}`

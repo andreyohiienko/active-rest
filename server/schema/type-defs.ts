@@ -19,6 +19,8 @@ export const typeDefs = gql`
     activities: Activities
 
     approach: Approach
+
+    footer: Footer
   }
 
   type Mutation {
@@ -43,6 +45,8 @@ export const typeDefs = gql`
     saveApproach(input: ApproachInput): String
     triggerApproachVis(isVisible: Boolean): String
     addSubscriber(email: String): Subscriber
+
+    saveFooter(input: FooterInput): String
   }
 
   type Message {
@@ -145,4 +149,17 @@ export const typeDefs = gql`
     status: String
   }
   # End of Approach
+  # Start of Footer
+  input FooterInput {
+    title: String
+    desc: String
+    subTitle: String
+  }
+
+  type Footer {
+    title: String
+    desc: String
+    subTitle: String
+  }
+  # End of Footer
 `
