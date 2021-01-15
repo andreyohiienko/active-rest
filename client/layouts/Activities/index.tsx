@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import {
   Button,
   Card,
