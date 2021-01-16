@@ -12,7 +12,7 @@ import { useHeroState } from './useHeroState'
 
 const HERO = gql`
   query Hero {
-    hero {
+    section: hero {
       slides {
         id
         title
@@ -41,7 +41,7 @@ const HeroSection = () => {
     updateImage,
     removeSlide,
     createSlide,
-  } = useHeroState(initialState?.hero?.slides || null)
+  } = useHeroState(initialState?.section?.slides || null)
   const ref = useRef<Carousel>(null)
 
   const [saveSection, { data, loading }] = useMutation<

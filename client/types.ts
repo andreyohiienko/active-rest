@@ -202,19 +202,19 @@ export interface AddSubscriberVariables {
 // GraphQL query operation: Hero
 // ====================================================
 
-export interface Hero_hero_slides {
+export interface Hero_section_slides {
   id: string;
   title: string;
   desc: string | null;
   image: string | null;
 }
 
-export interface Hero_hero {
-  slides: (Hero_hero_slides | null)[] | null;
+export interface Hero_section {
+  slides: (Hero_section_slides | null)[] | null;
 }
 
 export interface Hero {
-  hero: Hero_hero | null;
+  section: Hero_section | null;
 }
 
 
