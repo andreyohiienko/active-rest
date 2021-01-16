@@ -25,6 +25,7 @@ export const omitDeep = (collection: object, excludeKeys: string[]) => {
 
 export async function getStaticQuery(query: DocumentNode) {
   const client = initializeApollo()
+  await client.query({ query })
 
-  return await client.query({ query })
+  return client.cache.extract()
 }

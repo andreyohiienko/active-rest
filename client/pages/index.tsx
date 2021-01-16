@@ -41,27 +41,24 @@ const HOME = gql`
   }
 `
 
-const IndexPage: FC<FetchHomePage> = ({
-  hero,
-  sectionServices,
-  sectionActivities,
-  sectionApproach,
-}) => {
+const IndexPage: FC<FetchHomePage> = () => {
   return (
     <PageLayout title="Active Rest">
-      <Hero {...{ hero }} />
+      {/* <Hero {...{ hero }} />
       <Services {...{ sectionServices }} />
       <Activities {...{ sectionActivities }} />
-      <Approach {...{ sectionApproach }} />
+      <Approach {...{ sectionApproach }} /> */}
     </PageLayout>
   )
 }
 
 export async function getStaticProps() {
-  const { data } = await getStaticQuery(HOME)
+  const initialApolloState = await getStaticQuery(HOME)
 
   return {
-    props: data,
+    props: {
+      initialApolloState,
+    },
   }
 }
 
