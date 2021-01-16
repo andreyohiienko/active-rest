@@ -3,8 +3,7 @@ import { PageLayout } from 'components'
 import { Activities, Approach, Hero, Services } from 'layouts'
 import React, { FC } from 'react'
 import { FetchHomePage } from 'types'
-import { FOOTER } from 'gql'
-import { getQueries } from 'utils'
+import { getStaticQuery } from 'utils'
 
 const HOME = gql`
   query FetchHomePage {
@@ -34,6 +33,11 @@ const HOME = gql`
       title
       desc
     }
+    footer {
+      title
+      desc
+      subTitle
+    }
   }
 `
 
@@ -54,10 +58,10 @@ const IndexPage: FC<FetchHomePage> = ({
 }
 
 export async function getStaticProps() {
-  const [{ data }, { data: footerData }] = await getQueries([HOME, FOOTER])
+  const { data } = await getStaticQuery(HOME)
 
   return {
-    props: { ...data, ...footerData },
+    props: data,
   }
 }
 

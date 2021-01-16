@@ -77,24 +77,6 @@ export interface MediasMain {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Footer
-// ====================================================
-
-export interface Footer_footer {
-  title: string | null;
-  desc: string | null;
-  subTitle: string | null;
-}
-
-export interface Footer {
-  footer: Footer_footer | null;
-}
-
-
-/* tslint:disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: SaveActivities
 // ====================================================
 
@@ -461,11 +443,18 @@ export interface FetchHomePage_sectionApproach {
   desc: string | null;
 }
 
+export interface FetchHomePage_footer {
+  title: string | null;
+  desc: string | null;
+  subTitle: string | null;
+}
+
 export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
   sectionServices: FetchHomePage_sectionServices | null;
   sectionActivities: FetchHomePage_sectionActivities | null;
   sectionApproach: FetchHomePage_sectionApproach | null;
+  footer: FetchHomePage_footer | null;
 }
 
 

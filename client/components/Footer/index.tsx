@@ -3,6 +3,9 @@ import { Container } from '../Container'
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { isEditable } from 'utils'
+import { gql, useApolloClient, useQuery } from '@apollo/client'
+import { FOOTER } from 'gql'
+import { initializeApollo } from 'apollo'
 
 const { Title, Paragraph } = Typography
 

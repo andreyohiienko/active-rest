@@ -23,9 +23,8 @@ export const omitDeep = (collection: object, excludeKeys: string[]) => {
   return cloneDeepWith(collection, omitFn)
 }
 
-export async function getQueries(queris: DocumentNode[]) {
+export async function getStaticQuery(query: DocumentNode) {
   const client = initializeApollo()
 
-  const res = await Promise.all(queris.map((query) => client.query({ query })))
-  return res
+  return await client.query({ query })
 }
