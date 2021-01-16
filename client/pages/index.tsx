@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
 import {
   ActivitiesSection,
-  Approach,
+  ApproachSection,
   HeroSection,
   ServicesSection,
 } from 'layouts'
@@ -51,7 +51,7 @@ const IndexPage = () => {
       <HeroSection />
       <ServicesSection />
       <ActivitiesSection />
-      {/* <Approach {...{ sectionApproach }} /> */}
+      <ApproachSection />
     </PageLayout>
   )
 }

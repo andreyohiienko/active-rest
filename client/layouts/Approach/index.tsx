@@ -9,13 +9,13 @@ import {
   Typography,
 } from 'antd'
 import { ButtonSave, Container, SwitchVisibility } from 'components'
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
 import { useAdmin } from 'hooks'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import {
-  FetchHomePage,
+  Approach,
   SaveApproach,
   SaveApproachVariables,
   TriggerApproachVis,
@@ -24,6 +24,16 @@ import {
   AddSubscriberVariables,
 } from 'types'
 import classNames from 'classnames'
+
+const APPROACH = gql`
+  query Approach {
+    section: approach {
+      isVisible
+      title
+      desc
+    }
+  }
+`
 
 const SAVE_APPROACH = gql`
   mutation SaveApproach($title: String, $desc: String) {
@@ -49,15 +59,12 @@ const SUBSCRIBE = gql`
 
 const { Title, Paragraph } = Typography
 
-interface Props {
-  sectionApproach: FetchHomePage['sectionApproach']
-}
-
-export const Approach: FC<Props> = ({ sectionApproach }) => {
+export const ApproachSection = () => {
+  const { data: initialState } = useQuery<Approach>(APPROACH)
   const isAdmin = useAdmin()
-  const [title, setTitle] = useState(sectionApproach?.title)
-  const [desc, setDesc] = useState(sectionApproach?.desc)
-  const [isVisible, setIsVisible] = useState(sectionApproach?.isVisible)
+  const [title, setTitle] = useState(initialState?.section?.title)
+  const [desc, setDesc] = useState(initialState?.section?.desc)
+  const [isVisible, setIsVisible] = useState(initialState?.section?.isVisible)
 
   const [email, setEmail] = useState('')
   const onClick = () => {

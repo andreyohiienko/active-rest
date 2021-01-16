@@ -126,6 +126,24 @@ export interface TriggerActivitiesVisVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Approach
+// ====================================================
+
+export interface Approach_section {
+  isVisible: boolean | null;
+  title: string | null;
+  desc: string | null;
+}
+
+export interface Approach {
+  section: Approach_section | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveApproach
 // ====================================================
 
