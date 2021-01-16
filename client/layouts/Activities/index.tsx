@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import {
   Button,
   Card,
@@ -14,13 +14,22 @@ import { useAdmin } from 'hooks'
 import React, { FC, useEffect, useState } from 'react'
 import { ActivitiesSign } from 'static'
 import {
-  FetchHomePage,
+  Activities,
   SaveActivities,
   SaveActivitiesVariables,
   TriggerActivitiesVis,
   TriggerActivitiesVisVariables,
 } from 'types'
 import classNames from 'classnames'
+
+const ACTIVITIES = gql`
+  query Activities {
+    section: activities {
+      isVisible
+      title
+    }
+  }
+`
 
 const SAVE_ACTIVITIES = gql`
   mutation SaveActivities($title: String) {
@@ -36,11 +45,7 @@ const SECTION_VISIBILITY = gql`
 
 const { Title } = Typography
 
-interface Props {
-  sectionActivities: FetchHomePage['sectionActivities']
-}
-
-export const Activities: FC<Props> = ({ sectionActivities }) => {
+export const ActivitiesSection = () => {
   const activities = [
     {
       image: 'https://picsum.photos/277/180',
@@ -115,10 +120,10 @@ export const Activities: FC<Props> = ({ sectionActivities }) => {
       price: 36,
     },
   ]
-
-  const [title, setTitle] = useState(sectionActivities?.title)
+  const { data: initialState } = useQuery<Activities>(ACTIVITIES)
+  const [title, setTitle] = useState(initialState?.section?.title)
   const isAdmin = useAdmin()
-  const [isVisible, setIsVisible] = useState(sectionActivities?.isVisible)
+  const [isVisible, setIsVisible] = useState(initialState?.section?.isVisible)
   const [saveActivities, { data, loading }] = useMutation<
     SaveActivities,
     SaveActivitiesVariables

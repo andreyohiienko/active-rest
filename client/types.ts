@@ -77,6 +77,23 @@ export interface MediasMain {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Activities
+// ====================================================
+
+export interface Activities_section {
+  isVisible: boolean | null;
+  title: string | null;
+}
+
+export interface Activities {
+  section: Activities_section | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveActivities
 // ====================================================
 
@@ -479,7 +496,7 @@ export interface FetchHomePage_services {
   services: (FetchHomePage_services_services | null)[] | null;
 }
 
-export interface FetchHomePage_sectionActivities {
+export interface FetchHomePage_activities {
   isVisible: boolean | null;
   title: string | null;
 }
@@ -499,7 +516,7 @@ export interface FetchHomePage_footer {
 export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
   services: FetchHomePage_services | null;
-  sectionActivities: FetchHomePage_sectionActivities | null;
+  activities: FetchHomePage_activities | null;
   sectionApproach: FetchHomePage_sectionApproach | null;
   footer: FetchHomePage_footer | null;
 }
