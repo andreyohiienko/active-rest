@@ -4,6 +4,24 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Footer
+// ====================================================
+
+export interface Footer_section {
+  title: string | null;
+  desc: string | null;
+  subTitle: string | null;
+}
+
+export interface Footer {
+  section: Footer_section | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: CurrentUser
 // ====================================================
 

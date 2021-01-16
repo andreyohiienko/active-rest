@@ -1,4 +1,4 @@
-import { Footer } from 'components'
+import { FooterSection } from 'components'
 import Head from 'next/head'
 import React, { ReactNode } from 'react'
 import { Header } from './Header'
@@ -20,7 +20,7 @@ const PageLayout = ({
     </Head>
     <Header />
     {children}
-    <Footer />
+    <FooterSection />
   </div>
 )
 

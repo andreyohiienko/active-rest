@@ -4,20 +4,31 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { isEditable } from 'utils'
 import { gql, useQuery } from '@apollo/client'
+import { Footer } from 'types'
+
+const FOOTER = gql`
+  query Footer {
+    section: footer {
+      title
+      desc
+      subTitle
+    }
+  }
+`
 
 const { Title, Paragraph } = Typography
 
-const Footer = () => {
+const FooterSection = () => {
   const links = [
     { href: '/', title: 'Home' },
     { href: '/about', title: 'About' },
   ]
 
-  const [title, setTitle] = useState('Hipcamp is everywhere you want to camp.')
-  const [desc, setDesc] = useState(
-    ' Discover unique experiences on ranches, nature preserves, farms, vineyards, and public campgrounds across the U.S. Book tent camping, treehouses, cabins, yurts, primitive backcountry sites, car camping, airstreams, tiny houses, RV camping, glamping tents and more. ',
-  )
-  const [subTitle, setSubTitle] = useState('Get to know us')
+  const { data: initialState } = useQuery<Footer>(FOOTER)
+
+  const [title, setTitle] = useState(initialState?.section?.title)
+  const [desc, setDesc] = useState(initialState?.section?.desc)
+  const [subTitle, setSubTitle] = useState(initialState?.section?.subTitle)
 
   return (
     <footer className="mt-90">
@@ -65,4 +76,4 @@ const Footer = () => {
   )
 }
 
-export { Footer }
+export { FooterSection }
