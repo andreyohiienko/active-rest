@@ -32,8 +32,8 @@ const SAVE_HERO = gql`
 const { Title, Paragraph } = Typography
 
 const HeroSection = () => {
-  const isAdmin = useAdmin()
   const { data: initialState } = useQuery<Hero>(HERO)
+  const isAdmin = useAdmin()
   const {
     state,
     updateTitle,
