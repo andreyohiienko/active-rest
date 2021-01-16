@@ -2,8 +2,9 @@ import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
 import { Activities, Approach, Hero, Services } from 'layouts'
 import React, { FC } from 'react'
-import { initializeApollo } from 'apollo'
 import { FetchHomePage } from 'types'
+import { FOOTER } from 'gql'
+import { getQueries } from 'utils'
 
 const HOME = gql`
   query FetchHomePage {
@@ -53,11 +54,10 @@ const IndexPage: FC<FetchHomePage> = ({
 }
 
 export async function getStaticProps() {
-  const client = initializeApollo()
-  const { data } = await client.query({ query: HOME })
+  const [{ data }, { data: footerData }] = await getQueries([HOME, FOOTER])
 
   return {
-    props: { ...data },
+    props: { ...data, ...footerData },
   }
 }
 

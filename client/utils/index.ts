@@ -1,5 +1,7 @@
 import { useAdmin } from 'hooks'
 import { cloneDeepWith } from 'lodash'
+import { initializeApollo } from 'apollo'
+import { DocumentNode } from 'graphql'
 
 export const serverUrl = 'http://localhost:5000/'
 
@@ -19,4 +21,11 @@ export const omitDeep = (collection: object, excludeKeys: string[]) => {
   }
 
   return cloneDeepWith(collection, omitFn)
+}
+
+export async function getQueries(queris: DocumentNode[]) {
+  const client = initializeApollo()
+
+  const res = await Promise.all(queris.map((query) => client.query({ query })))
+  return res
 }
