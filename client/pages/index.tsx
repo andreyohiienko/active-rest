@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
-import { Activities, Approach, HeroSection, Services } from 'layouts'
+import { Activities, Approach, HeroSection, ServicesSection } from 'layouts'
 import React, { FC } from 'react'
 import { getStaticQuery } from 'utils'
 
@@ -14,7 +14,7 @@ const HOME = gql`
         image
       }
     }
-    sectionServices: services {
+    services {
       isVisible
       services {
         id
@@ -44,8 +44,8 @@ const IndexPage = () => {
   return (
     <PageLayout title="Active Rest">
       <HeroSection />
-      {/* <Services {...{ sectionServices }} />
-      <Activities {...{ sectionActivities }} />
+      <ServicesSection />
+      {/* <Activities {...{ sectionActivities }} />
       <Approach {...{ sectionApproach }} /> */}
     </PageLayout>
   )

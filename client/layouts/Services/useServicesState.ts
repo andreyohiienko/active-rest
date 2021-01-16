@@ -1,6 +1,6 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchHomePage_sectionServices } from 'types'
+import { Services_section } from 'types'
 import * as actions from './actions'
 import {
   DescPayload,
@@ -14,7 +14,7 @@ import { message } from 'antd'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<FetchHomePage_sectionServices['services'], Action> = (
+const reducer: Reducer<Services_section['services'], Action> = (
   state,
   action,
 ) => {
@@ -91,7 +91,7 @@ const {
 } = actions
 
 export const useServicesState = (
-  initialState: FetchHomePage_sectionServices['services'],
+  initialState: Services_section['services'],
 ) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 

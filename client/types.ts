@@ -203,6 +203,30 @@ export interface SaveSlidesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Services
+// ====================================================
+
+export interface Services_section_services {
+  id: string;
+  title: string | null;
+  desc: string | null;
+  image: string | null;
+}
+
+export interface Services_section {
+  isVisible: boolean | null;
+  services: (Services_section_services | null)[] | null;
+}
+
+export interface Services {
+  section: Services_section | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveServices
 // ====================================================
 
@@ -443,16 +467,16 @@ export interface FetchHomePage_hero {
   slides: (FetchHomePage_hero_slides | null)[] | null;
 }
 
-export interface FetchHomePage_sectionServices_services {
+export interface FetchHomePage_services_services {
   id: string;
   title: string | null;
   desc: string | null;
   image: string | null;
 }
 
-export interface FetchHomePage_sectionServices {
+export interface FetchHomePage_services {
   isVisible: boolean | null;
-  services: (FetchHomePage_sectionServices_services | null)[] | null;
+  services: (FetchHomePage_services_services | null)[] | null;
 }
 
 export interface FetchHomePage_sectionActivities {
@@ -474,7 +498,7 @@ export interface FetchHomePage_footer {
 
 export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
-  sectionServices: FetchHomePage_sectionServices | null;
+  services: FetchHomePage_services | null;
   sectionActivities: FetchHomePage_sectionActivities | null;
   sectionApproach: FetchHomePage_sectionApproach | null;
   footer: FetchHomePage_footer | null;

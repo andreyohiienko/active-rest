@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import {
   Button,
   Card,
@@ -19,9 +19,9 @@ import {
 import { SelectImage } from 'components/SelectImage/main'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  FetchHomePage,
+  Services,
   SaveServices,
   SaveServicesVariables,
   TriggerServicesVis,
@@ -30,6 +30,20 @@ import {
 import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
 import classNames from 'classnames'
+
+const SERVICES = gql`
+  query Services {
+    section: services {
+      isVisible
+      services {
+        id
+        title
+        desc
+        image
+      }
+    }
+  }
+`
 
 const SAVE_SERVICES = gql`
   mutation SaveServices($services: [ServiceInput]) {
@@ -44,13 +58,11 @@ const SECTION_VISIBILITY = gql`
 
 const { Title, Paragraph } = Typography
 
-interface Props {
-  sectionServices: FetchHomePage['sectionServices']
-}
+const ServicesSection = () => {
+  const { data: initialState } = useQuery<Services>(SERVICES)
 
-const Services: FC<Props> = ({ sectionServices }) => {
   const isAdmin = useAdmin()
-  const [isVisible, setIsVisible] = useState(sectionServices?.isVisible)
+  const [isVisible, setIsVisible] = useState(initialState?.section?.isVisible)
   const {
     state,
     updateTitle,
@@ -58,7 +70,7 @@ const Services: FC<Props> = ({ sectionServices }) => {
     removeService,
     updateImage,
     createService,
-  } = useServicesState(sectionServices?.services || null)
+  } = useServicesState(initialState?.section?.services || null)
 
   const [saveServices, { data, loading }] = useMutation<
     SaveServices,
@@ -235,4 +247,4 @@ const Services: FC<Props> = ({ sectionServices }) => {
   )
 }
 
-export { Services }
+export { ServicesSection }
