@@ -6,7 +6,7 @@ import {
   HeroSection,
   ServicesSection,
 } from 'layouts'
-import React, { FC } from 'react'
+import React from 'react'
 import { getStaticQuery } from 'utils'
 
 const HOME = gql`
