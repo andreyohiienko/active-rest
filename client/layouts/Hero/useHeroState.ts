@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { FetchHomePage_hero } from 'types'
+import { Hero_hero } from 'types'
 import { v4 } from 'uuid'
 import * as actions from './actions'
 import {
@@ -14,10 +14,7 @@ import {
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<FetchHomePage_hero['slides'], Action> = (
-  state,
-  action,
-) => {
+const reducer: Reducer<Hero_hero['slides'], Action> = (state, action) => {
   switch (action.type) {
     case Type.UPDATE_TITLE:
       if (state) {
@@ -90,7 +87,7 @@ const {
   createSlideAction,
 } = actions
 
-const useHeroState = (initialState: FetchHomePage_hero['slides']) => {
+const useHeroState = (initialState: Hero_hero['slides']) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   function updateTitle(payload: TitlePayload) {
     dispatch(updateTitleAction(payload))

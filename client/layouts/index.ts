@@ -1,4 +1,4 @@
-export { Hero } from './Hero'
+export { HeroSection } from './Hero'
 export { Services } from './Services'
 export { Activities } from './Activities'
 export { Approach } from './Approach'

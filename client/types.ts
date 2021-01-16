@@ -164,6 +164,29 @@ export interface AddSubscriberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: Hero
+// ====================================================
+
+export interface Hero_hero_slides {
+  id: string;
+  title: string;
+  desc: string | null;
+  image: string | null;
+}
+
+export interface Hero_hero {
+  slides: (Hero_hero_slides | null)[] | null;
+}
+
+export interface Hero {
+  hero: Hero_hero | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveSlides
 // ====================================================
 

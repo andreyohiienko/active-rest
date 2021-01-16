@@ -1,8 +1,7 @@
 import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
-import { Activities, Approach, Hero, Services } from 'layouts'
+import { Activities, Approach, HeroSection, Services } from 'layouts'
 import React, { FC } from 'react'
-import { FetchHomePage } from 'types'
 import { getStaticQuery } from 'utils'
 
 const HOME = gql`
@@ -41,11 +40,11 @@ const HOME = gql`
   }
 `
 
-const IndexPage: FC<FetchHomePage> = () => {
+const IndexPage = () => {
   return (
     <PageLayout title="Active Rest">
-      {/* <Hero {...{ hero }} />
-      <Services {...{ sectionServices }} />
+      <HeroSection />
+      {/* <Services {...{ sectionServices }} />
       <Activities {...{ sectionActivities }} />
       <Approach {...{ sectionApproach }} /> */}
     </PageLayout>
