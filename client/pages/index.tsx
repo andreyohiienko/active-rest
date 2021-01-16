@@ -32,7 +32,7 @@ const HOME = gql`
       isVisible
       title
     }
-    sectionApproach: approach {
+    approach {
       isVisible
       title
       desc
