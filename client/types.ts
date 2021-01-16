@@ -22,6 +22,24 @@ export interface Footer {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveFooter
+// ====================================================
+
+export interface SaveFooter {
+  saveFooter: string | null;
+}
+
+export interface SaveFooterVariables {
+  title?: string | null;
+  desc?: string | null;
+  subTitle?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: CurrentUser
 // ====================================================
 
@@ -537,7 +555,7 @@ export interface FetchHomePage_activities {
   title: string | null;
 }
 
-export interface FetchHomePage_sectionApproach {
+export interface FetchHomePage_approach {
   isVisible: boolean | null;
   title: string | null;
   desc: string | null;
@@ -553,7 +571,7 @@ export interface FetchHomePage {
   hero: FetchHomePage_hero | null;
   services: FetchHomePage_services | null;
   activities: FetchHomePage_activities | null;
-  sectionApproach: FetchHomePage_sectionApproach | null;
+  approach: FetchHomePage_approach | null;
   footer: FetchHomePage_footer | null;
 }
 

@@ -1,10 +1,12 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, message, Row, Typography } from 'antd'
 import { Container } from '../Container'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { isEditable } from 'utils'
-import { gql, useQuery } from '@apollo/client'
-import { Footer } from 'types'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Footer, SaveFooter, SaveFooterVariables } from 'types'
+import { useAdmin } from 'hooks'
+import { ButtonSave } from 'components/Buttons'
 
 const FOOTER = gql`
   query Footer {
@@ -13,6 +15,12 @@ const FOOTER = gql`
       desc
       subTitle
     }
+  }
+`
+
+const SAVE_FOOTER = gql`
+  mutation SaveFooter($title: String, $desc: String, $subTitle: String) {
+    saveFooter(input: { title: $title, desc: $desc, subTitle: $subTitle })
   }
 `
 
@@ -26,13 +34,48 @@ const FooterSection = () => {
 
   const { data: initialState } = useQuery<Footer>(FOOTER)
 
+  const isAdmin = useAdmin()
   const [title, setTitle] = useState(initialState?.section?.title)
   const [desc, setDesc] = useState(initialState?.section?.desc)
   const [subTitle, setSubTitle] = useState(initialState?.section?.subTitle)
 
+  const [saveFooter, { data, loading }] = useMutation<
+    SaveFooter,
+    SaveFooterVariables
+  >(SAVE_FOOTER)
+
+  useEffect(() => {
+    if (data) {
+      message.success(data.saveFooter)
+    }
+  }, [data])
+
+  function renderControls() {
+    if (!isAdmin) {
+      return <></>
+    }
+
+    return (
+      <ButtonSave
+        className="mb-20"
+        loading={loading}
+        onClick={() =>
+          saveFooter({
+            variables: {
+              title,
+              desc,
+              subTitle,
+            },
+          })
+        }
+      />
+    )
+  }
+
   return (
     <footer className="mt-90">
       <Container>
+        {renderControls()}
         <Row>
           <Col md={12}>
             <Title
