@@ -5,6 +5,7 @@ interface ActivityAttrs {
   desc: string
   shortDesc: string
   image: string
+  price: string
   likes: string
 }
 
@@ -13,6 +14,7 @@ interface ActivityDoc extends Document {
   desc: string
   shortDesc: string
   image: string
+  price: string
   likes: string[]
 }
 
