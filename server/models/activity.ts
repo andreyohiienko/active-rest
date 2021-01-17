@@ -11,6 +11,7 @@ interface ActivityAttrs {
 
 interface ActivityDoc extends Document {
   title: string
+  slug: string
   desc: string
   shortDesc: string
   image: string
@@ -24,9 +25,11 @@ interface ActivityModel extends Model<ActivityDoc> {
 
 const activitySchema = new Schema({
   title: String,
+  slug: String,
   desc: String,
   shortDesc: String,
   image: String,
+  price: String,
   likes: [String],
 })
 
