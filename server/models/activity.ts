@@ -1,6 +1,6 @@
 import { Document, model, Model, Schema } from 'mongoose'
 
-interface ActivityAttrs {
+export interface ActivityAttrs {
   title: string
   desc: string
   shortDesc: string
@@ -24,12 +24,12 @@ interface ActivityModel extends Model<ActivityDoc> {
 }
 
 const activitySchema = new Schema({
-  title: String,
+  title: { type: String, default: '' },
   slug: String,
-  desc: String,
-  shortDesc: String,
-  image: String,
-  price: String,
+  desc: { type: String, default: '' },
+  shortDesc: { type: String, default: '' },
+  image: { type: String, default: '' },
+  price: { type: String, default: '' },
   likes: [String],
 })
 

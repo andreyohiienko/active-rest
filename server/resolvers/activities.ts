@@ -14,14 +14,10 @@ export const Activities: IResolvers = {
       _,
       { input: { title } }: { input: SectionActivitiesAttrs },
     ) => {
-      await SectionActivities.updateOne({ sectionName: 'activities' }, [
-        { $unset: ['title'] },
-        {
-          $set: {
-            title,
-          },
-        },
-      ])
+      await SectionActivities.updateOne(
+        { sectionName: 'activities' },
+        { title },
+      )
       return 'Activities section saved successfully.'
     },
     triggerActivitiesVis: async (_, { isVisible }: SectionActivitiesAttrs) => {

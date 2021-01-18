@@ -12,7 +12,7 @@ export {
 } from './section-services'
 
 export { SectionActivities, SectionActivitiesAttrs } from './section-activities'
-export { Activity } from './activity'
+export { Activity, ActivityAttrs } from './activity'
 
 export { SectionApproach, SectionApproachAttrs } from './section-approach'
 export { Subscriber } from './subscriber'
