@@ -1,0 +1,13 @@
+h5 {
+  &.act {
+    &__price {
+      color: $red-100;
+    }
+  }
+}
+
+.act {
+  &__hero {
+    height: 835px;
+  }
+}

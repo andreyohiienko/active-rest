@@ -47,7 +47,7 @@ const HOME = gql`
 
 const IndexPage = () => {
   return (
-    <PageLayout title="Active Rest">
+    <PageLayout isAbsoluteHeader title="Active Rest">
       <HeroSection />
       <ServicesSection />
       <ActivitiesSection />

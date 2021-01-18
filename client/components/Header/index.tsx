@@ -1,9 +1,10 @@
 import { Button, Col, Row, Space, Grid, Menu, Dropdown, Divider } from 'antd'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Container } from 'components'
 import { Logo } from 'static'
 import { gql, useApolloClient, useLazyQuery } from '@apollo/client'
+import classNames from 'classnames'
 
 const { useBreakpoint } = Grid
 
@@ -26,7 +27,12 @@ const SIGNOUT = gql`
   }
 `
 
-const Header = () => {
+interface Props {
+  isAbsoluteHeader?: boolean
+  isDarkHeader?: boolean
+}
+
+const Header: FC<Props> = ({ isAbsoluteHeader, isDarkHeader }) => {
   const links = [
     {
       href: '/',
@@ -134,7 +140,13 @@ const Header = () => {
   }
 
   return (
-    <header className="header position-absolute w-100 text-white">
+    <header
+      className={classNames('header w-100', {
+        'position-absolute': isAbsoluteHeader,
+        'z-1': isAbsoluteHeader,
+        'text-white': !isDarkHeader,
+      })}
+    >
       <Container>
         <Row>
           <Col md="18">
@@ -149,7 +161,13 @@ const Header = () => {
                   <Space size="middle">
                     {links.map(({ href, title }) => (
                       <Link key={title} href={href}>
-                        <a className="text-white">{title}</a>
+                        <a
+                          className={classNames({
+                            'text-white': !isDarkHeader,
+                          })}
+                        >
+                          {title}
+                        </a>
                       </Link>
                     ))}
                   </Space>

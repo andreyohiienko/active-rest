@@ -1,32 +1,28 @@
-
-@import "~bootstrap/scss/variables";
+@import '~bootstrap/scss/variables';
 
 // Colors
-$black: #3B3735;
+$black: #3b3735;
 
-$red-100: #E76F51;
-$red-200: #F8E1DB;
-$red-300: #FAF4F2;
+$red-100: #e76f51;
+$red-200: #f8e1db;
+$red-300: #faf4f2;
 
-$grey: #8D8D8D;
-
+$grey: #8d8d8d;
 
 $primary: $red-100;
 $secondary: $red-200;
 $dark: $black;
 
 $theme-colors: (
-    "primary":    $primary,
-    "secondary":  $secondary,
-    "success":    $success,
-    "info":       $info,
-    "warning":    $warning,
-    "danger":     $danger,
-    "light":      $light,
-    "dark":       $dark
-  )
-;
-
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark,
+);
 
 // Grid columns
 //
@@ -46,7 +42,7 @@ $grid-breakpoints: (
 //
 // Define common padding and border radius sizes and more.
 
-$box-shadow-sm:               0px 0px 6px 2px $primary;
+$box-shadow-sm: 0px 0px 6px 2px $primary;
 // $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
 // $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
 
@@ -76,27 +72,48 @@ $spacers: (
 
 // _typography
 $font-sizes: (
-  h1: ( xs: 45px, md: 81px),
-  h2: ( xs: 30px, lg: 40px),
-  h3: ( xs: 18px,),
-  h4: ( xs: 17px,),
-  h5: ( xs: 16px,),
-  h6: ( xs: 15px,),
-  button: ( xs: 18px )
+  h1: (
+    xs: 45px,
+    md: 81px,
+  ),
+  h2: (
+    xs: 30px,
+    lg: 40px,
+  ),
+  h3: (
+    xs: 18px,
+  ),
+  h4: (
+    xs: 17px,
+  ),
+  h5: (
+    xs: 16px,
+  ),
+  h6: (
+    xs: 15px,
+  ),
+  button: (
+    xs: 18px,
+  ),
 );
 
 $line-heights: (
-  h1: (xs: 1.35),
-  h2: (xs: 1.32),
-  h3: (xs: 1.55),
+  h1: (
+    xs: 1.35,
+  ),
+  h2: (
+    xs: 1.32,
+  ),
+  h3: (
+    xs: 1.55,
+  ),
 );
 
 // _text
 $font-weights: (400, 500, 700);
 
-
 // Components
 //
 // Define common padding and border radius sizes and more.
 
-$border-radius:               20px;
+$border-radius: 20px;
