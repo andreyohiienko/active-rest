@@ -23,23 +23,30 @@ export const ActivityResolver: IResolvers = {
         strict: true,
       })
 
-      const activities = await Activity.find({ slug })
+      let activities = await Activity.find({ slug })
 
-      if (activities.length) {
-        slug = slug + '_' + activities.length
+      while (activities.length > 0) {
+        const hasNumber = /(_)(\d+)$/
+        if (hasNumber.test(slug)) {
+          slug = slug.replace(hasNumber, (_, g1, g2) => {
+            return `_${++g2}`
+          })
+        } else {
+          slug = slug + '_1'
+        }
+        activities = await Activity.find({ slug })
       }
-      console.log('slug', slug)
 
-      // const activity = new Activity({
-      //   title,
-      //   slug,
-      //   desc,
-      //   shortDesc,
-      //   image,
-      //   price,
-      // })
+      const activity = new Activity({
+        title,
+        slug,
+        desc,
+        shortDesc,
+        image,
+        price,
+      })
 
-      // return await activity.save()
+      return await activity.save()
     },
   },
 }
