@@ -10,6 +10,7 @@ import {
   Auth,
   Services,
   Activities,
+  ActivityResolver,
   Approach,
   FooterResolver,
 } from './resolvers'
@@ -43,6 +44,7 @@ const resolvers = merge(
   Medias,
   Services,
   Activities,
+  ActivityResolver,
   Approach,
   FooterResolver,
 )

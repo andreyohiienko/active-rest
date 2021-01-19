@@ -18,6 +18,8 @@ export const typeDefs = gql`
     services: Services
     activities: Activities
 
+    activity: Activity
+
     approach: Approach
 
     footer: Footer
@@ -41,6 +43,8 @@ export const typeDefs = gql`
 
     saveActivities(input: ActivitiesInput): String
     triggerActivitiesVis(isVisible: Boolean): String
+
+    createActivity(input: ActivityInput): Activity
 
     saveApproach(input: ApproachInput): String
     triggerApproachVis(isVisible: Boolean): String
@@ -130,6 +134,26 @@ export const typeDefs = gql`
     title: String
   }
   # End of Activities
+
+  # Start of Activity
+  input ActivityInput {
+    title: String
+    desc: String
+    shortDesc: String
+    image: String
+    price: Float
+  }
+
+  type Activity {
+    title: String
+    slug: String
+    desc: String
+    shortDesc: String
+    image: String
+    price: Float
+    likes: [String]
+  }
+  # End of Activity
 
   # Start of Approach
   input ApproachInput {

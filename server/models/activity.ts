@@ -5,7 +5,7 @@ export interface ActivityAttrs {
   desc: string
   shortDesc: string
   image: string
-  price: string
+  price: number
   likes: string
 }
 
@@ -15,7 +15,7 @@ interface ActivityDoc extends Document {
   desc: string
   shortDesc: string
   image: string
-  price: string
+  price: number
   likes: string[]
 }
 
@@ -25,12 +25,12 @@ interface ActivityModel extends Model<ActivityDoc> {
 
 const activitySchema = new Schema({
   title: { type: String, default: '' },
-  slug: String,
+  slug: { type: String },
   desc: { type: String, default: '' },
   shortDesc: { type: String, default: '' },
   image: { type: String, default: '' },
-  price: { type: String, default: '' },
-  likes: [String],
+  price: { type: Number, default: 0 },
+  likes: { type: [String], default: [] },
 })
 
 const Activity = model<ActivityDoc, ActivityModel>('activity', activitySchema)
