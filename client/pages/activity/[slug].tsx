@@ -10,4 +10,20 @@ const ActivityPage = () => {
   )
 }
 
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const { slug } = params
+  if (slug !== 'slug') {
+    return { notFound: true }
+  }
+
+  return { props: {} }
+}
+
 export default ActivityPage
