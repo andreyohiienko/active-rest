@@ -6,12 +6,15 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import DefaultErrorPage from 'next/error'
 import { placeholder, serverUrl } from 'utils'
+import { SelectImage } from 'components/SelectImage/main'
+import classNames from 'classnames'
 
 const { Title, Paragraph } = Typography
 
 const ACTIVITY = gql`
   query ActivityPage($slug: String!) {
     activity(slug: $slug) {
+      id
       title
       desc
       shortDesc
@@ -43,13 +46,18 @@ export const ActivityLayout = () => {
     <Layout className="act">
       <Container>
         <div
-          className="act__hero bg-full"
+          className={classNames('act__hero', {
+            'bg-full': image.endsWith('placeholder.png'),
+            'bg-cover': !image.endsWith('placeholder.png'),
+          })}
           style={{
-            backgroundImage: `url(${
-              image ? `${serverUrl + image}` : placeholder
-            })`,
+            backgroundImage: `url('${
+              image ? serverUrl + image : placeholder
+            }')`,
           }}
-        ></div>
+        >
+          <SelectImage setImage={setImage} />
+        </div>
         <Row gutter={30} className="mt-50">
           <Col md={{ span: 18 }}>
             <Title

@@ -1,6 +1,6 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { Button, Col, Image, Modal, Row, Space } from 'antd'
-import React, { FC, useState } from 'react'
+import React, { Dispatch, FC, useState } from 'react'
 import { Medias, Medias_list } from 'types'
 import classNames from 'classnames'
 import { serverUrl } from 'utils'
@@ -13,11 +13,17 @@ interface ImagePayload {
 }
 interface Props {
   id?: string | null
-  setUpdatedImage: (payload: ImagePayload) => void
+  setUpdatedImage?: (payload: ImagePayload) => void
+  setImage?: Dispatch<string>
   className?: string
 }
 
-export const SelectImage: FC<Props> = ({ id, setUpdatedImage, className }) => {
+export const SelectImage: FC<Props> = ({
+  id,
+  setUpdatedImage,
+  className,
+  setImage,
+}) => {
   const MEDIAS = gql`
     query MediasMain {
       list: allMedia {
@@ -96,10 +102,13 @@ export const SelectImage: FC<Props> = ({ id, setUpdatedImage, className }) => {
   }
 
   function onSelect() {
-    if (detail && id) {
+    if (detail && id && setUpdatedImage) {
       setUpdatedImage({ updatedImage: detail.path, id })
-      setVisible(false)
     }
+    if (detail && setImage) {
+      setImage(detail.path)
+    }
+    setVisible(false)
   }
 
   if (isAdmin) {

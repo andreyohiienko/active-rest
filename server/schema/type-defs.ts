@@ -145,6 +145,7 @@ export const typeDefs = gql`
   }
 
   type Activity {
+    id: ID
     title: String
     slug: String
     desc: String
