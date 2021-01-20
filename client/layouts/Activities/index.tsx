@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import { ButtonSave, Container, SwitchVisibility } from 'components'
 import { useAdmin } from 'hooks'
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivitiesSign } from 'static'
 import {
   Activities,

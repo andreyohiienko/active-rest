@@ -1,6 +1,27 @@
+import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
 import { ActivityLayout } from 'layouts/Activity'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
+import { getStaticQuery } from 'utils'
+
+const ACTIVITY = gql`
+  query Activity($slug: String!) {
+    activity(slug: $slug) {
+      title
+      desc
+      shortDesc
+      image
+      price
+      likes
+    }
+    footer {
+      title
+      desc
+      subTitle
+    }
+  }
+`
 
 const ActivityPage = () => {
   return (
@@ -10,20 +31,19 @@ const ActivityPage = () => {
   )
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true,
+    fallback: 'blocking',
   }
 }
 
-export async function getStaticProps({ params }) {
-  const { slug } = params
-  if (slug !== 'slug') {
-    return { notFound: true }
-  }
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const initialApolloState = await getStaticQuery(ACTIVITY, {
+    slug: params?.slug,
+  })
 
-  return { props: {} }
+  return { props: { initialApolloState } }
 }
 
 export default ActivityPage

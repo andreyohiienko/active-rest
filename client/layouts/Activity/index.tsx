@@ -1,21 +1,54 @@
-import { Button, Col, Layout, Row, Typography } from 'antd'
+import { gql, useQuery } from '@apollo/client'
+import { Button, Col, InputNumber, Layout, Row, Typography } from 'antd'
 import { Container } from 'components'
 import { useAdmin } from 'hooks'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import DefaultErrorPage from 'next/error'
+import { placeholder, serverUrl } from 'utils'
+
 const { Title, Paragraph } = Typography
 
+const ACTIVITY = gql`
+  query ActivityPage($slug: String!) {
+    activity(slug: $slug) {
+      title
+      desc
+      shortDesc
+      image
+      price
+      likes
+    }
+  }
+`
+
 export const ActivityLayout = () => {
+  const { query } = useRouter()
+  const { data: initialState } = useQuery(ACTIVITY, {
+    variables: { slug: query.slug },
+  })
+
   const isAdmin = useAdmin()
-  const [title, setTitle] = useState('Title...')
-  const [shortDesc, setShortDesc] = useState('Showrt description...')
-  const [desc, setDesc] = useState('Description...')
+  const [title, setTitle] = useState(initialState?.activity?.title)
+  const [shortDesc, setShortDesc] = useState(initialState?.activity?.shortDesc)
+  const [desc, setDesc] = useState(initialState?.activity?.desc)
+  const [price, setPrice] = useState(initialState?.activity?.price)
+  const [image, setImage] = useState(initialState?.activity?.image)
+
+  if (!initialState?.activity) {
+    return <DefaultErrorPage statusCode={404} />
+  }
 
   return (
     <Layout className="act">
       <Container>
         <div
           className="act__hero bg-full"
-          style={{ backgroundImage: 'url(/images/placeholder.png)' }}
+          style={{
+            backgroundImage: `url(${
+              image ? `${serverUrl + image}` : placeholder
+            })`,
+          }}
         ></div>
         <Row gutter={30} className="mt-50">
           <Col md={{ span: 18 }}>
@@ -29,9 +62,23 @@ export const ActivityLayout = () => {
             </Title>
           </Col>
           <Col md={{ span: 6 }} className="text-right">
-            <Title className="act__price" level={5}>
-              $35/night
-            </Title>
+            <div className="act__price mb-20">
+              {isAdmin ? (
+                <InputNumber
+                  defaultValue={price}
+                  formatter={(value) =>
+                    `$${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  }
+                  parser={(displayValue) =>
+                    displayValue?.replace(/\$\s?|(,*)/g, '') || ''
+                  }
+                  onChange={(e) => setPrice(e)}
+                />
+              ) : (
+                `$${price}`
+              )}
+              /night
+            </div>
             <Button size="large" type="primary" shape="round">
               BOOK
             </Button>

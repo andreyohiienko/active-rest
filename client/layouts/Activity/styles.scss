@@ -10,4 +10,15 @@ h5 {
   &__hero {
     height: 835px;
   }
+
+  &__price {
+    color: $red-100;
+    font-weight: 500;
+
+    .ant-typography {
+      display: inline-block;
+      max-width: 70px;
+      text-align: center;
+    }
+  }
 }

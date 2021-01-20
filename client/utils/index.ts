@@ -4,6 +4,7 @@ import { initializeApollo } from 'apollo'
 import { DocumentNode } from 'graphql'
 
 export const serverUrl = 'http://localhost:5000/'
+export const placeholder = 'http://localhost:3000/images/placeholder.png'
 
 export const isEditable = (setState: (e: string) => void) => {
   const isAdmin = useAdmin()
@@ -23,9 +24,9 @@ export const omitDeep = (collection: object, excludeKeys: string[]) => {
   return cloneDeepWith(collection, omitFn)
 }
 
-export async function getStaticQuery(query: DocumentNode) {
+export async function getStaticQuery(query: DocumentNode, variables?: object) {
   const client = initializeApollo()
-  await client.query({ query })
+  await client.query({ query, variables })
 
   return client.cache.extract()
 }

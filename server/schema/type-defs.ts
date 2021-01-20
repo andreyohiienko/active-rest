@@ -18,7 +18,7 @@ export const typeDefs = gql`
     services: Services
     activities: Activities
 
-    activity: Activity
+    activity(slug: String!): Activity
 
     approach: Approach
 
