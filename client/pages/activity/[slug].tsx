@@ -8,7 +8,6 @@ import { getStaticQuery } from 'utils'
 const ACTIVITY = gql`
   query Activity($slug: String!) {
     activity(slug: $slug) {
-      id
       title
       desc
       shortDesc

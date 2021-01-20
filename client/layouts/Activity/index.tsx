@@ -1,9 +1,17 @@
-import { gql, useQuery } from '@apollo/client'
-import { Button, Col, InputNumber, Layout, Row, Typography } from 'antd'
-import { Container } from 'components'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import {
+  Button,
+  Col,
+  InputNumber,
+  Layout,
+  message,
+  Row,
+  Typography,
+} from 'antd'
+import { ButtonSave, Container } from 'components'
 import { useAdmin } from 'hooks'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultErrorPage from 'next/error'
 import { placeholder, serverUrl } from 'utils'
 import { SelectImage } from 'components/SelectImage/main'
@@ -14,7 +22,6 @@ const { Title, Paragraph } = Typography
 const ACTIVITY = gql`
   query ActivityPage($slug: String!) {
     activity(slug: $slug) {
-      id
       title
       desc
       shortDesc
@@ -22,6 +29,12 @@ const ACTIVITY = gql`
       price
       likes
     }
+  }
+`
+
+const SAVE_ACTIVITY = gql`
+  mutation SaveActivity($input: SaveActivityInput) {
+    saveActivity(input: $input)
   }
 `
 
@@ -37,6 +50,14 @@ export const ActivityLayout = () => {
   const [desc, setDesc] = useState(initialState?.activity?.desc)
   const [price, setPrice] = useState(initialState?.activity?.price)
   const [image, setImage] = useState(initialState?.activity?.image)
+
+  const [saveActivity, { data, loading }] = useMutation(SAVE_ACTIVITY)
+
+  useEffect(() => {
+    if (data) {
+      message.success(data?.saveActivity)
+    }
+  }, [data])
 
   if (!initialState?.activity) {
     return <DefaultErrorPage statusCode={404} />
@@ -56,8 +77,28 @@ export const ActivityLayout = () => {
             }')`,
           }}
         >
-          <SelectImage setImage={setImage} />
+          {isAdmin && <SelectImage setImage={setImage} />}
         </div>
+        {isAdmin && (
+          <ButtonSave
+            className="mt-40"
+            loading={loading}
+            onClick={() =>
+              saveActivity({
+                variables: {
+                  input: {
+                    slug: query.slug,
+                    title,
+                    shortDesc,
+                    desc,
+                    price,
+                    image,
+                  },
+                },
+              })
+            }
+          />
+        )}
         <Row gutter={30} className="mt-50">
           <Col md={{ span: 18 }}>
             <Title

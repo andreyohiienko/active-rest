@@ -48,5 +48,18 @@ export const ActivityResolver: IResolvers = {
 
       return await activity.save()
     },
+    saveActivity: async (_, { input }) => {
+      await Activity.updateOne(
+        { slug: input.slug },
+        {
+          title: input.title,
+          shortDesc: input.shortDesc,
+          desc: input.desc,
+          image: input.image,
+          price: input.price,
+        },
+      )
+      return `Activity "${input.title}" successfully saved.`
+    },
   },
 }

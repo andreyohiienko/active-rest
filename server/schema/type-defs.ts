@@ -45,6 +45,7 @@ export const typeDefs = gql`
     triggerActivitiesVis(isVisible: Boolean): String
 
     createActivity(input: ActivityInput): Activity
+    saveActivity(input: SaveActivityInput): String
 
     saveApproach(input: ApproachInput): String
     triggerApproachVis(isVisible: Boolean): String
@@ -136,6 +137,15 @@ export const typeDefs = gql`
   # End of Activities
 
   # Start of Activity
+  input SaveActivityInput {
+    slug: String
+    title: String
+    desc: String
+    shortDesc: String
+    image: String
+    price: Float
+  }
+
   input ActivityInput {
     title: String
     desc: String
