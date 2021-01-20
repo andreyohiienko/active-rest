@@ -30,6 +30,7 @@ import {
 import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
 import classNames from 'classnames'
+import { Editor } from 'react-draft-wysiwyg'
 
 const SERVICES = gql`
   query Services {

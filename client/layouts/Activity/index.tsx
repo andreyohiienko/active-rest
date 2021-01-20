@@ -11,11 +11,19 @@ import {
 import { ButtonSave, Container } from 'components'
 import { useAdmin } from 'hooks'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { ComponentType, useEffect, useState } from 'react'
 import DefaultErrorPage from 'next/error'
 import { placeholder, serverUrl } from 'utils'
 import { SelectImage } from 'components/SelectImage/main'
 import classNames from 'classnames'
+import { ContentState, EditorState } from 'draft-js'
+import dynamic from 'next/dynamic'
+import { EditorProps } from 'react-draft-wysiwyg'
+
+const Editor: ComponentType<EditorProps> = dynamic(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  { ssr: false },
+)
 
 const { Title, Paragraph } = Typography
 
@@ -50,6 +58,10 @@ export const ActivityLayout = () => {
   const [desc, setDesc] = useState(initialState?.activity?.desc)
   const [price, setPrice] = useState(initialState?.activity?.price)
   const [image, setImage] = useState(initialState?.activity?.image)
+  const [editor, setEditor] = useState(
+    EditorState.createWithContent(ContentState.createFromText(desc)),
+  )
+  console.log(editor)
 
   const [saveActivity, { data, loading }] = useMutation(SAVE_ACTIVITY)
 
@@ -145,6 +157,13 @@ export const ActivityLayout = () => {
         >
           {desc}
         </Paragraph>
+        <Editor
+          editorState={editor}
+          wrapperClassName="draft-editor__wrapper"
+          toolbarClassName="toolbarClassName"
+          editorClassName="draft-editor__input"
+          onEditorStateChange={(e) => setEditor(e)}
+        />
       </Container>
     </Layout>
   )
