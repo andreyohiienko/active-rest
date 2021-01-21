@@ -16,9 +16,10 @@ import DefaultErrorPage from 'next/error'
 import { placeholder, serverUrl } from 'utils'
 import { SelectImage } from 'components/SelectImage/main'
 import classNames from 'classnames'
-import { ContentState, EditorState } from 'draft-js'
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
+import draftToHtml from 'draftjs-to-html'
 
 const Editor: ComponentType<EditorProps> = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -55,13 +56,13 @@ export const ActivityLayout = () => {
   const isAdmin = useAdmin()
   const [title, setTitle] = useState(initialState?.activity?.title)
   const [shortDesc, setShortDesc] = useState(initialState?.activity?.shortDesc)
-  const [desc, setDesc] = useState(initialState?.activity?.desc)
+  const [desc, setDesc] = useState(
+    EditorState.createWithContent(
+      convertFromRaw(JSON.parse(initialState?.activity?.desc)),
+    ),
+  )
   const [price, setPrice] = useState(initialState?.activity?.price)
   const [image, setImage] = useState(initialState?.activity?.image)
-  const [editor, setEditor] = useState(
-    EditorState.createWithContent(ContentState.createFromText(desc)),
-  )
-  console.log(editor)
 
   const [saveActivity, { data, loading }] = useMutation(SAVE_ACTIVITY)
 
@@ -73,6 +74,37 @@ export const ActivityLayout = () => {
 
   if (!initialState?.activity) {
     return <DefaultErrorPage statusCode={404} />
+  }
+
+  function renderContent() {
+    if (isAdmin) {
+      return (
+        <>
+          <Paragraph
+            editable={
+              isAdmin ? { onChange: (e: string) => setShortDesc(e) } : false
+            }
+          >
+            {shortDesc}
+          </Paragraph>
+          <Editor
+            editorState={desc}
+            wrapperClassName="draft-editor__wrapper"
+            toolbarClassName="toolbarClassName"
+            editorClassName="draft-editor__input"
+            onEditorStateChange={(e) => setDesc(e)}
+          />
+        </>
+      )
+    }
+
+    return (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: draftToHtml(convertToRaw(desc.getCurrentContent())),
+        }}
+      ></div>
+    )
   }
 
   return (
@@ -102,7 +134,9 @@ export const ActivityLayout = () => {
                     slug: query.slug,
                     title,
                     shortDesc,
-                    desc,
+                    desc: JSON.stringify(
+                      convertToRaw(desc.getCurrentContent()),
+                    ),
                     price,
                     image,
                   },
@@ -145,25 +179,7 @@ export const ActivityLayout = () => {
             </Button>
           </Col>
         </Row>
-        <Paragraph
-          editable={
-            isAdmin ? { onChange: (e: string) => setShortDesc(e) } : false
-          }
-        >
-          {shortDesc}
-        </Paragraph>
-        <Paragraph
-          editable={isAdmin ? { onChange: (e: string) => setDesc(e) } : false}
-        >
-          {desc}
-        </Paragraph>
-        <Editor
-          editorState={editor}
-          wrapperClassName="draft-editor__wrapper"
-          toolbarClassName="toolbarClassName"
-          editorClassName="draft-editor__input"
-          onEditorStateChange={(e) => setEditor(e)}
-        />
+        {renderContent()}
       </Container>
     </Layout>
   )

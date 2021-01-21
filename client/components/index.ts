@@ -9,4 +9,3 @@ export {
   ButtonImage,
   SwitchVisibility,
 } from './Buttons'
-export { Editor } from './Editor'

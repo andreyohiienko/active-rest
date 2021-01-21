@@ -22,6 +22,7 @@
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "express": "^4.17.1",
     "graphql": "^15.4.0",
     "http-proxy-middleware": "^1.0.6",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@types/apollo-upload-client": "^14.1.0",
     "@types/classnames": "^2.2.11",
+    "@types/draftjs-to-html": "^0.8.0",
     "@types/lodash": "^4.14.165",
     "@types/node": "^12.12.21",
     "@types/react": "^16.9.16",
