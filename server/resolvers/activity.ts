@@ -44,6 +44,7 @@ export const ActivityResolver: IResolvers = {
         shortDesc,
         image,
         price,
+        pubDate: new Date(),
       })
 
       return await activity.save()

@@ -23,6 +23,7 @@ import {
 import classNames from 'classnames'
 import Link from 'next/link'
 import { serverUrl } from 'utils'
+import { PlusOutlined } from '@ant-design/icons'
 
 const ACTIVITIES = gql`
   query Activities {
@@ -190,16 +191,24 @@ export const ActivitiesSection = () => {
             }
           })}
         </Row>
-        <Button
-          href="/"
-          className="mt-45"
-          shape="round"
-          size="large"
-          type="primary"
-          ghost
-        >
-          View all
-        </Button>
+        <div className="d-flex flex-column align-items-center">
+          <Link href="/activity/new">
+            <a className="ant-btn ant-btn-primary mt-20">
+              <PlusOutlined />
+              <span className="ml-10">Add activity</span>
+            </a>
+          </Link>
+          <Button
+            href="/"
+            className="mt-45"
+            shape="round"
+            size="large"
+            type="primary"
+            ghost
+          >
+            View all
+          </Button>
+        </div>
       </Container>
     </Layout>
   )

@@ -172,6 +172,32 @@ export interface TriggerActivitiesVisVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: CreateActivity
+// ====================================================
+
+export interface CreateActivity_action {
+  id: string | null;
+  title: string | null;
+  slug: string | null;
+  desc: string | null;
+  shortDesc: string | null;
+  image: string | null;
+  price: number | null;
+}
+
+export interface CreateActivity {
+  action: CreateActivity_action | null;
+}
+
+export interface CreateActivityVariables {
+  input?: ActivityInput | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ActivityPage
 // ====================================================
 
@@ -406,6 +432,24 @@ export interface Activity {
 
 export interface ActivityVariables {
   slug: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: ActivityNew
+// ====================================================
+
+export interface ActivityNew_footer {
+  title: string | null;
+  desc: string | null;
+  subTitle: string | null;
+}
+
+export interface ActivityNew {
+  footer: ActivityNew_footer | null;
 }
 
 
@@ -701,6 +745,15 @@ export interface remove {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+// null
+export interface ActivityInput {
+  title?: string | null;
+  desc?: string | null;
+  shortDesc?: string | null;
+  image?: string | null;
+  price?: number | null;
+}
 
 // null
 export interface SaveActivityInput {

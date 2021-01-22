@@ -10,7 +10,7 @@ export const Activities: IResolvers = {
       const sectionActivities = SectionActivities.findOne({
         sectionName: 'activities',
       }).lean()
-      const activity = Activity.find({}).limit(12)
+      const activity = Activity.find({}).limit(12).sort({ pubDate: 'desc' })
       const [dataSection, dataActivity] = await Promise.all([
         sectionActivities,
         activity,

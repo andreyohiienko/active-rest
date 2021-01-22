@@ -31,6 +31,7 @@ const activitySchema = new Schema({
   image: { type: String, default: '' },
   price: { type: Number, default: 0 },
   likes: { type: [String], default: [] },
+  pubDate: Date,
 })
 
 const Activity = model<ActivityDoc, ActivityModel>('activity', activitySchema)

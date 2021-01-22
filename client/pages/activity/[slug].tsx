@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql, useApolloClient } from '@apollo/client'
 import { PageLayout } from 'components'
 import { ActivityLayout } from 'layouts/Activity'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -24,6 +24,9 @@ const ACTIVITY = gql`
 `
 
 const ActivityPage = () => {
+  const client = useApolloClient()
+
+  console.log('client.cache.data.data', client.cache.data.data)
   return (
     <PageLayout isDarkHeader>
       <ActivityLayout />
