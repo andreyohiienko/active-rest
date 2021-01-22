@@ -1,11 +1,22 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import { Button, Col, Image, Modal, Row, Space } from 'antd'
+import { Button, Col, Image, Modal, Row } from 'antd'
+import classNames from 'classnames'
+import { ButtonImage } from 'components/Buttons'
+import { useAdmin } from 'hooks'
 import React, { Dispatch, FC, useState } from 'react'
 import { Medias, Medias_list } from 'types'
-import classNames from 'classnames'
 import { serverUrl } from 'utils'
-import { useAdmin } from 'hooks'
-import { ButtonImage } from 'components/Buttons'
+
+const MEDIAS = gql`
+  query MediasMain {
+    list: allMedia {
+      id
+      path
+      filename
+      mimetype
+    }
+  }
+`
 
 interface ImagePayload {
   updatedImage: string
@@ -24,18 +35,9 @@ export const SelectImage: FC<Props> = ({
   className,
   setImage,
 }) => {
-  const MEDIAS = gql`
-    query MediasMain {
-      list: allMedia {
-        id
-        path
-        filename
-        mimetype
-      }
-    }
-  `
-
-  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
+  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS, {
+    fetchPolicy: 'network-only',
+  })
 
   const [visible, setVisible] = useState(false)
   // const [confirmLoading, setConfirmLoading] = useState(false)
@@ -48,27 +50,28 @@ export const SelectImage: FC<Props> = ({
     }
 
     return (
-      <Space size="large">
+      <Row gutter={[20, 20]}>
         {data?.list?.map((item) => {
           if (item) {
             const { id, path, filename } = item
             return (
-              <Image
-                className={classNames('shadowing', {
-                  'shadow-sm': id === detail?.id,
-                })}
-                onClick={() => setDetail(item)}
-                width={150}
-                height={150}
-                key={id}
-                src={serverUrl + path}
-                alt={filename}
-                preview={false}
-              />
+              <Col key={id}>
+                <Image
+                  className={classNames('shadowing', {
+                    'shadow-sm': id === detail?.id,
+                  })}
+                  onClick={() => setDetail(item)}
+                  width={150}
+                  height={150}
+                  src={serverUrl + path}
+                  alt={filename}
+                  preview={false}
+                />
+              </Col>
             )
           }
         })}
-      </Space>
+      </Row>
     )
   }
 
@@ -135,7 +138,9 @@ export const SelectImage: FC<Props> = ({
           ]}
         >
           <Row gutter={30}>
-            <Col flex="auto">{renderModal()}</Col>
+            <Col flex="auto" style={{ maxWidth: 'calc(100% - 500px)' }}>
+              {renderModal()}
+            </Col>
             {renderDetails()}
           </Row>
         </Modal>
