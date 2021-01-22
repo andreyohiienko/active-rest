@@ -35,12 +35,9 @@ export const SelectImage: FC<Props> = ({
   className,
   setImage,
 }) => {
-  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS, {
-    fetchPolicy: 'network-only',
-  })
+  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
 
   const [visible, setVisible] = useState(false)
-  // const [confirmLoading, setConfirmLoading] = useState(false)
   const [detail, setDetail] = useState<Medias_list>()
   const isAdmin = useAdmin()
 
