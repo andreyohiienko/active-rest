@@ -31,6 +31,14 @@ const HOME = gql`
     activities {
       isVisible
       title
+      activities {
+        id
+        title
+        shortDesc
+        price
+        image
+        slug
+      }
     }
     approach {
       isVisible

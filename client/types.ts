@@ -116,9 +116,19 @@ export interface MediasMain {
 // GraphQL query operation: Activities
 // ====================================================
 
+export interface Activities_section_activities {
+  id: string | null;
+  title: string | null;
+  shortDesc: string | null;
+  price: number | null;
+  image: string | null;
+  slug: string | null;
+}
+
 export interface Activities_section {
   isVisible: boolean | null;
   title: string | null;
+  activities: (Activities_section_activities | null)[] | null;
 }
 
 export interface Activities {
@@ -155,6 +165,47 @@ export interface TriggerActivitiesVis {
 
 export interface TriggerActivitiesVisVariables {
   isVisible?: boolean | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: ActivityPage
+// ====================================================
+
+export interface ActivityPage_activity {
+  title: string | null;
+  desc: string | null;
+  shortDesc: string | null;
+  image: string | null;
+  price: number | null;
+  likes: (string | null)[] | null;
+}
+
+export interface ActivityPage {
+  activity: ActivityPage_activity | null;
+}
+
+export interface ActivityPageVariables {
+  slug: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: SaveActivity
+// ====================================================
+
+export interface SaveActivity {
+  saveActivity: string | null;
+}
+
+export interface SaveActivityVariables {
+  input?: SaveActivityInput | null;
 }
 
 
@@ -323,6 +374,38 @@ export interface TriggerServicesVis {
 
 export interface TriggerServicesVisVariables {
   isVisible?: boolean | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: Activity
+// ====================================================
+
+export interface Activity_activity {
+  title: string | null;
+  desc: string | null;
+  shortDesc: string | null;
+  image: string | null;
+  price: number | null;
+  likes: (string | null)[] | null;
+}
+
+export interface Activity_footer {
+  title: string | null;
+  desc: string | null;
+  subTitle: string | null;
+}
+
+export interface Activity {
+  activity: Activity_activity | null;
+  footer: Activity_footer | null;
+}
+
+export interface ActivityVariables {
+  slug: string;
 }
 
 
@@ -550,9 +633,19 @@ export interface FetchHomePage_services {
   services: (FetchHomePage_services_services | null)[] | null;
 }
 
+export interface FetchHomePage_activities_activities {
+  id: string | null;
+  title: string | null;
+  shortDesc: string | null;
+  price: number | null;
+  image: string | null;
+  slug: string | null;
+}
+
 export interface FetchHomePage_activities {
   isVisible: boolean | null;
   title: string | null;
+  activities: (FetchHomePage_activities_activities | null)[] | null;
 }
 
 export interface FetchHomePage_approach {
@@ -608,6 +701,16 @@ export interface remove {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+// null
+export interface SaveActivityInput {
+  slug?: string | null;
+  title?: string | null;
+  desc?: string | null;
+  shortDesc?: string | null;
+  image?: string | null;
+  price?: number | null;
+}
 
 // null
 export interface SlideInput {

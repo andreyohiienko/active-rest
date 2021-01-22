@@ -129,6 +129,7 @@ export const typeDefs = gql`
   type Activities {
     isVisible: Boolean
     title: String
+    activities: [Activity]
   }
 
   input ActivitiesInput {

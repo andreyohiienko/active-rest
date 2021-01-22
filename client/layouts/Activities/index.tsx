@@ -21,12 +21,22 @@ import {
   TriggerActivitiesVisVariables,
 } from 'types'
 import classNames from 'classnames'
+import Link from 'next/link'
+import { serverUrl } from 'utils'
 
 const ACTIVITIES = gql`
   query Activities {
     section: activities {
       isVisible
       title
+      activities {
+        id
+        title
+        shortDesc
+        price
+        image
+        slug
+      }
     }
   }
 `
@@ -46,80 +56,6 @@ const SECTION_VISIBILITY = gql`
 const { Title } = Typography
 
 export const ActivitiesSection = () => {
-  const activities = [
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Trickle Creek Ranch',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Dragonfly Tiny Cabin',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Tiny Cabin in the mountains',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'The Stuga',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Luxury Tiny Beach Cabin',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'The Summit Cabin',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Kindred Spirits Cabin',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'The Hermitage Cabin',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Red Lifeguard Stand',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'The Tree House',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Barrier island elevated tent',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-    {
-      image: 'https://picsum.photos/277/180',
-      title: 'Ninovan on the Shore',
-      desc: 'Book unique camping experiences on over 300,000 campsites.',
-      price: 36,
-    },
-  ]
   const { data: initialState } = useQuery<Activities>(ACTIVITIES)
   const [title, setTitle] = useState(initialState?.section?.title)
   const isAdmin = useAdmin()
@@ -207,30 +143,52 @@ export const ActivitiesSection = () => {
           {title}
         </Title>
         <Row gutter={30}>
-          {activities.map(({ image, title, desc, price }) => (
-            <Col
-              key={title}
-              lg={6}
-              sm={12}
-              className="w-100 d-flex align-items-stretch py-15"
-            >
-              <Card
-                bordered={false}
-                key={title}
-                className="act-card w-100"
-                cover={<img className="act-card__image" src={image} />}
-              >
-                <p className="act-card__price text-center f-weight-500">
-                  ${price}/night
-                </p>
-                <h3 className="mb-10">{title}</h3>
-                <p className="mb-10 pb-15">{desc}</p>
-                <Button href="/" shape="round" size="large" type="default">
-                  Read More
-                </Button>
-              </Card>
-            </Col>
-          ))}
+          {initialState?.section?.activities?.map((activity) => {
+            if (activity) {
+              const { image, title, shortDesc, price, slug } = activity
+              return (
+                <Col
+                  key={title}
+                  lg={6}
+                  sm={12}
+                  className="w-100 d-flex align-items-stretch py-15"
+                >
+                  <Card
+                    bordered={false}
+                    key={title}
+                    className="act-card w-100"
+                    cover={
+                      <Link href={`/activity/${slug}`}>
+                        <a className="act-card__image-link">
+                          <span
+                            className="act-card__image bg-cover"
+                            style={{
+                              backgroundImage: `url('${serverUrl + image}')`,
+                            }}
+                          />
+                        </a>
+                      </Link>
+                    }
+                  >
+                    <p className="act-card__price text-center f-weight-500">
+                      ${price}/night
+                    </p>
+                    <h3 className="mb-10">
+                      <Link href={`/activity/${slug}`}>
+                        <a className="text-black">{title}</a>
+                      </Link>
+                    </h3>
+                    <p className="mb-10 pb-15">{shortDesc}</p>
+                    <Link href={`/activity/${slug}`}>
+                      <a className="ant-btn ant-btn-default ant-btn-round ant-btn-lg">
+                        Read More
+                      </a>
+                    </Link>
+                  </Card>
+                </Col>
+              )
+            }
+          })}
         </Row>
         <Button
           href="/"
