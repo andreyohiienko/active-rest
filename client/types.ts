@@ -117,7 +117,7 @@ export interface MediasMain {
 // ====================================================
 
 export interface Activities_section_activities {
-  id: string | null;
+  id: string;
   title: string | null;
   shortDesc: string | null;
   price: number | null;
@@ -156,6 +156,27 @@ export interface SaveActivitiesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteActivity
+// ====================================================
+
+export interface DeleteActivity_deleteActivity {
+  id: string;
+  title: string | null;
+}
+
+export interface DeleteActivity {
+  deleteActivity: DeleteActivity_deleteActivity | null;
+}
+
+export interface DeleteActivityVariables {
+  id: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: TriggerActivitiesVis
 // ====================================================
 
@@ -176,7 +197,7 @@ export interface TriggerActivitiesVisVariables {
 // ====================================================
 
 export interface CreateActivity_action {
-  id: string | null;
+  id: string;
   title: string | null;
   slug: string | null;
   desc: string | null;
@@ -678,7 +699,7 @@ export interface FetchHomePage_services {
 }
 
 export interface FetchHomePage_activities_activities {
-  id: string | null;
+  id: string;
   title: string | null;
   shortDesc: string | null;
   price: number | null;
@@ -710,6 +731,18 @@ export interface FetchHomePage {
   activities: FetchHomePage_activities | null;
   approach: FetchHomePage_approach | null;
   footer: FetchHomePage_footer | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: deleteActivity
+// ====================================================
+
+export interface deleteActivity {
+  id: string;
 }
 
 

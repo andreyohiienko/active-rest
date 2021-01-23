@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, Reference, useMutation, useQuery } from '@apollo/client'
 import {
   Button,
   Card,
@@ -9,7 +9,12 @@ import {
   Space,
   Typography,
 } from 'antd'
-import { ButtonSave, Container, SwitchVisibility } from 'components'
+import {
+  ButtonSave,
+  ButtonDelete,
+  Container,
+  SwitchVisibility,
+} from 'components'
 import { useAdmin } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { ActivitiesSign } from 'static'
@@ -19,6 +24,8 @@ import {
   SaveActivitiesVariables,
   TriggerActivitiesVis,
   TriggerActivitiesVisVariables,
+  DeleteActivity,
+  DeleteActivityVariables,
 } from 'types'
 import classNames from 'classnames'
 import Link from 'next/link'
@@ -48,6 +55,15 @@ const SAVE_ACTIVITIES = gql`
   }
 `
 
+const DELETE_ACTIVITY = gql`
+  mutation DeleteActivity($id: ID!) {
+    deleteActivity(id: $id) {
+      id
+      title
+    }
+  }
+`
+
 const SECTION_VISIBILITY = gql`
   mutation TriggerActivitiesVis($isVisible: Boolean) {
     triggerActivitiesVis(isVisible: $isVisible)
@@ -66,11 +82,48 @@ export const ActivitiesSection = () => {
     SaveActivitiesVariables
   >(SAVE_ACTIVITIES)
   const [
+    deleteActivity,
+    { data: dataDelete, loading: loadingDelete },
+  ] = useMutation<DeleteActivity, DeleteActivityVariables>(DELETE_ACTIVITY, {
+    update(cache, { data }) {
+      cache.modify({
+        fields: {
+          activities(existingActivityRefs: { activities: [Reference] }) {
+            const deleteActivity = cache.writeFragment({
+              data: data?.deleteActivity,
+              fragment: gql`
+                fragment deleteActivity on Activity {
+                  id
+                }
+              `,
+            })
+
+            return {
+              ...existingActivityRefs,
+              activities: existingActivityRefs?.activities?.filter(
+                (activityRef: Reference) =>
+                  activityRef?.__ref !== deleteActivity?.__ref,
+              ),
+            }
+          },
+        },
+      })
+    },
+  })
+  const [
     triggerVisibility,
     { data: triggerData, loading: triggerLoading },
   ] = useMutation<TriggerActivitiesVis, TriggerActivitiesVisVariables>(
     SECTION_VISIBILITY,
   )
+
+  useEffect(() => {
+    if (dataDelete) {
+      message.success(
+        `Activity "${dataDelete?.deleteActivity?.title}" successfully deleted.`,
+      )
+    }
+  }, [dataDelete])
 
   useEffect(() => {
     if (data) {
@@ -146,10 +199,10 @@ export const ActivitiesSection = () => {
         <Row gutter={30}>
           {initialState?.section?.activities?.map((activity) => {
             if (activity) {
-              const { image, title, shortDesc, price, slug } = activity
+              const { id, image, title, shortDesc, price, slug } = activity
               return (
                 <Col
-                  key={title}
+                  key={id}
                   lg={6}
                   sm={12}
                   className="w-100 d-flex align-items-stretch py-15"
@@ -171,6 +224,17 @@ export const ActivitiesSection = () => {
                       </Link>
                     }
                   >
+                    <ButtonDelete
+                      disabled={loadingDelete}
+                      onClick={() =>
+                        deleteActivity({
+                          variables: {
+                            id,
+                          },
+                        })
+                      }
+                      className="position-absolute pos-right-top"
+                    />
                     <p className="act-card__price text-center f-weight-500">
                       ${price}/night
                     </p>

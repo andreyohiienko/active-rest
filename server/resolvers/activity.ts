@@ -62,5 +62,11 @@ export const ActivityResolver: IResolvers = {
       )
       return `Activity "${input.title}" successfully saved.`
     },
+    deleteActivity: async (_, { id }) => {
+      const deletedActivity = await Activity.findOne({ _id: id })
+
+      await Activity.deleteOne({ _id: id })
+      return deletedActivity
+    },
   },
 }

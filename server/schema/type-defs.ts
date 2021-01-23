@@ -46,6 +46,7 @@ export const typeDefs = gql`
 
     createActivity(input: ActivityInput): Activity
     saveActivity(input: SaveActivityInput): String
+    deleteActivity(id: ID!, title: String): Activity
 
     saveApproach(input: ApproachInput): String
     triggerApproachVis(isVisible: Boolean): String
@@ -156,7 +157,7 @@ export const typeDefs = gql`
   }
 
   type Activity {
-    id: ID
+    id: ID!
     title: String
     slug: String
     desc: String

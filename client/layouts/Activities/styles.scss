@@ -1,10 +1,10 @@
 .act-card {
-  .ant-card-body {
-    padding: 0 40px 40px;
+  .ant-card-cover {
+    padding: 40px 40px 0;
   }
 
-  &__image-link {
-    padding: 40px 40px 0;
+  .ant-card-body {
+    padding: 0 40px 40px;
   }
 
   &__image-link:hover &__image {
