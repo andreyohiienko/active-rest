@@ -20,6 +20,8 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
+import Link from 'next/link'
+import { PlusOutlined } from '@ant-design/icons'
 
 const Editor: ComponentType<EditorProps> = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -94,6 +96,14 @@ export const ActivityLayout = () => {
             editorClassName="draft-editor__input"
             onEditorStateChange={(e) => setDesc(e)}
           />
+          <div className="text-center">
+            <Link href="/activity/new">
+              <a className="ant-btn ant-btn-primary mt-20">
+                <PlusOutlined />
+                <span className="ml-10">Add activity</span>
+              </a>
+            </Link>
+          </div>
         </>
       )
     }
