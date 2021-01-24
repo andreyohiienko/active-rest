@@ -7,18 +7,9 @@ const Activity = model('activity')
 export const Activities: IResolvers = {
   Query: {
     activities: async () => {
-      const sectionActivities = SectionActivities.findOne({
+      return await SectionActivities.findOne({
         sectionName: 'activities',
-      }).lean()
-      const activity = Activity.find({}).limit(12).sort({ pubDate: 'desc' })
-      const [dataSection, dataActivity] = await Promise.all([
-        sectionActivities,
-        activity,
-      ])
-      return {
-        ...dataSection,
-        activities: dataActivity,
-      }
+      })
     },
   },
   Mutation: {
@@ -41,6 +32,11 @@ export const Activities: IResolvers = {
       return `Section activities successfully ${
         !isVisible ? 'hidden' : 'showed'
       }!`
+    },
+  },
+  Activities: {
+    activities: async () => {
+      return await Activity.find({}).limit(12).sort({ pubDate: 'desc' })
     },
   },
 }
