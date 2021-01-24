@@ -189,7 +189,7 @@ export const ActivityLayout = () => {
             </Button>
           </Col>
         </Row>
-        {renderContent()}
+        <div className="act__wrapper">{renderContent()}</div>
       </Container>
     </Layout>
   )

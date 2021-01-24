@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
-import { ActivityLayout } from 'layouts/Activity'
+import { ActivityLayout } from 'layouts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
 import { getStaticQuery } from 'utils'
