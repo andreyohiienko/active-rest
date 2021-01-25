@@ -5,9 +5,7 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc",
-    "introspect": "apollo-codegen introspect-schema http://localhost:5000/graphql",
-    "generate": "apollo-codegen generate {**/*.tsx,gql/index.ts} --schema schema.json --target typescript --output types.ts"
+    "type-check": "tsc"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
