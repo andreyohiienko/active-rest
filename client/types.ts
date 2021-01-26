@@ -20,7 +20,7 @@ export type Query = {
   hero?: Maybe<Hero>;
   slides?: Maybe<Array<Maybe<Slide>>>;
   slide?: Maybe<Slide>;
-  allMedia?: Maybe<Array<Maybe<Media>>>;
+  allMedia: Array<Media>;
   media?: Maybe<Media>;
   currentUser?: Maybe<User>;
   signout?: Maybe<Message>;
@@ -186,6 +186,7 @@ export type Media = {
   path: Scalars['String'];
   filename: Scalars['String'];
   mimetype: Scalars['String'];
+  size: Scalars['Int'];
 };
 
 export type Page = {
@@ -332,12 +333,12 @@ export type LogoutQuery = { signout?: Maybe<Pick<Message, 'message'>> };
 export type MediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MediasQuery = { list?: Maybe<Array<Maybe<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>>>> };
+export type MediasQuery = { list: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>> };
 
 export type MediasMainQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MediasMainQuery = { list?: Maybe<Array<Maybe<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>>>> };
+export type MediasMainQuery = { list: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>> };
 
 export type AdminQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -487,7 +488,7 @@ export type RemoveMediaMutation = { removeMedia?: Maybe<Pick<Media, 'id'>> };
 export type AllMediaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllMediaQuery = { allMedia?: Maybe<Array<Maybe<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>>>> };
+export type AllMediaQuery = { allMedia: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype' | 'size'>> };
 
 export type NewMediaFragment = Pick<Media, 'id' | 'filename' | 'path' | 'mimetype'>;
 
@@ -1503,6 +1504,7 @@ export const AllMediaDocument = gql`
     path
     filename
     mimetype
+    size
   }
 }
     `;

@@ -9,7 +9,7 @@ export const typeDefs = gql`
     slides: [Slide]
     slide(id: ID!): Slide
 
-    allMedia: [Media]
+    allMedia: [Media!]!
     media(id: ID!): Media
 
     currentUser: User
@@ -71,6 +71,7 @@ export const typeDefs = gql`
     path: String!
     filename: String!
     mimetype: String!
+    size: Int!
   }
 
   type Page {

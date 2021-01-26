@@ -1,20 +1,18 @@
 import { InboxOutlined } from '@ant-design/icons'
-import { gql, Reference, useMutation, useQuery } from '@apollo/client'
-import { Upload, message } from 'antd'
+import { gql, Reference } from '@apollo/client'
+import { message, Upload } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface'
 import { Container } from 'components'
 import { Dashboard } from 'HOC'
 import React, { useState } from 'react'
+import {
+  useAllMediaQuery,
+  useRemoveMediaMutation,
+  useUploadMediaMutation,
+} from 'types'
 
-interface Media {
-  id: string
-  path: string
-  filename: string
-  mimetype: string
-}
-
-const UPLOAD_MEDIA = gql`
+gql`
   mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
       id
@@ -25,7 +23,7 @@ const UPLOAD_MEDIA = gql`
   }
 `
 
-const REMOVE_MEDIA = gql`
+gql`
   mutation removeMedia($id: ID!, $name: String) {
     removeMedia(id: $id, name: $name) {
       id
@@ -33,13 +31,14 @@ const REMOVE_MEDIA = gql`
   }
 `
 
-const ALL_MEDIA = gql`
+gql`
   query AllMedia {
     allMedia {
       id
       path
       filename
       mimetype
+      size
     }
   }
 `
@@ -49,13 +48,13 @@ const Files = () => {
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
 
-  const [uploadMedia] = useMutation(UPLOAD_MEDIA, {
-    update(cache, { data: { uploadMedia } }) {
+  const [uploadMedia] = useUploadMediaMutation({
+    update(cache, { data }) {
       cache.modify({
         fields: {
           allMedia(existingMediaRefs = []) {
             const newMediaRefs = cache.writeFragment({
-              data: uploadMedia,
+              data: data?.uploadMedia,
               fragment: gql`
                 fragment newMedia on Media {
                   id
@@ -82,7 +81,7 @@ const Files = () => {
       })
 
       message.success(
-        `${data.uploadMedia.filename} file uploaded successfully.`,
+        `${data?.uploadMedia?.filename} file uploaded successfully.`,
       )
     } catch (error) {
       onError(error, {}, file)
@@ -102,13 +101,13 @@ const Files = () => {
     }
   }
 
-  const [removeMedia] = useMutation(REMOVE_MEDIA, {
-    update(cache, { data: { removeMedia } }) {
+  const [removeMedia] = useRemoveMediaMutation({
+    update(cache, { data }) {
       cache.modify({
         fields: {
           allMedia(existingMediaRefs) {
             const removedMedia = cache.writeFragment({
-              data: removeMedia,
+              data: data?.removeMedia,
               fragment: gql`
                 fragment removeMedia on Media {
                   id
@@ -138,17 +137,19 @@ const Files = () => {
     }
   }
 
-  const { data } = useQuery(ALL_MEDIA)
+  const { data } = useAllMediaQuery()
 
-  const fileList = data?.allMedia?.map(
-    ({ id, path, filename, mimetype }: Media) => ({
-      uid: id,
-      name: filename,
-      url: `http://localhost:5000/${path}`,
-      status: 'done',
-      type: mimetype,
-    }),
-  )
+  const fileList: UploadFile[] =
+    data?.allMedia.map(({ id, path, size, filename, mimetype }) => {
+      return {
+        uid: id,
+        name: filename,
+        size: size,
+        type: mimetype,
+        url: `http://localhost:5000/${path}`,
+        status: 'done',
+      }
+    }) || []
 
   return (
     <Dashboard>

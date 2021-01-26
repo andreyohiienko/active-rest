@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import {
   Button,
   Card,
@@ -21,18 +21,15 @@ import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import {
-  Services,
-  SaveServices,
-  SaveServicesVariables,
-  TriggerServicesVis,
-  TriggerServicesVisVariables,
+  useSaveServicesMutation,
+  useServicesQuery,
+  useTriggerServicesVisMutation,
 } from 'types'
 import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
 import classNames from 'classnames'
-import { Editor } from 'react-draft-wysiwyg'
 
-const SERVICES = gql`
+gql`
   query Services {
     section: services {
       isVisible
@@ -46,12 +43,13 @@ const SERVICES = gql`
   }
 `
 
-const SAVE_SERVICES = gql`
+gql`
   mutation SaveServices($services: [ServiceInput]) {
     saveServices(input: { services: $services })
   }
 `
-const SECTION_VISIBILITY = gql`
+
+gql`
   mutation TriggerServicesVis($isVisible: Boolean) {
     triggerServicesVis(isVisible: $isVisible)
   }
@@ -60,7 +58,7 @@ const SECTION_VISIBILITY = gql`
 const { Title, Paragraph } = Typography
 
 const ServicesSection = () => {
-  const { data: initialState } = useQuery<Services>(SERVICES)
+  const { data: initialState } = useServicesQuery()
 
   const isAdmin = useAdmin()
   const [isVisible, setIsVisible] = useState(initialState?.section?.isVisible)
@@ -73,16 +71,11 @@ const ServicesSection = () => {
     createService,
   } = useServicesState(initialState?.section?.services || null)
 
-  const [saveServices, { data, loading }] = useMutation<
-    SaveServices,
-    SaveServicesVariables
-  >(SAVE_SERVICES)
+  const [saveServices, { data, loading }] = useSaveServicesMutation()
   const [
     triggerVisibility,
     { data: triggerData, loading: triggerLoading },
-  ] = useMutation<TriggerServicesVis, TriggerServicesVisVariables>(
-    SECTION_VISIBILITY,
-  )
+  ] = useTriggerServicesVisMutation()
 
   useEffect(() => {
     if (data) {

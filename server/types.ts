@@ -28,7 +28,7 @@ export type Query = {
   hero?: Maybe<Hero>;
   slides?: Maybe<Array<Maybe<Slide>>>;
   slide?: Maybe<Slide>;
-  allMedia?: Maybe<Array<Maybe<Media>>>;
+  allMedia: Array<Media>;
   media?: Maybe<Media>;
   currentUser?: Maybe<User>;
   signout?: Maybe<Message>;
@@ -194,6 +194,7 @@ export type Media = {
   path: Scalars['String'];
   filename: Scalars['String'];
   mimetype: Scalars['String'];
+  size: Scalars['Int'];
 };
 
 export type Page = {
@@ -404,6 +405,7 @@ export type ResolversTypes = {
   Message: ResolverTypeWrapper<Message>;
   User: ResolverTypeWrapper<User>;
   Media: ResolverTypeWrapper<Media>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Page: ResolverTypeWrapper<Page>;
   Hero: ResolverTypeWrapper<Hero>;
   Slide: ResolverTypeWrapper<Slide>;
@@ -438,6 +440,7 @@ export type ResolversParentTypes = {
   Message: Message;
   User: User;
   Media: Media;
+  Int: Scalars['Int'];
   Page: Page;
   Hero: Hero;
   Slide: Slide;
@@ -503,7 +506,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   hero?: Resolver<Maybe<ResolversTypes['Hero']>, ParentType, ContextType>;
   slides?: Resolver<Maybe<Array<Maybe<ResolversTypes['Slide']>>>, ParentType, ContextType>;
   slide?: Resolver<Maybe<ResolversTypes['Slide']>, ParentType, ContextType, RequireFields<QuerySlideArgs, 'id'>>;
-  allMedia?: Resolver<Maybe<Array<Maybe<ResolversTypes['Media']>>>, ParentType, ContextType>;
+  allMedia?: Resolver<Array<ResolversTypes['Media']>, ParentType, ContextType>;
   media?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<QueryMediaArgs, 'id'>>;
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   signout?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
@@ -554,6 +557,7 @@ export type MediaResolvers<ContextType = any, ParentType extends ResolversParent
   path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   filename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

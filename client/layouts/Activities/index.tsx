@@ -1,4 +1,4 @@
-import { gql, Reference, useMutation, useQuery } from '@apollo/client'
+import { gql, Reference } from '@apollo/client'
 import {
   Button,
   Card,
@@ -19,20 +19,17 @@ import { useAdmin } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { ActivitiesSign } from 'static'
 import {
-  Activities,
-  SaveActivities,
-  SaveActivitiesVariables,
-  TriggerActivitiesVis,
-  TriggerActivitiesVisVariables,
-  DeleteActivity,
-  DeleteActivityVariables,
+  useActivitiesQuery,
+  useDeleteActivityMutation,
+  useSaveActivitiesMutation,
+  useTriggerActivitiesVisMutation,
 } from 'types'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { serverUrl } from 'utils'
 import { PlusOutlined } from '@ant-design/icons'
 
-const ACTIVITIES = gql`
+gql`
   query Activities {
     section: activities {
       isVisible
@@ -49,13 +46,13 @@ const ACTIVITIES = gql`
   }
 `
 
-const SAVE_ACTIVITIES = gql`
+gql`
   mutation SaveActivities($title: String) {
     saveActivities(input: { title: $title })
   }
 `
 
-const DELETE_ACTIVITY = gql`
+gql`
   mutation DeleteActivity($id: ID!) {
     deleteActivity(id: $id) {
       id
@@ -64,7 +61,7 @@ const DELETE_ACTIVITY = gql`
   }
 `
 
-const SECTION_VISIBILITY = gql`
+gql`
   mutation TriggerActivitiesVis($isVisible: Boolean) {
     triggerActivitiesVis(isVisible: $isVisible)
   }
@@ -73,18 +70,15 @@ const SECTION_VISIBILITY = gql`
 const { Title } = Typography
 
 export const ActivitiesSection = () => {
-  const { data: initialState } = useQuery<Activities>(ACTIVITIES)
+  const { data: initialState } = useActivitiesQuery()
   const [title, setTitle] = useState(initialState?.section?.title)
   const isAdmin = useAdmin()
   const [isVisible, setIsVisible] = useState(initialState?.section?.isVisible)
-  const [saveActivities, { data, loading }] = useMutation<
-    SaveActivities,
-    SaveActivitiesVariables
-  >(SAVE_ACTIVITIES)
+  const [saveActivities, { data, loading }] = useSaveActivitiesMutation()
   const [
     deleteActivity,
     { data: dataDelete, loading: loadingDelete },
-  ] = useMutation<DeleteActivity, DeleteActivityVariables>(DELETE_ACTIVITY, {
+  ] = useDeleteActivityMutation({
     update(cache, { data }) {
       cache.modify({
         fields: {
@@ -113,9 +107,7 @@ export const ActivitiesSection = () => {
   const [
     triggerVisibility,
     { data: triggerData, loading: triggerLoading },
-  ] = useMutation<TriggerActivitiesVis, TriggerActivitiesVisVariables>(
-    SECTION_VISIBILITY,
-  )
+  ] = useTriggerActivitiesVisMutation()
 
   useEffect(() => {
     if (dataDelete) {

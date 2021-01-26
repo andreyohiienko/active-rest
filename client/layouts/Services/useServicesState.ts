@@ -1,6 +1,6 @@
 import { InferValueTypes } from 'interfaces'
 import { Reducer, useReducer } from 'react'
-import { Services_section } from 'types'
+import { Services } from 'types'
 import * as actions from './actions'
 import {
   DescPayload,
@@ -14,10 +14,7 @@ import { message } from 'antd'
 
 type Action = ReturnType<InferValueTypes<typeof actions>>
 
-const reducer: Reducer<Services_section['services'], Action> = (
-  state,
-  action,
-) => {
+const reducer: Reducer<Services['services'], Action> = (state, action) => {
   switch (action.type) {
     case Type.UPDATE_TITLE:
       if (state) {
@@ -90,9 +87,7 @@ const {
   createServiceAction,
 } = actions
 
-export const useServicesState = (
-  initialState: Services_section['services'],
-) => {
+export const useServicesState = (initialState: Services['services']) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   function updateTitle(payload: TitlePayload) {

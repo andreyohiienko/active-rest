@@ -8,16 +8,16 @@ import { placeholder, serverUrl } from 'utils'
 import { ContentState, convertToRaw, EditorState } from 'draft-js'
 import { EditorProps } from 'react-draft-wysiwyg'
 import dynamic from 'next/dynamic'
-import { gql, useMutation } from '@apollo/client'
+import { gql } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { CreateActivity, CreateActivityVariables } from 'types'
+import { useCreateActivityMutation } from 'types'
 
 const Editor: ComponentType<EditorProps> = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
   { ssr: false },
 )
 
-const CREATE_ACTIVITY = gql`
+gql`
   mutation CreateActivity($input: ActivityInput) {
     action: createActivity(input: $input) {
       id
@@ -47,10 +47,7 @@ export const ActivityNew = () => {
   const [price, setPrice] = useState(30)
   const [image, setImage] = useState('images/placeholder.png')
 
-  const [createActivity, { data, loading }] = useMutation<
-    CreateActivity,
-    CreateActivityVariables
-  >(CREATE_ACTIVITY)
+  const [createActivity, { data, loading }] = useCreateActivityMutation()
 
   async function onCreate() {
     await createActivity({

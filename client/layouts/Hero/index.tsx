@@ -1,16 +1,16 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import { Button, Carousel, Layout, message, Space, Typography } from 'antd'
 import { ButtonDelete, ButtonSave, Container } from 'components'
 import { SelectImage } from 'components/SelectImage/main'
 import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { useEffect, useRef } from 'react'
-import { SaveSlides, SaveSlidesVariables, Hero } from 'types'
+import { useHeroQuery, useSaveSlidesMutation } from 'types'
 import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
 
-const HERO = gql`
+gql`
   query Hero {
     section: hero {
       slides {
@@ -23,7 +23,7 @@ const HERO = gql`
   }
 `
 
-const SAVE_HERO = gql`
+gql`
   mutation SaveSlides($slides: [SlideInput]) {
     saveSlides(input: { slides: $slides })
   }
@@ -32,7 +32,7 @@ const SAVE_HERO = gql`
 const { Title, Paragraph } = Typography
 
 const HeroSection = () => {
-  const { data: initialState } = useQuery<Hero>(HERO)
+  const { data: initialState } = useHeroQuery()
   const isAdmin = useAdmin()
   const {
     state,
@@ -44,10 +44,7 @@ const HeroSection = () => {
   } = useHeroState(initialState?.section?.slides || null)
   const ref = useRef<Carousel>(null)
 
-  const [saveSection, { data, loading }] = useMutation<
-    SaveSlides,
-    SaveSlidesVariables
-  >(SAVE_HERO)
+  const [saveSection, { data, loading }] = useSaveSlidesMutation()
 
   useEffect(() => {
     if (data) {

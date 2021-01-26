@@ -36,6 +36,7 @@ interface StoredMedia {
   path: string
   filename: string
   mimetype: string
+  size: number
 }
 
 const checkUniqueness = (filename: string) => {
@@ -65,10 +66,15 @@ const storeUpload = async ({
   const newFilename = checkUniqueness(filename)
   const path = `images/${newFilename}`
 
+  let size = 0
+
   return new Promise((resolve, reject) =>
     stream
+      .on('data', (chunk) => (size += chunk.length))
       .pipe(createWriteStream(path))
-      .on('finish', () => resolve({ path, filename: newFilename, mimetype }))
+      .on('finish', () =>
+        resolve({ size, path, filename: newFilename, mimetype }),
+      )
       .on('error', reject),
   )
 }
