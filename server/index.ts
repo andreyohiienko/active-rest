@@ -16,12 +16,13 @@ import {
 } from './resolvers'
 import { AdminAPI } from './dataSources'
 import express from 'express'
-import { map, merge } from 'lodash'
+import { merge } from 'lodash'
 import { cookieKey, mongoURI } from './keys'
 import cookieSession from 'cookie-session'
 import passport from 'passport'
 import './services/passport'
 import { authRoutes } from './routes'
+import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb'
 
 const MONGO_URI = mongoURI
 if (!MONGO_URI) {
@@ -50,7 +51,7 @@ const resolvers = merge(
 )
 
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: [DIRECTIVES, typeDefs],
   resolvers,
   dataSources: () => ({ admin: new AdminAPI() }),
   context: ({ req }) => ({

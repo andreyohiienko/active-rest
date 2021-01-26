@@ -13,19 +13,16 @@ import React, { useEffect, useState } from 'react'
 import { SubmitMail } from 'static'
 import { MailOutlined } from '@ant-design/icons'
 import { useAdmin } from 'hooks'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import {
-  Approach,
-  SaveApproach,
-  SaveApproachVariables,
-  TriggerApproachVis,
-  TriggerApproachVisVariables,
-  AddSubscriber,
-  AddSubscriberVariables,
+  useAddSubscriberMutation,
+  useApproachQuery,
+  useSaveApproachMutation,
+  useTriggerApproachVisMutation,
 } from 'types'
 import classNames from 'classnames'
 
-const APPROACH = gql`
+gql`
   query Approach {
     section: approach {
       isVisible
@@ -35,7 +32,7 @@ const APPROACH = gql`
   }
 `
 
-const SAVE_APPROACH = gql`
+gql`
   mutation SaveApproach($title: String, $desc: String) {
     saveApproach(input: { title: $title, desc: $desc })
   }
@@ -60,7 +57,7 @@ const SUBSCRIBE = gql`
 const { Title, Paragraph } = Typography
 
 export const ApproachSection = () => {
-  const { data: initialState } = useQuery<Approach>(APPROACH)
+  const { data: initialState } = useApproachQuery()
   const isAdmin = useAdmin()
   const [title, setTitle] = useState(initialState?.section?.title)
   const [desc, setDesc] = useState(initialState?.section?.desc)
@@ -78,21 +75,16 @@ export const ApproachSection = () => {
     }
   }
 
-  const [saveApproach, { data, loading }] = useMutation<
-    SaveApproach,
-    SaveApproachVariables
-  >(SAVE_APPROACH)
+  const [saveApproach, { data, loading }] = useSaveApproachMutation()
   const [
     triggerVisibility,
     { data: triggerData, loading: triggerLoading },
-  ] = useMutation<TriggerApproachVis, TriggerApproachVisVariables>(
-    SECTION_VISIBILITY,
-  )
+  ] = useTriggerApproachVisMutation()
 
   const [
     subscribe,
     { data: subsData, loading: subsLoading, error: subsError },
-  ] = useMutation<AddSubscriber, AddSubscriberVariables>(SUBSCRIBE)
+  ] = useAddSubscriberMutation()
 
   useEffect(() => {
     if (data) {

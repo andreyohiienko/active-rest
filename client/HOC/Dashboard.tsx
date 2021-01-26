@@ -16,10 +16,8 @@ interface Props {
 }
 
 const menu = [
-  { title: 'Slider', href: '/slides', icon: <FileImageFilled /> },
   { title: 'Media', href: '/media', icon: <FileImageOutlined /> },
   { title: 'Pages', href: '/pages', icon: <FileTextFilled /> },
-  { title: 'Files', href: '/files', icon: <FileOutlined /> },
 ]
 
 const Dashboard = ({ children }: Props) => {

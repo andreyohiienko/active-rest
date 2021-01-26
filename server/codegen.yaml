@@ -1,0 +1,19 @@
+schema: 
+  - "./schema/type-defs.ts"
+  - scalar Upload
+generates:
+  types.ts:
+    config:
+      skipTypename: true
+    plugins: 
+    - typescript
+    - typescript-resolvers
+    - typescript-mongodb 
+  ../client/types.ts:
+    config:
+      skipTypename: true
+    documents: "../client/**/!(*.d).{ts,tsx}"
+    plugins: 
+    - typescript
+    - typescript-operations
+    - typescript-react-apollo

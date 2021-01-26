@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import {
   Button,
   Col,
@@ -22,6 +22,7 @@ import { EditorProps } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 import Link from 'next/link'
 import { PlusOutlined } from '@ant-design/icons'
+import { useActivityPageQuery, useSaveActivityMutation } from 'types'
 
 const Editor: ComponentType<EditorProps> = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -30,7 +31,7 @@ const Editor: ComponentType<EditorProps> = dynamic(
 
 const { Title, Paragraph } = Typography
 
-const ACTIVITY = gql`
+gql`
   query ActivityPage($slug: String!) {
     activity(slug: $slug) {
       title
@@ -43,7 +44,7 @@ const ACTIVITY = gql`
   }
 `
 
-const SAVE_ACTIVITY = gql`
+gql`
   mutation SaveActivity($input: SaveActivityInput) {
     saveActivity(input: $input)
   }
@@ -51,8 +52,9 @@ const SAVE_ACTIVITY = gql`
 
 export const ActivityLayout = () => {
   const { query } = useRouter()
-  const { data: initialState } = useQuery(ACTIVITY, {
-    variables: { slug: query.slug },
+  const slug = Array.isArray(query.slug) ? query.slug[0] : query.slug
+  const { data: initialState } = useActivityPageQuery({
+    variables: { slug },
   })
 
   const isAdmin = useAdmin()
@@ -60,13 +62,13 @@ export const ActivityLayout = () => {
   const [shortDesc, setShortDesc] = useState(initialState?.activity?.shortDesc)
   const [desc, setDesc] = useState(
     EditorState.createWithContent(
-      convertFromRaw(JSON.parse(initialState?.activity?.desc)),
+      convertFromRaw(JSON.parse(initialState?.activity?.desc || '')),
     ),
   )
   const [price, setPrice] = useState(initialState?.activity?.price)
   const [image, setImage] = useState(initialState?.activity?.image)
 
-  const [saveActivity, { data, loading }] = useMutation(SAVE_ACTIVITY)
+  const [saveActivity, { data, loading }] = useSaveActivityMutation()
 
   useEffect(() => {
     if (data) {
@@ -122,8 +124,8 @@ export const ActivityLayout = () => {
       <Container>
         <div
           className={classNames('act__hero', {
-            'bg-full': image.endsWith('placeholder.png'),
-            'bg-cover': !image.endsWith('placeholder.png'),
+            'bg-full': image?.endsWith('placeholder.png'),
+            'bg-cover': !image?.endsWith('placeholder.png'),
           })}
           style={{
             backgroundImage: `url('${
@@ -141,7 +143,7 @@ export const ActivityLayout = () => {
               saveActivity({
                 variables: {
                   input: {
-                    slug: query.slug,
+                    slug,
                     title,
                     shortDesc,
                     desc: JSON.stringify(
@@ -170,14 +172,14 @@ export const ActivityLayout = () => {
             <div className="act__price mb-20">
               {isAdmin ? (
                 <InputNumber
-                  defaultValue={price}
+                  defaultValue={price ? price : 0}
                   formatter={(value) =>
                     `$${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                   }
                   parser={(displayValue) =>
                     displayValue?.replace(/\$\s?|(,*)/g, '') || ''
                   }
-                  onChange={(e) => setPrice(e)}
+                  onChange={(e) => setPrice(Number(e))}
                 />
               ) : (
                 `$${price}`
