@@ -1,22 +1,9 @@
-import mongoose from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Slide } from '../types'
 
-export interface SlideAttrs {
-  title: string
-  desc: string
-  image: string
-}
+export type SlideDoc = Slide & Document
 
-export interface SlideDoc extends mongoose.Document {
-  title: string
-  desc: string
-  image: string
-}
-
-interface SlideModel extends mongoose.Model<SlideDoc> {
-  build(attrs: SlideAttrs): SlideDoc
-}
-
-export const slideSchema = new mongoose.Schema({
+export const slideSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -31,10 +18,6 @@ export const slideSchema = new mongoose.Schema({
   },
 })
 
-const Slide = mongoose.model<SlideDoc, SlideModel>('Slide', slideSchema)
-
-slideSchema.statics.build = (attrs: SlideAttrs) => {
-  return new Slide(attrs)
-}
+const Slide = model<SlideDoc>('Slide', slideSchema)
 
 export { Slide }
