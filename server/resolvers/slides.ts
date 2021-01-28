@@ -1,9 +1,7 @@
 import { IResolvers, UserInputError } from 'apollo-server-express'
-import { model, Types } from 'mongoose'
-import { HeroDoc, SlideDoc } from '../models'
-import { Hero, Resolvers } from '../types'
-const Slide = model<SlideDoc>('Slide')
-const Hero = model<HeroDoc>('Hero')
+import { Types } from 'mongoose'
+import { Hero, Slide } from '../models'
+import { Resolvers } from '../types'
 
 type SlideResolver = Resolvers & IResolvers
 

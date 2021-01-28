@@ -1,8 +1,8 @@
 export { Page, PageDoc } from './page'
 export { Media, MediaDoc } from './media'
 
-export { Slide, SlideDoc } from './slide'
-export { Hero, HeroDoc } from './section-hero'
+export { Slide } from './slide'
+export { Hero } from './section-hero'
 
 export { ServiceDoc } from './service'
 export {
