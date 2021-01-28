@@ -1,21 +1,6 @@
-import { Document, model, Model, Schema } from 'mongoose'
-
-interface FooterAttrs {
-  title: string
-  desc: string
-  subtitle: string
-}
-
-interface FooterDoc extends Document {
-  sectionName: string
-  title: string
-  desc: string
-  subtitle: string
-}
-
-interface FooterModel extends Model<FooterDoc> {
-  build(attrs: FooterAttrs): FooterDoc
-}
+import { Document, model, Schema } from 'mongoose'
+import { Footer } from '../types'
+type FooterDoc = Footer & Document
 
 const footerSchema = new Schema({
   sectionName: {
@@ -27,10 +12,6 @@ const footerSchema = new Schema({
   subTitle: String,
 })
 
-const Footer = model<FooterDoc, FooterModel>('Footer', footerSchema)
-
-footerSchema.statics.build = (attrs: FooterAttrs) => {
-  return new Footer(attrs)
-}
+const Footer = model<FooterDoc>('Footer', footerSchema)
 
 export { Footer }
