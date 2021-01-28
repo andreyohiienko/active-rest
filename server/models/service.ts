@@ -1,21 +1,4 @@
-import { Schema, model, Model, Document, VirtualType } from 'mongoose'
-
-export interface ServiceAttrs {
-  title: string
-  desc: string
-  image: string
-}
-
-export interface ServiceDoc extends Document {
-  _id: string
-  title: string
-  desc: string
-  image: string
-}
-
-interface ServiceModel extends Model<ServiceDoc> {
-  build(attrs: ServiceAttrs): ServiceDoc
-}
+import { Schema } from 'mongoose'
 
 export const serviceSchema = new Schema({
   title: {

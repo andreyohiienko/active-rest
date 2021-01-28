@@ -1,18 +1,7 @@
-import { Document, model, Model, Schema } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Activities } from '../types'
 
-export interface SectionActivitiesAttrs {
-  isVisible: boolean
-  title: string
-}
-
-interface SectionActivitiesDoc extends Document {
-  isVisible: boolean
-  title: string
-}
-
-interface ActivitiesModel extends Model<SectionActivitiesDoc> {
-  build(attrs: SectionActivitiesAttrs): SectionActivitiesDoc
-}
+type SectionActivitiesDoc = Activities & Document
 
 const activitiesSchema = new Schema({
   sectionName: {
@@ -26,13 +15,9 @@ const activitiesSchema = new Schema({
   title: String,
 })
 
-const SectionActivities = model<SectionActivitiesDoc, ActivitiesModel>(
+const SectionActivities = model<SectionActivitiesDoc>(
   'section_activities',
   activitiesSchema,
 )
-
-activitiesSchema.statics.build = (attrs: SectionActivitiesAttrs) => {
-  return new SectionActivities(attrs)
-}
 
 export { SectionActivities }

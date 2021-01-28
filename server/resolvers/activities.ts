@@ -1,10 +1,7 @@
-import { IResolvers } from 'apollo-server-express'
-import { model } from 'mongoose'
-import { SectionActivitiesAttrs } from '../models'
-const SectionActivities = model('section_activities')
-const Activity = model('activity')
+import { Activity, SectionActivities } from '../models'
+import { Resolvers } from '../types'
 
-export const Activities: IResolvers = {
+export const Activities: Resolvers = {
   Query: {
     activities: async () => {
       return await SectionActivities.findOne({
@@ -13,17 +10,14 @@ export const Activities: IResolvers = {
     },
   },
   Mutation: {
-    saveActivities: async (
-      _,
-      { input: { title } }: { input: SectionActivitiesAttrs },
-    ) => {
+    saveActivities: async (_, { input }) => {
       await SectionActivities.updateOne(
         { sectionName: 'activities' },
-        { title },
+        { title: input?.title },
       )
       return 'Activities section saved successfully.'
     },
-    triggerActivitiesVis: async (_, { isVisible }: SectionActivitiesAttrs) => {
+    triggerActivitiesVis: async (_, { isVisible }) => {
       await SectionActivities.updateOne(
         { sectionName: 'activities' },
         { isVisible },

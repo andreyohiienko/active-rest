@@ -1,20 +1,7 @@
-import { Document, model, Model, Schema } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Approach } from '../types'
 
-export interface SectionApproachAttrs {
-  isVisible: boolean
-  title: string
-  desc: string
-}
-
-interface SectionApproachDoc extends Document {
-  isVisible: boolean
-  title: string
-  desc: string
-}
-
-interface ApproachModel extends Model<SectionApproachDoc> {
-  build(attrs: SectionApproachAttrs): SectionApproachDoc
-}
+type SectionApproachDoc = Approach & Document
 
 const approachSchema = new Schema({
   sectionName: {
@@ -29,13 +16,9 @@ const approachSchema = new Schema({
   desc: String,
 })
 
-const SectionApproach = model<SectionApproachDoc, ApproachModel>(
+const SectionApproach = model<SectionApproachDoc>(
   'section_approach',
   approachSchema,
 )
-
-approachSchema.statics.build = (attrs: SectionApproachAttrs) => {
-  return new SectionApproach(attrs)
-}
 
 export { SectionApproach }

@@ -1,21 +1,12 @@
-import { IResolvers, UserInputError } from 'apollo-server-express'
-import { model, Types } from 'mongoose'
-import { HeroAttrs, SlideDoc } from '../models'
-const Slide = model('Slide')
-const Hero = model('Hero')
+import { UserInputError } from 'apollo-server-express'
+import { Types } from 'mongoose'
+import { Hero, Slide } from '../models'
+import { Resolvers } from '../types'
 
-interface FetchSlides {
-  dataSources: {
-    admin: {
-      fetchSlides(): Promise<SlideDoc[]>
-    }
-  }
-}
-
-export const Slides: IResolvers<any, FetchSlides> = {
+export const Slides: Resolvers = {
   Query: {
-    slides: async (_, __, { dataSources }) => {
-      const res = await dataSources.admin.fetchSlides()
+    slides: async () => {
+      const res = await Slide.find({})
       return Array.isArray(res) ? res : []
     },
     slide: async (_, { id }) => {
@@ -26,12 +17,12 @@ export const Slides: IResolvers<any, FetchSlides> = {
     },
   },
   Mutation: {
-    saveSlides: async (_, { input: { slides } }: { input: HeroAttrs }) => {
+    saveSlides: async (_, { input }) => {
       await Hero.updateOne({ sectionName: 'hero' }, [
         { $unset: ['slides'] },
         {
           $set: {
-            slides: slides.map((slide) => ({
+            slides: input?.slides?.map((slide) => ({
               _id: Types.ObjectId(),
               ...slide,
             })),

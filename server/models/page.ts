@@ -1,28 +1,15 @@
-import mongoose from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Page } from '../types'
 
-interface PageAttrs {
-  title: string
-}
+type PageDoc = Page & Document
 
-interface PageDoc extends mongoose.Document {
-  title: string
-}
-
-interface PageModel extends mongoose.Model<PageDoc> {
-  build(attrs: PageAttrs): PageDoc
-}
-
-const pageSchema = new mongoose.Schema({
+const pageSchema = new Schema({
   title: {
     type: String,
     required: true,
   },
 })
 
-const Page = mongoose.model<PageDoc, PageModel>('Page', pageSchema)
+const Page = model<PageDoc>('Page', pageSchema)
 
-pageSchema.statics.build = (attrs: PageAttrs) => {
-  return new Page(attrs)
-}
-
-export { Page, PageDoc }
+export { Page }

@@ -1,5 +1,3 @@
-import { IResolvers } from 'apollo-server-express'
-import mongoose from 'mongoose'
 import {
   createWriteStream,
   ReadStream,
@@ -7,17 +5,8 @@ import {
   unlinkSync,
   existsSync,
 } from 'fs'
-import { MediaDoc } from '../models'
-
-const Media = mongoose.model('Media')
-
-interface FetchMedia {
-  dataSources: {
-    admin: {
-      fetchAllMedia(): Promise<MediaDoc[]>
-    }
-  }
-}
+import { Media } from '../models'
+import { Resolvers } from '../types'
 
 interface FileUpload {
   filename: string
@@ -86,11 +75,10 @@ const processUpload = async (upload: FileUpload) => {
   return await storeUpload({ stream, filename, mimetype })
 }
 
-export const Medias: IResolvers<any, FetchMedia> = {
+export const Medias: Resolvers = {
   Query: {
-    allMedia: async (_, __, { dataSources }) => {
-      const res = await dataSources.admin.fetchAllMedia()
-      return Array.isArray(res) ? res : []
+    allMedia: async () => {
+      return await Media.find({})
     },
     media: async (_, { id }) => {
       return await Media.findOne({ _id: id })

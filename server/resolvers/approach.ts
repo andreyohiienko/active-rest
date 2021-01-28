@@ -1,31 +1,25 @@
-import { IResolvers } from 'apollo-server-express'
-import { model } from 'mongoose'
-import { SectionApproachAttrs } from '../models'
-const SectionApproach = model('section_approach')
-const Subscriber = model('subscriber')
+import { SectionApproach, Subscriber } from '../models'
+import { Resolvers } from '../types'
 
-export const Approach: IResolvers = {
+export const Approach: Resolvers = {
   Query: {
     approach: async () => {
       return await SectionApproach.findOne({ sectionName: 'approach' })
     },
   },
   Mutation: {
-    saveApproach: async (
-      _,
-      { input: { title, desc } }: { input: SectionApproachAttrs },
-    ) => {
+    saveApproach: async (_, { input }) => {
       await SectionApproach.updateOne(
         { sectionName: 'approach' },
         {
-          title,
-          desc,
+          title: input?.title,
+          desc: input?.desc,
         },
         { upsert: true }, // Creates a new document if no documents match the filter.
       )
       return 'Approach section saved successfully.'
     },
-    triggerApproachVis: async (_, { isVisible }: SectionApproachAttrs) => {
+    triggerApproachVis: async (_, { isVisible }) => {
       await SectionApproach.updateOne(
         { sectionName: 'approach' },
         { isVisible },

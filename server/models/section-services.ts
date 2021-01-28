@@ -1,20 +1,8 @@
-import { Schema, model, Model, Document } from 'mongoose'
-import { ServiceAttrs, ServiceDoc, serviceSchema } from './service'
+import { Schema, model, Document } from 'mongoose'
+import { Services } from '../types'
+import { serviceSchema } from './service'
 
-export interface SectionServicesAttrs {
-  isVisible: boolean
-  services: ServiceAttrs[]
-}
-
-export interface SectionServicesDoc extends Document {
-  sectionName: string
-  isVisible: boolean
-  services: ServiceDoc[]
-}
-
-interface SectionServicesModel extends Model<SectionServicesDoc> {
-  build(attrs: SectionServicesAttrs): SectionServicesDoc
-}
+type SectionServicesDoc = Services & Document
 
 const servicesSchema = new Schema({
   sectionName: {
@@ -28,13 +16,9 @@ const servicesSchema = new Schema({
   services: [serviceSchema],
 })
 
-const SectionServices = model<SectionServicesDoc, SectionServicesModel>(
+const SectionServices = model<SectionServicesDoc>(
   'Section_Services',
   servicesSchema,
 )
-
-servicesSchema.statics.build = (attrs: SectionServicesAttrs) => {
-  return new SectionServices(attrs)
-}
 
 export { SectionServices }

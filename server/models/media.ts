@@ -1,23 +1,9 @@
-import mongoose from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Media } from '../types'
 
-interface MediaAttrs {
-  filename: string
-  path: string
-  mimetype: string
-  size: number
-}
+type MediaDoc = Media & Document
 
-export interface MediaDoc extends mongoose.Document {
-  filename: string
-  path: string
-  mimetype: string
-}
-
-interface MediaModel extends mongoose.Model<MediaDoc> {
-  build(attrs: MediaAttrs): MediaDoc
-}
-
-const pageSchema = new mongoose.Schema({
+const pageSchema = new Schema({
   filename: {
     type: String,
     required: true,
@@ -30,10 +16,6 @@ const pageSchema = new mongoose.Schema({
   },
 })
 
-const Media = mongoose.model<MediaDoc, MediaModel>('Media', pageSchema)
-
-pageSchema.statics.build = (attrs: MediaAttrs) => {
-  return new Media(attrs)
-}
+const Media = model<MediaDoc>('Media', pageSchema)
 
 export { Media }

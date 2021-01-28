@@ -1,23 +1,16 @@
-import { IResolvers } from 'apollo-server-express'
-import { model } from 'mongoose'
 import slugify from 'slugify'
-import { ActivityAttrs } from '../models'
-const Activity = model('activity')
+import { Activity } from '../models'
+import { Resolvers } from '../types'
 
-export const ActivityResolver: IResolvers = {
+export const ActivityResolver: Resolvers = {
   Query: {
     activity: async (_, { slug }) => {
       return await Activity.findOne({ slug })
     },
   },
   Mutation: {
-    createActivity: async (
-      _,
-      {
-        input: { title, desc, shortDesc, image, price },
-      }: { input: ActivityAttrs },
-    ) => {
-      let slug = slugify(title, {
+    createActivity: async (_, { input }) => {
+      let slug = slugify(input?.title || '', {
         replacement: '_',
         lower: true,
         strict: true,
@@ -38,12 +31,7 @@ export const ActivityResolver: IResolvers = {
       }
 
       const activity = new Activity({
-        title,
-        slug,
-        desc,
-        shortDesc,
-        image,
-        price,
+        ...input,
         pubDate: new Date(),
       })
 
@@ -51,16 +39,16 @@ export const ActivityResolver: IResolvers = {
     },
     saveActivity: async (_, { input }) => {
       await Activity.updateOne(
-        { slug: input.slug },
+        { slug: input?.slug },
         {
-          title: input.title,
-          shortDesc: input.shortDesc,
-          desc: input.desc,
-          image: input.image,
-          price: input.price,
+          title: input?.title,
+          shortDesc: input?.shortDesc,
+          desc: input?.desc,
+          image: input?.image,
+          price: input?.price,
         },
       )
-      return `Activity "${input.title}" successfully saved.`
+      return `Activity "${input?.title}" successfully saved.`
     },
     deleteActivity: async (_, { id }) => {
       const deletedActivity = await Activity.findOne({ _id: id })
