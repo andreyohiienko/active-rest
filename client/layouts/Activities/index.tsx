@@ -47,7 +47,7 @@ gql`
 `
 
 gql`
-  mutation SaveActivities($title: String) {
+  mutation SaveActivities($title: String!) {
     saveActivities(input: { title: $title })
   }
 `
