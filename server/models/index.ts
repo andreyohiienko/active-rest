@@ -1,5 +1,5 @@
 export { Page } from './page'
-export { Media, MediaDoc } from './media'
+export { Media } from './media'
 
 export { Slide } from './slide'
 export { Hero } from './section-hero'

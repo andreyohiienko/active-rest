@@ -1,5 +1,5 @@
 import { json } from 'body-parser'
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer, IResolvers } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import './models'
 import { typeDefs } from './schema/type-defs'
@@ -23,6 +23,7 @@ import passport from 'passport'
 import './services/passport'
 import { authRoutes } from './routes'
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb'
+import { Resolvers } from './types'
 
 const MONGO_URI = mongoURI
 if (!MONGO_URI) {
@@ -38,7 +39,8 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-const resolvers = merge(
+type MergedResolvers = Resolvers & IResolvers
+const resolvers: MergedResolvers = merge(
   Auth,
   Slides,
   Pages,
