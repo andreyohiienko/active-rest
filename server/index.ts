@@ -39,8 +39,7 @@ mongoose.connection
   .on('error', (error) => console.log('Error connecting to MongoLab:', error))
 
 // Provide resolver functions for your schema fields
-type MergedResolvers = Resolvers & IResolvers
-const resolvers: MergedResolvers = merge(
+const resolvers: IResolvers = merge(
   Auth,
   Slides,
   Pages,
