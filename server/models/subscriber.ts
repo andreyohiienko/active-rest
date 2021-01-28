@@ -1,24 +1,8 @@
-import { Document, model, Model, Schema } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
+import { Subscriber, SubscriberStatus } from '../types'
 
-interface SubscriberAttrs {
-  email: string
-  status: Status
-}
-
-interface SubscriberDoc extends Document {
-  email: string
-  status: Status
-}
-
-enum Status {
-  SUBSCRIBED = 'SUBSCRIBED',
-  UNSUBSCRIBED = 'UNSUBSCRIBED',
-}
-
-interface SubscriberModel extends Model<SubscriberDoc> {
-  build(attrs: SubscriberAttrs): SubscriberDoc
-}
+type SubscriberDoc = Subscriber & Document
 
 const subscriberSchema = new Schema({
   email: {
@@ -27,19 +11,12 @@ const subscriberSchema = new Schema({
   },
   status: {
     type: String,
-    enum: Object.values(Status),
-    default: Status.SUBSCRIBED,
+    enum: Object.values(SubscriberStatus),
+    default: SubscriberStatus.Subscribed,
   },
 })
 subscriberSchema.plugin(uniqueValidator)
 
-const Subscriber = model<SubscriberDoc, SubscriberModel>(
-  'subscriber',
-  subscriberSchema,
-)
-
-subscriberSchema.statics.build = (attrs: SubscriberAttrs) => {
-  return new Subscriber(attrs)
-}
+const Subscriber = model<SubscriberDoc>('subscriber', subscriberSchema)
 
 export { Subscriber }

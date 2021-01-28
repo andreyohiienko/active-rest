@@ -245,7 +245,7 @@ export type Activities = {
 };
 
 export type ActivitiesInput = {
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type SaveActivityInput = {
@@ -290,8 +290,13 @@ export type Approach = {
 export type Subscriber = {
   id: Scalars['ID'];
   email?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
+  status?: Maybe<SubscriberStatus>;
 };
+
+export enum SubscriberStatus {
+  Subscribed = 'SUBSCRIBED',
+  Unsubscribed = 'UNSUBSCRIBED'
+}
 
 export type FooterInput = {
   title?: Maybe<Scalars['String']>;
@@ -354,7 +359,7 @@ export type ActivitiesQuery = { section?: Maybe<(
   )> };
 
 export type SaveActivitiesMutationVariables = Exact<{
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 }>;
 
 
@@ -815,7 +820,7 @@ export type ActivitiesQueryHookResult = ReturnType<typeof useActivitiesQuery>;
 export type ActivitiesLazyQueryHookResult = ReturnType<typeof useActivitiesLazyQuery>;
 export type ActivitiesQueryResult = Apollo.QueryResult<ActivitiesQuery, ActivitiesQueryVariables>;
 export const SaveActivitiesDocument = gql`
-    mutation SaveActivities($title: String) {
+    mutation SaveActivities($title: String!) {
   saveActivities(input: {title: $title})
 }
     `;

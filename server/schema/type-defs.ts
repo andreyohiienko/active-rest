@@ -184,7 +184,12 @@ export const typeDefs = gql`
   type Subscriber {
     id: ID!
     email: String
-    status: String
+    status: SubscriberStatus
+  }
+
+  enum SubscriberStatus {
+    SUBSCRIBED
+    UNSUBSCRIBED
   }
   # End of Approach
   # Start of Footer

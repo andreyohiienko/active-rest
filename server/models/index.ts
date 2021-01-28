@@ -4,17 +4,12 @@ export { Media, MediaDoc } from './media'
 export { Slide } from './slide'
 export { Hero } from './section-hero'
 
-export { ServiceDoc } from './service'
-export {
-  SectionServices,
-  SectionServicesAttrs,
-  SectionServicesDoc,
-} from './section-services'
+export { SectionServices } from './section-services'
 
-export { SectionActivities, SectionActivitiesAttrs } from './section-activities'
-export { Activity, ActivityAttrs } from './activity'
+export { SectionActivities } from './section-activities'
+export { Activity } from './activity'
 
-export { SectionApproach, SectionApproachAttrs } from './section-approach'
+export { SectionApproach } from './section-approach'
 export { Subscriber } from './subscriber'
 
 export { User } from './user'

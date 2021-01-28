@@ -253,7 +253,7 @@ export type Activities = {
 };
 
 export type ActivitiesInput = {
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type SaveActivityInput = {
@@ -298,8 +298,13 @@ export type Approach = {
 export type Subscriber = {
   id: Scalars['ID'];
   email?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
+  status?: Maybe<SubscriberStatus>;
 };
+
+export enum SubscriberStatus {
+  Subscribed = 'SUBSCRIBED',
+  Unsubscribed = 'UNSUBSCRIBED'
+}
 
 export type FooterInput = {
   title?: Maybe<Scalars['String']>;
@@ -424,6 +429,7 @@ export type ResolversTypes = {
   ApproachInput: ApproachInput;
   Approach: ResolverTypeWrapper<Approach>;
   Subscriber: ResolverTypeWrapper<Subscriber>;
+  SubscriberStatus: SubscriberStatus;
   FooterInput: FooterInput;
   Footer: ResolverTypeWrapper<Footer>;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
@@ -623,7 +629,7 @@ export type ApproachResolvers<ContextType = any, ParentType extends ResolversPar
 export type SubscriberResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscriber'] = ResolversParentTypes['Subscriber']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['SubscriberStatus']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
