@@ -1,11 +1,9 @@
-import { IResolvers, UserInputError } from 'apollo-server-express'
+import { UserInputError } from 'apollo-server-express'
 import { Types } from 'mongoose'
 import { Hero, Slide } from '../models'
 import { Resolvers } from '../types'
 
-type SlideResolver = Resolvers & IResolvers
-
-export const Slides: SlideResolver = {
+export const Slides: Resolvers = {
   Query: {
     slides: async () => {
       const res = await Slide.find({})
