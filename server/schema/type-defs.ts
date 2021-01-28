@@ -135,7 +135,7 @@ export const typeDefs = gql`
   }
 
   input ActivitiesInput {
-    title: String
+    title: String!
   }
   # End of Activities
 

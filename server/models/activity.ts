@@ -1,27 +1,7 @@
-import { Document, model, Model, Schema } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+import { Activity } from '../types'
 
-export interface ActivityAttrs {
-  title: string
-  desc: string
-  shortDesc: string
-  image: string
-  price: number
-  likes: string
-}
-
-interface ActivityDoc extends Document {
-  title: string
-  slug: string
-  desc: string
-  shortDesc: string
-  image: string
-  price: number
-  likes: string[]
-}
-
-interface ActivityModel extends Model<ActivityDoc> {
-  build(attrs: ActivityAttrs): ActivityDoc
-}
+type ActivityDoc = Activity & Document
 
 const activitySchema = new Schema({
   title: { type: String, default: '' },
@@ -34,10 +14,6 @@ const activitySchema = new Schema({
   pubDate: Date,
 })
 
-const Activity = model<ActivityDoc, ActivityModel>('activity', activitySchema)
-
-activitySchema.statics.build = (attrs: ActivityAttrs) => {
-  return new Activity(attrs)
-}
+const Activity = model<ActivityDoc>('activity', activitySchema)
 
 export { Activity }
