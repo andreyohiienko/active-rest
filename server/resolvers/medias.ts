@@ -1,3 +1,4 @@
+import { v2 } from 'cloudinary'
 import {
   createWriteStream,
   ReadStream,
@@ -86,6 +87,25 @@ export const Medias: Resolvers = {
   },
   Mutation: {
     uploadMedia: async (_, { file }: { file: FileUpload }) => {
+      // console.log('file', await file)
+
+      const { createReadStream } = await file
+
+      const upload_stream = v2.uploader.upload_stream(
+        { tags: 'basic_sample' },
+        function (err, image) {
+          console.log()
+          console.log('** Stream Upload')
+          if (err) {
+            console.warn(err)
+          }
+          console.log('* Same image, uploaded via stream')
+          console.log('* ' + image?.public_id)
+          console.log('* ' + image?.url)
+        },
+      )
+      createReadStream().pipe(upload_stream)
+
       mkdir('images', { recursive: true }, (err) => {
         if (err) {
           throw err

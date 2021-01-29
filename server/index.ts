@@ -17,13 +17,25 @@ import {
 import { AdminAPI } from './dataSources'
 import express from 'express'
 import { merge } from 'lodash'
-import { cookieKey, mongoURI } from './keys'
+import {
+  cloudinaryKey,
+  cloudinaryName,
+  cloudinarySecretKey,
+  cookieKey,
+  mongoURI,
+} from './keys'
 import cookieSession from 'cookie-session'
 import passport from 'passport'
 import './services/passport'
 import { authRoutes } from './routes'
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb'
-import { Resolvers } from './types'
+import { v2 } from 'cloudinary'
+
+v2.config({
+  cloud_name: cloudinaryName,
+  api_key: cloudinaryKey,
+  api_secret: cloudinarySecretKey,
+})
 
 const MONGO_URI = mongoURI
 if (!MONGO_URI) {
