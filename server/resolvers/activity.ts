@@ -21,7 +21,7 @@ export const ActivityResolver: Resolvers = {
       while (activities.length > 0) {
         const hasNumber = /(_)(\d+)$/
         if (hasNumber.test(slug)) {
-          slug = slug.replace(hasNumber, (_, g1, g2) => {
+          slug = slug.replace(hasNumber, (_, _g1, g2) => {
             return `_${++g2}`
           })
         } else {
@@ -32,6 +32,7 @@ export const ActivityResolver: Resolvers = {
 
       const activity = new Activity({
         ...input,
+        slug,
         pubDate: new Date(),
       })
 

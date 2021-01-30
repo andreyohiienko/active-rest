@@ -25,7 +25,6 @@ import {
   useServicesQuery,
   useTriggerServicesVisMutation,
 } from 'types'
-import { serverUrl } from 'utils'
 import { useServicesState } from './useServicesState'
 import classNames from 'classnames'
 
@@ -193,7 +192,7 @@ const ServicesSection = () => {
                       <img
                         className="service__image"
                         alt={title || undefined}
-                        src={serverUrl + image || undefined}
+                        src={image || undefined}
                       />
                     </div>
                     <Title
