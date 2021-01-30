@@ -51,7 +51,7 @@ export type QuerySlideArgs = {
 
 
 export type QueryMediaArgs = {
-  id: Scalars['ID'];
+  public_id: Scalars['String'];
 };
 
 
@@ -118,8 +118,7 @@ export type MutationUploadMediaArgs = {
 
 
 export type MutationRemoveMediaArgs = {
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  public_id: Scalars['String'];
 };
 
 
@@ -190,11 +189,25 @@ export type User = {
 };
 
 export type Media = {
-  id: Scalars['ID'];
-  path: Scalars['String'];
-  filename: Scalars['String'];
-  mimetype: Scalars['String'];
-  size: Scalars['Int'];
+  id?: Maybe<Scalars['ID']>;
+  asset_id?: Maybe<Scalars['String']>;
+  public_id: Scalars['String'];
+  version?: Maybe<Scalars['Int']>;
+  version_id?: Maybe<Scalars['String']>;
+  signature?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']>;
+  format: Scalars['String'];
+  resource_type?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  bytes: Scalars['Int'];
+  type?: Maybe<Scalars['String']>;
+  etag?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['Boolean']>;
+  url: Scalars['String'];
+  secure_url?: Maybe<Scalars['String']>;
+  original_filename?: Maybe<Scalars['String']>;
 };
 
 export type Page = {
@@ -513,7 +526,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   slides?: Resolver<Maybe<Array<Maybe<ResolversTypes['Slide']>>>, ParentType, ContextType>;
   slide?: Resolver<Maybe<ResolversTypes['Slide']>, ParentType, ContextType, RequireFields<QuerySlideArgs, 'id'>>;
   allMedia?: Resolver<Array<ResolversTypes['Media']>, ParentType, ContextType>;
-  media?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<QueryMediaArgs, 'id'>>;
+  media?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<QueryMediaArgs, 'public_id'>>;
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   signout?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
   services?: Resolver<Maybe<ResolversTypes['Services']>, ParentType, ContextType>;
@@ -530,7 +543,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   removeSlide?: Resolver<Maybe<ResolversTypes['Slide']>, ParentType, ContextType, RequireFields<MutationRemoveSlideArgs, 'id'>>;
   updateSlide?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdateSlideArgs, 'id'>>;
   uploadMedia?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<MutationUploadMediaArgs, 'file'>>;
-  removeMedia?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<MutationRemoveMediaArgs, 'id'>>;
+  removeMedia?: Resolver<Maybe<ResolversTypes['Media']>, ParentType, ContextType, RequireFields<MutationRemoveMediaArgs, 'public_id'>>;
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   saveServices?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationSaveServicesArgs, never>>;
   triggerServicesVis?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationTriggerServicesVisArgs, never>>;
@@ -559,11 +572,25 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MediaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Media'] = ResolversParentTypes['Media']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  filename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  asset_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  public_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  version?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  version_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  signature?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  format?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resource_type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  created_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  bytes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  etag?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  placeholder?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  secure_url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  original_filename?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

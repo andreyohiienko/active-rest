@@ -26,7 +26,6 @@ import {
 } from 'types'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { serverUrl } from 'utils'
 import { PlusOutlined } from '@ant-design/icons'
 
 gql`
@@ -152,7 +151,7 @@ export const ActivitiesSection = () => {
               onClick={() =>
                 saveActivities({
                   variables: {
-                    title,
+                    title: title || '',
                   },
                 })
               }
@@ -209,7 +208,7 @@ export const ActivitiesSection = () => {
                           <span
                             className="act-card__image bg-cover"
                             style={{
-                              backgroundImage: `url('${serverUrl + image}')`,
+                              backgroundImage: `url('${image}')`,
                             }}
                           />
                         </a>

@@ -1,11 +1,5 @@
-import { v2 } from 'cloudinary'
-import {
-  createWriteStream,
-  ReadStream,
-  mkdir,
-  unlinkSync,
-  existsSync,
-} from 'fs'
+import { UploadApiResponse, v2 } from 'cloudinary'
+import { ReadStream, unlinkSync } from 'fs'
 import { Media } from '../models'
 import { Resolvers } from '../types'
 
@@ -29,101 +23,40 @@ interface StoredMedia {
   size: number
 }
 
-const checkUniqueness = (filename: string) => {
-  let newFilename = filename
-
-  while (existsSync(`./images/${newFilename}`)) {
-    const regexp = /(.+?)(\.[^.]*$|$)/
-    const hasNumber = /\(([0-9]+)\)(\.[^.]*$|$)/
-    if (hasNumber.test(newFilename)) {
-      newFilename = newFilename.replace(
-        hasNumber,
-        (_, g1, g2) => `(${++g1})${g2}`,
-      )
-    } else {
-      newFilename = newFilename.replace(regexp, '$1 (1)$2')
-    }
-  }
-
-  return newFilename
-}
-
-const storeUpload = async ({
-  stream,
-  filename,
-  mimetype,
-}: StoreUpload): Promise<StoredMedia> => {
-  const newFilename = checkUniqueness(filename)
-  const path = `images/${newFilename}`
-
-  let size = 0
-
-  return new Promise((resolve, reject) =>
-    stream
-      .on('data', (chunk) => (size += chunk.length))
-      .pipe(createWriteStream(path))
-      .on('finish', () =>
-        resolve({ size, path, filename: newFilename, mimetype }),
-      )
-      .on('error', reject),
-  )
-}
-
-const processUpload = async (upload: FileUpload) => {
-  const { createReadStream, filename, mimetype } = await upload
-
-  const stream = createReadStream()
-  return await storeUpload({ stream, filename, mimetype })
-}
-
 export const Medias: Resolvers = {
   Query: {
     allMedia: async () => {
       return await Media.find({})
     },
-    media: async (_, { id }) => {
-      return await Media.findOne({ _id: id })
-    },
+    // media: async (_, { public_id }) => {
+    //   // return await Media.findOne({ _id: id })
+    // },
   },
   Mutation: {
-    uploadMedia: async (_, { file }: { file: FileUpload }) => {
-      // console.log('file', await file)
-
+    uploadMedia: async (_, { file }: { file: Promise<FileUpload> }) => {
       const { createReadStream } = await file
 
-      const upload_stream = v2.uploader.upload_stream(
-        { tags: 'basic_sample' },
-        function (err, image) {
-          console.log()
-          console.log('** Stream Upload')
-          if (err) {
-            console.warn(err)
+      const res: UploadApiResponse = await new Promise((resolve, reject) => {
+        const upload_stream = v2.uploader.upload_stream(function (
+          error,
+          result,
+        ) {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
           }
-          console.log('* Same image, uploaded via stream')
-          console.log('* ' + image?.public_id)
-          console.log('* ' + image?.url)
-        },
-      )
-      createReadStream().pipe(upload_stream)
-
-      mkdir('images', { recursive: true }, (err) => {
-        if (err) {
-          throw err
-        }
+        })
+        createReadStream().pipe(upload_stream)
       })
 
-      // Process upload
-      const upload = await processUpload(file)
-      return await Media.create(upload)
+      return await Media.create(res)
     },
-    removeMedia: async (_, { id, name }) => {
-      const deletedImage = await Media.findOne({ _id: id })
-      try {
-        unlinkSync(`./images/${name}`)
-      } catch (error) {
-        console.log('error', error)
-      }
-      await Media.deleteOne({ _id: id })
+    removeMedia: async (_, { public_id }) => {
+      const deletedImage = await Media.findOne({ public_id })
+      const res = await v2.uploader.destroy(public_id)
+      console.log('res', res)
+      await Media.deleteOne({ public_id })
       return deletedImage
     },
   },

@@ -10,7 +10,7 @@ export const typeDefs = gql`
     slide(id: ID!): Slide
 
     allMedia: [Media!]!
-    media(id: ID!): Media
+    media(public_id: String!): Media
 
     currentUser: User
     signout: Message
@@ -34,7 +34,7 @@ export const typeDefs = gql`
     updateSlide(id: ID!, title: String, desc: String, image: String): String
 
     uploadMedia(file: Upload!): Media
-    removeMedia(id: ID!, name: String): Media
+    removeMedia(public_id: String!): Media
 
     currentUser: User
 
@@ -67,11 +67,25 @@ export const typeDefs = gql`
   }
 
   type Media {
-    id: ID!
-    path: String!
-    filename: String!
-    mimetype: String!
-    size: Int!
+    id: ID
+    asset_id: String
+    public_id: String!
+    version: Int
+    version_id: String
+    signature: String
+    width: Int
+    height: Int
+    format: String!
+    resource_type: String
+    created_at: String
+    tags: [String]
+    bytes: Int!
+    type: String
+    etag: String
+    placeholder: Boolean
+    url: String!
+    secure_url: String
+    original_filename: String
   }
 
   type Page {

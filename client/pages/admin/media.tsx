@@ -15,18 +15,18 @@ import {
 gql`
   mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
-      id
-      filename
-      path
-      mimetype
+      public_id
+      original_filename
+      secure_url
+      format
     }
   }
 `
 
 gql`
-  mutation removeMedia($id: ID!, $name: String) {
-    removeMedia(id: $id, name: $name) {
-      id
+  mutation removeMedia($public_id: String!) {
+    removeMedia(public_id: $public_id) {
+      public_id
     }
   }
 `
@@ -34,11 +34,10 @@ gql`
 gql`
   query AllMedia {
     allMedia {
-      id
-      path
-      filename
-      mimetype
-      size
+      public_id
+      url
+      format
+      bytes
     }
   }
 `
@@ -57,10 +56,10 @@ const Files = () => {
               data: data?.uploadMedia,
               fragment: gql`
                 fragment newMedia on Media {
-                  id
-                  filename
-                  path
-                  mimetype
+                  public_id
+                  url
+                  format
+                  bytes
                 }
               `,
             })
@@ -81,7 +80,7 @@ const Files = () => {
       })
 
       message.success(
-        `${data?.uploadMedia?.filename} file uploaded successfully.`,
+        `${data?.uploadMedia?.public_id} file uploaded successfully.`,
       )
     } catch (error) {
       onError(error, {}, file)
@@ -127,8 +126,7 @@ const Files = () => {
   async function onRemove(file: UploadFile) {
     await removeMedia({
       variables: {
-        id: file.uid,
-        name: file.name,
+        public_id: file.uid,
       },
     })
 
@@ -140,13 +138,13 @@ const Files = () => {
   const { data } = useAllMediaQuery()
 
   const fileList: UploadFile[] =
-    data?.allMedia.map(({ id, path, size, filename, mimetype }) => {
+    data?.allMedia.map(({ public_id, url, format, bytes }) => {
       return {
-        uid: id,
-        name: filename,
-        size: size,
-        type: mimetype,
-        url: `http://localhost:5000/${path}`,
+        uid: public_id,
+        name: public_id,
+        size: bytes,
+        type: `image/${format}`,
+        url: url,
         status: 'done',
       }
     }) || []

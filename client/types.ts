@@ -43,7 +43,7 @@ export type QuerySlideArgs = {
 
 
 export type QueryMediaArgs = {
-  id: Scalars['ID'];
+  public_id: Scalars['String'];
 };
 
 
@@ -110,8 +110,7 @@ export type MutationUploadMediaArgs = {
 
 
 export type MutationRemoveMediaArgs = {
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  public_id: Scalars['String'];
 };
 
 
@@ -182,11 +181,25 @@ export type User = {
 };
 
 export type Media = {
-  id: Scalars['ID'];
-  path: Scalars['String'];
-  filename: Scalars['String'];
-  mimetype: Scalars['String'];
-  size: Scalars['Int'];
+  id?: Maybe<Scalars['ID']>;
+  asset_id?: Maybe<Scalars['String']>;
+  public_id: Scalars['String'];
+  version?: Maybe<Scalars['Int']>;
+  version_id?: Maybe<Scalars['String']>;
+  signature?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']>;
+  format: Scalars['String'];
+  resource_type?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  bytes: Scalars['Int'];
+  type?: Maybe<Scalars['String']>;
+  etag?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['Boolean']>;
+  url: Scalars['String'];
+  secure_url?: Maybe<Scalars['String']>;
+  original_filename?: Maybe<Scalars['String']>;
 };
 
 export type Page = {
@@ -335,15 +348,10 @@ export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutQuery = { signout?: Maybe<Pick<Message, 'message'>> };
 
-export type MediasQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MediasQuery = { list: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>> };
-
 export type MediasMainQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MediasMainQuery = { list: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype'>> };
+export type MediasMainQuery = { list: Array<Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>> };
 
 export type AdminQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -480,22 +488,21 @@ export type UploadMediaMutationVariables = Exact<{
 }>;
 
 
-export type UploadMediaMutation = { uploadMedia?: Maybe<Pick<Media, 'id' | 'filename' | 'path' | 'mimetype'>> };
+export type UploadMediaMutation = { uploadMedia?: Maybe<Pick<Media, 'public_id' | 'original_filename' | 'secure_url' | 'format'>> };
 
 export type RemoveMediaMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  public_id: Scalars['String'];
 }>;
 
 
-export type RemoveMediaMutation = { removeMedia?: Maybe<Pick<Media, 'id'>> };
+export type RemoveMediaMutation = { removeMedia?: Maybe<Pick<Media, 'public_id'>> };
 
 export type AllMediaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllMediaQuery = { allMedia: Array<Pick<Media, 'id' | 'path' | 'filename' | 'mimetype' | 'size'>> };
+export type AllMediaQuery = { allMedia: Array<Pick<Media, 'public_id' | 'url' | 'format' | 'bytes'>> };
 
-export type NewMediaFragment = Pick<Media, 'id' | 'filename' | 'path' | 'mimetype'>;
+export type NewMediaFragment = Pick<Media, 'public_id' | 'url' | 'format' | 'bytes'>;
 
 export type RemoveMediaFragment = Pick<Media, 'id'>;
 
@@ -529,10 +536,10 @@ export const DeleteActivityFragmentDoc = gql`
     `;
 export const NewMediaFragmentDoc = gql`
     fragment newMedia on Media {
-  id
-  filename
-  path
-  mimetype
+  public_id
+  url
+  format
+  bytes
 }
     `;
 export const RemoveMediaFragmentDoc = gql`
@@ -673,48 +680,14 @@ export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Log
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
 export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
 export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
-export const MediasDocument = gql`
-    query Medias {
-  list: allMedia {
-    id
-    path
-    filename
-    mimetype
-  }
-}
-    `;
-
-/**
- * __useMediasQuery__
- *
- * To run a query within a React component, call `useMediasQuery` and pass it any options that fit your needs.
- * When your component renders, `useMediasQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMediasQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMediasQuery(baseOptions?: Apollo.QueryHookOptions<MediasQuery, MediasQueryVariables>) {
-        return Apollo.useQuery<MediasQuery, MediasQueryVariables>(MediasDocument, baseOptions);
-      }
-export function useMediasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MediasQuery, MediasQueryVariables>) {
-          return Apollo.useLazyQuery<MediasQuery, MediasQueryVariables>(MediasDocument, baseOptions);
-        }
-export type MediasQueryHookResult = ReturnType<typeof useMediasQuery>;
-export type MediasLazyQueryHookResult = ReturnType<typeof useMediasLazyQuery>;
-export type MediasQueryResult = Apollo.QueryResult<MediasQuery, MediasQueryVariables>;
 export const MediasMainDocument = gql`
     query MediasMain {
   list: allMedia {
     id
-    path
-    filename
-    mimetype
+    public_id
+    url
+    format
+    bytes
   }
 }
     `;
@@ -1392,10 +1365,10 @@ export type ActivityNewQueryResult = Apollo.QueryResult<ActivityNewQuery, Activi
 export const UploadMediaDocument = gql`
     mutation uploadMedia($file: Upload!) {
   uploadMedia(file: $file) {
-    id
-    filename
-    path
-    mimetype
+    public_id
+    original_filename
+    secure_url
+    format
   }
 }
     `;
@@ -1425,9 +1398,9 @@ export type UploadMediaMutationHookResult = ReturnType<typeof useUploadMediaMuta
 export type UploadMediaMutationResult = Apollo.MutationResult<UploadMediaMutation>;
 export type UploadMediaMutationOptions = Apollo.BaseMutationOptions<UploadMediaMutation, UploadMediaMutationVariables>;
 export const RemoveMediaDocument = gql`
-    mutation removeMedia($id: ID!, $name: String) {
-  removeMedia(id: $id, name: $name) {
-    id
+    mutation removeMedia($public_id: String!) {
+  removeMedia(public_id: $public_id) {
+    public_id
   }
 }
     `;
@@ -1446,8 +1419,7 @@ export type RemoveMediaMutationFn = Apollo.MutationFunction<RemoveMediaMutation,
  * @example
  * const [removeMediaMutation, { data, loading, error }] = useRemoveMediaMutation({
  *   variables: {
- *      id: // value for 'id'
- *      name: // value for 'name'
+ *      public_id: // value for 'public_id'
  *   },
  * });
  */
@@ -1460,11 +1432,10 @@ export type RemoveMediaMutationOptions = Apollo.BaseMutationOptions<RemoveMediaM
 export const AllMediaDocument = gql`
     query AllMedia {
   allMedia {
-    id
-    path
-    filename
-    mimetype
-    size
+    public_id
+    url
+    format
+    bytes
   }
 }
     `;

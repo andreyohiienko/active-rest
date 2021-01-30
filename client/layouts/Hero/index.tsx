@@ -7,7 +7,6 @@ import { useAdmin } from 'hooks'
 import { omit } from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useHeroQuery, useSaveSlidesMutation } from 'types'
-import { serverUrl } from 'utils'
 import { useHeroState } from './useHeroState'
 
 gql`
@@ -123,7 +122,7 @@ const HeroSection = () => {
               <div key={title}>
                 <div
                   className="hero bg-cover"
-                  style={{ backgroundImage: `url('${serverUrl + image}')` }}
+                  style={{ backgroundImage: `url('${image}')` }}
                 >
                   <Container className="text-center hero__container text-white">
                     {renderRemoveButton(id)}
