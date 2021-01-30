@@ -181,7 +181,7 @@ export type User = {
 };
 
 export type Media = {
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   asset_id?: Maybe<Scalars['String']>;
   public_id: Scalars['String'];
   version?: Maybe<Scalars['Int']>;
@@ -488,23 +488,23 @@ export type UploadMediaMutationVariables = Exact<{
 }>;
 
 
-export type UploadMediaMutation = { uploadMedia?: Maybe<Pick<Media, 'public_id' | 'original_filename' | 'secure_url' | 'format'>> };
+export type UploadMediaMutation = { uploadMedia?: Maybe<Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>> };
 
 export type RemoveMediaMutationVariables = Exact<{
   public_id: Scalars['String'];
 }>;
 
 
-export type RemoveMediaMutation = { removeMedia?: Maybe<Pick<Media, 'public_id'>> };
+export type RemoveMediaMutation = { removeMedia?: Maybe<Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>> };
 
 export type AllMediaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllMediaQuery = { allMedia: Array<Pick<Media, 'public_id' | 'url' | 'format' | 'bytes'>> };
+export type AllMediaQuery = { allMedia: Array<Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>> };
 
-export type NewMediaFragment = Pick<Media, 'public_id' | 'url' | 'format' | 'bytes'>;
+export type NewMediaFragment = Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>;
 
-export type RemoveMediaFragment = Pick<Media, 'id'>;
+export type RemoveMediaFragment = Pick<Media, 'id' | 'public_id' | 'url' | 'format' | 'bytes'>;
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -536,6 +536,7 @@ export const DeleteActivityFragmentDoc = gql`
     `;
 export const NewMediaFragmentDoc = gql`
     fragment newMedia on Media {
+  id
   public_id
   url
   format
@@ -545,6 +546,10 @@ export const NewMediaFragmentDoc = gql`
 export const RemoveMediaFragmentDoc = gql`
     fragment removeMedia on Media {
   id
+  public_id
+  url
+  format
+  bytes
 }
     `;
 export const FooterDocument = gql`
@@ -1365,10 +1370,11 @@ export type ActivityNewQueryResult = Apollo.QueryResult<ActivityNewQuery, Activi
 export const UploadMediaDocument = gql`
     mutation uploadMedia($file: Upload!) {
   uploadMedia(file: $file) {
+    id
     public_id
-    original_filename
-    secure_url
+    url
     format
+    bytes
   }
 }
     `;
@@ -1400,7 +1406,11 @@ export type UploadMediaMutationOptions = Apollo.BaseMutationOptions<UploadMediaM
 export const RemoveMediaDocument = gql`
     mutation removeMedia($public_id: String!) {
   removeMedia(public_id: $public_id) {
+    id
     public_id
+    url
+    format
+    bytes
   }
 }
     `;
@@ -1432,6 +1442,7 @@ export type RemoveMediaMutationOptions = Apollo.BaseMutationOptions<RemoveMediaM
 export const AllMediaDocument = gql`
     query AllMedia {
   allMedia {
+    id
     public_id
     url
     format

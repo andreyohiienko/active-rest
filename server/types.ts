@@ -189,7 +189,7 @@ export type User = {
 };
 
 export type Media = {
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   asset_id?: Maybe<Scalars['String']>;
   public_id: Scalars['String'];
   version?: Maybe<Scalars['Int']>;
@@ -572,7 +572,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MediaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Media'] = ResolversParentTypes['Media']> = {
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   asset_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   public_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   version?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

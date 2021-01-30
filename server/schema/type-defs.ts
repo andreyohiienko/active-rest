@@ -67,7 +67,7 @@ export const typeDefs = gql`
   }
 
   type Media {
-    id: ID
+    id: ID!
     asset_id: String
     public_id: String!
     version: Int

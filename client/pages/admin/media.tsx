@@ -1,5 +1,5 @@
 import { InboxOutlined } from '@ant-design/icons'
-import { gql, Reference } from '@apollo/client'
+import { gql, Reference, useApolloClient } from '@apollo/client'
 import { message, Upload } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface'
@@ -15,10 +15,11 @@ import {
 gql`
   mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
+      id
       public_id
-      original_filename
-      secure_url
+      url
       format
+      bytes
     }
   }
 `
@@ -26,7 +27,11 @@ gql`
 gql`
   mutation removeMedia($public_id: String!) {
     removeMedia(public_id: $public_id) {
+      id
       public_id
+      url
+      format
+      bytes
     }
   }
 `
@@ -34,6 +39,7 @@ gql`
 gql`
   query AllMedia {
     allMedia {
+      id
       public_id
       url
       format
@@ -56,6 +62,7 @@ const Files = () => {
               data: data?.uploadMedia,
               fragment: gql`
                 fragment newMedia on Media {
+                  id
                   public_id
                   url
                   format
@@ -110,9 +117,16 @@ const Files = () => {
               fragment: gql`
                 fragment removeMedia on Media {
                   id
+                  public_id
+                  url
+                  format
+                  bytes
                 }
               `,
             })
+
+            console.log('existingMediaRefs', existingMediaRefs)
+            console.log('removeMedia', removeMedia)
 
             return existingMediaRefs.filter(
               (mediaRef: Reference) => mediaRef.__ref !== removedMedia?.__ref,
@@ -126,7 +140,7 @@ const Files = () => {
   async function onRemove(file: UploadFile) {
     await removeMedia({
       variables: {
-        public_id: file.uid,
+        public_id: file.name,
       },
     })
 
@@ -138,9 +152,9 @@ const Files = () => {
   const { data } = useAllMediaQuery()
 
   const fileList: UploadFile[] =
-    data?.allMedia.map(({ public_id, url, format, bytes }) => {
+    data?.allMedia.map(({ id, public_id, url, format, bytes }) => {
       return {
-        uid: public_id,
+        uid: id,
         name: public_id,
         size: bytes,
         type: `image/${format}`,
