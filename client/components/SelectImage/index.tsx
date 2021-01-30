@@ -1,7 +1,7 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { Button, Col, Image, Modal, Row, Space } from 'antd'
 import React, { Dispatch, FC, useState } from 'react'
-import { Medias, Medias_list } from 'types'
+// import { Medias, Medias_list } from 'types'
 import classNames from 'classnames'
 import { serverUrl } from 'utils'
 import { CloseOutlined } from '@ant-design/icons'
@@ -12,31 +12,31 @@ interface Props {
 }
 
 export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
-  const MEDIAS = gql`
-    query Medias {
-      list: allMedia {
-        id
-        path
-        filename
-        mimetype
-      }
-    }
-  `
+  // const MEDIAS = gql`
+  //   query Medias {
+  //     list: allMedia {
+  //       id
+  //       path
+  //       filename
+  //       mimetype
+  //     }
+  //   }
+  // `
 
-  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
+  // const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
 
   const [visible, setVisible] = useState(false)
   // const [confirmLoading, setConfirmLoading] = useState(false)
-  const [detail, setDetail] = useState<Medias_list>()
+  // const [detail, setDetail] = useState<Medias_list>()
 
   function renderModal() {
-    if (loading) {
-      return <div>Loading....</div>
-    }
+    // if (loading) {
+    //   return <div>Loading....</div>
+    // }
 
     return (
       <Space size="large">
-        {data?.list?.map((item) => {
+        {/* {data?.list?.map((item) => {
           if (item) {
             const { id, path, filename } = item
             return (
@@ -54,33 +54,33 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
               />
             )
           }
-        })}
+        })} */}
       </Space>
     )
   }
 
   function renderDetails() {
-    if (detail) {
-      const { id, filename, path } = detail
-      return (
-        <Col flex="500px">
-          <div className="border p-10">
-            <Row>
-              <Col flex="100px">ID</Col>
-              <Col flex="auto">{id}</Col>
-            </Row>
-            <Row>
-              <Col flex="100px">Path</Col>
-              <Col flex="auto">{serverUrl + path}</Col>
-            </Row>
-            <Row>
-              <Col flex="100px">Name</Col>
-              <Col flex="auto">{filename}</Col>
-            </Row>
-          </div>
-        </Col>
-      )
-    }
+    // if (detail) {
+    //   const { id, filename, path } = detail
+    //   return (
+    //     <Col flex="500px">
+    //       <div className="border p-10">
+    //         <Row>
+    //           <Col flex="100px">ID</Col>
+    //           <Col flex="auto">{id}</Col>
+    //         </Row>
+    //         <Row>
+    //           <Col flex="100px">Path</Col>
+    //           <Col flex="auto">{serverUrl + path}</Col>
+    //         </Row>
+    //         <Row>
+    //           <Col flex="100px">Name</Col>
+    //           <Col flex="auto">{filename}</Col>
+    //         </Row>
+    //       </div>
+    //     </Col>
+    //   )
+    // }
   }
 
   function renderImage() {
@@ -103,15 +103,15 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
   }
 
   function onClick() {
-    getMedias()
+    // getMedias()
     setVisible(true)
   }
 
   function onSelect() {
-    if (detail) {
-      setUpdatedImage(detail.path)
-      setVisible(false)
-    }
+    // if (detail) {
+    //   setUpdatedImage(detail.path)
+    //   setVisible(false)
+    // }
   }
 
   return (
@@ -132,7 +132,7 @@ export const SelectImage: FC<Props> = ({ image, setUpdatedImage }) => {
             Cancel
           </Button>,
           <Button
-            disabled={!detail}
+            // disabled={!detail}
             key="submit"
             type="primary"
             onClick={onSelect}

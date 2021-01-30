@@ -1,19 +1,19 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import { Button, Col, Image, Modal, Row } from 'antd'
 import classNames from 'classnames'
 import { ButtonImage } from 'components/Buttons'
 import { useAdmin } from 'hooks'
 import React, { Dispatch, FC, useState } from 'react'
-import { Medias, Medias_list } from 'types'
-import { serverUrl } from 'utils'
+import { useMediasMainLazyQuery, Media } from 'types'
 
-const MEDIAS = gql`
+gql`
   query MediasMain {
     list: allMedia {
       id
-      path
-      filename
-      mimetype
+      public_id
+      url
+      format
+      bytes
     }
   }
 `
@@ -35,10 +35,10 @@ export const SelectImage: FC<Props> = ({
   className,
   setImage,
 }) => {
-  const [getMedias, { loading, data }] = useLazyQuery<Medias>(MEDIAS)
+  const [getMedias, { loading, data }] = useMediasMainLazyQuery()
 
   const [visible, setVisible] = useState(false)
-  const [detail, setDetail] = useState<Medias_list>()
+  const [detail, setDetail] = useState<Media>()
   const isAdmin = useAdmin()
 
   function renderModal() {
@@ -50,18 +50,18 @@ export const SelectImage: FC<Props> = ({
       <Row gutter={[20, 20]}>
         {data?.list?.map((item) => {
           if (item) {
-            const { id, path, filename } = item
+            const { public_id, url } = item
             return (
               <Col key={id}>
                 <Image
                   className={classNames('shadowing', {
-                    'shadow-sm': id === detail?.id,
+                    'shadow-sm': public_id === detail?.public_id,
                   })}
                   onClick={() => setDetail(item)}
                   width={150}
                   height={150}
-                  src={serverUrl + path}
-                  alt={filename}
+                  src={url}
+                  alt={public_id}
                   preview={false}
                 />
               </Col>
@@ -74,7 +74,7 @@ export const SelectImage: FC<Props> = ({
 
   function renderDetails() {
     if (detail) {
-      const { id, filename, path } = detail
+      const { public_id, url, id } = detail
       return (
         <Col flex="500px">
           <div className="border p-10">
@@ -84,11 +84,17 @@ export const SelectImage: FC<Props> = ({
             </Row>
             <Row>
               <Col flex="100px">Path</Col>
-              <Col flex="auto">{serverUrl + path}</Col>
+              <Col
+                className="text-truncate"
+                flex="auto"
+                style={{ maxWidth: 'calc(100% - 100px)' }}
+              >
+                {url}
+              </Col>
             </Row>
             <Row>
               <Col flex="100px">Name</Col>
-              <Col flex="auto">{filename}</Col>
+              <Col flex="auto">{public_id}</Col>
             </Row>
           </div>
         </Col>
@@ -103,10 +109,10 @@ export const SelectImage: FC<Props> = ({
 
   function onSelect() {
     if (detail && id && setUpdatedImage) {
-      setUpdatedImage({ updatedImage: detail.path, id })
+      setUpdatedImage({ updatedImage: detail.url, id })
     }
     if (detail && setImage) {
-      setImage(detail.path)
+      setImage(detail.url)
     }
     setVisible(false)
   }
@@ -125,7 +131,7 @@ export const SelectImage: FC<Props> = ({
               Cancel
             </Button>,
             <Button
-              disabled={!detail}
+              // disabled={!detail}
               key="submit"
               type="primary"
               onClick={onSelect}

@@ -4,7 +4,7 @@ import React, { ComponentType, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { useAdmin } from 'hooks'
 import { SelectImage } from 'components/SelectImage/main'
-import { placeholder, serverUrl } from 'utils'
+import { placeholder } from 'utils'
 import { ContentState, convertToRaw, EditorState } from 'draft-js'
 import { EditorProps } from 'react-draft-wysiwyg'
 import dynamic from 'next/dynamic'
@@ -45,7 +45,7 @@ export const ActivityNew = () => {
     ),
   )
   const [price, setPrice] = useState(30)
-  const [image, setImage] = useState('images/placeholder.png')
+  const [image, setImage] = useState(placeholder)
 
   const [createActivity, { data, loading }] = useCreateActivityMutation()
 
@@ -78,9 +78,7 @@ export const ActivityNew = () => {
             'bg-cover': !image.endsWith('placeholder.png'),
           })}
           style={{
-            backgroundImage: `url('${
-              image ? serverUrl + image : placeholder
-            }')`,
+            backgroundImage: `url('${image ? image : placeholder}')`,
           }}
         >
           {isAdmin && <SelectImage setImage={setImage} />}

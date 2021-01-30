@@ -13,7 +13,7 @@ import { useAdmin } from 'hooks'
 import { useRouter } from 'next/router'
 import React, { ComponentType, useEffect, useState } from 'react'
 import DefaultErrorPage from 'next/error'
-import { placeholder, serverUrl } from 'utils'
+import { placeholder } from 'utils'
 import { SelectImage } from 'components/SelectImage/main'
 import classNames from 'classnames'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
@@ -128,9 +128,7 @@ export const ActivityLayout = () => {
             'bg-cover': !image?.endsWith('placeholder.png'),
           })}
           style={{
-            backgroundImage: `url('${
-              image ? serverUrl + image : placeholder
-            }')`,
+            backgroundImage: `url('${image ? image : placeholder}')`,
           }}
         >
           {isAdmin && <SelectImage setImage={setImage} />}

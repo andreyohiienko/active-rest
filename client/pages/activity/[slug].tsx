@@ -2,7 +2,9 @@ import { gql } from '@apollo/client'
 import { PageLayout } from 'components'
 import { ActivityLayout } from 'layouts'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
+import { useActivityPageQuery } from 'types'
 import { getStaticQuery } from 'utils'
 
 const ACTIVITY = gql`
@@ -24,8 +26,13 @@ const ACTIVITY = gql`
 `
 
 const ActivityPage = () => {
+  const { query } = useRouter()
+  const slug = Array.isArray(query.slug) ? query.slug[0] : query.slug
+  const { data } = useActivityPageQuery({
+    variables: { slug },
+  })
   return (
-    <PageLayout isDarkHeader>
+    <PageLayout title={data?.activity?.title} isDarkHeader>
       <ActivityLayout />
     </PageLayout>
   )

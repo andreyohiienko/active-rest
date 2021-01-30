@@ -3,12 +3,12 @@ import { Container } from '../Container'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { isEditable } from 'utils'
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { Footer, SaveFooter, SaveFooterVariables } from 'types'
+import { gql } from '@apollo/client'
+import { useFooterQuery, useSaveFooterMutation } from 'types'
 import { useAdmin } from 'hooks'
 import { ButtonSave } from 'components/Buttons'
 
-const FOOTER = gql`
+gql`
   query Footer {
     section: footer {
       title
@@ -18,7 +18,7 @@ const FOOTER = gql`
   }
 `
 
-const SAVE_FOOTER = gql`
+gql`
   mutation SaveFooter($title: String, $desc: String, $subTitle: String) {
     saveFooter(input: { title: $title, desc: $desc, subTitle: $subTitle })
   }
@@ -32,17 +32,14 @@ const FooterSection = () => {
     { href: '/about', title: 'About' },
   ]
 
-  const { data: initialState } = useQuery<Footer>(FOOTER)
+  const { data: initialState } = useFooterQuery()
 
   const isAdmin = useAdmin()
   const [title, setTitle] = useState(initialState?.section?.title)
   const [desc, setDesc] = useState(initialState?.section?.desc)
   const [subTitle, setSubTitle] = useState(initialState?.section?.subTitle)
 
-  const [saveFooter, { data, loading }] = useMutation<
-    SaveFooter,
-    SaveFooterVariables
-  >(SAVE_FOOTER)
+  const [saveFooter, { data, loading }] = useSaveFooterMutation()
 
   useEffect(() => {
     if (data) {

@@ -26,8 +26,8 @@ import {
 } from 'types'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { serverUrl } from 'utils'
 import { PlusOutlined } from '@ant-design/icons'
+import { placeholder } from 'utils'
 
 gql`
   query Activities {
@@ -152,7 +152,7 @@ export const ActivitiesSection = () => {
               onClick={() =>
                 saveActivities({
                   variables: {
-                    title,
+                    title: title || '',
                   },
                 })
               }
@@ -207,9 +207,14 @@ export const ActivitiesSection = () => {
                       <Link href={`/activity/${slug}`}>
                         <a className="act-card__image-link">
                           <span
-                            className="act-card__image bg-cover"
+                            className={classNames('act-card__image bg-cover', {
+                              'bg-cover': !image?.endsWith('placeholder.png'),
+                              'bg-full': image?.endsWith('placeholder.png'),
+                            })}
                             style={{
-                              backgroundImage: `url('${serverUrl + image}')`,
+                              backgroundImage: `url('${
+                                image ? image : placeholder
+                              }')`,
                             }}
                           />
                         </a>

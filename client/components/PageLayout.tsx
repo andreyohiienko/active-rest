@@ -5,7 +5,7 @@ import { Header } from './Header'
 
 type Props = {
   children?: ReactNode
-  title?: string
+  title?: string | null
   isAbsoluteHeader?: boolean
   isDarkHeader?: boolean
 }

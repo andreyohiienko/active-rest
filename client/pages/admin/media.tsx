@@ -1,5 +1,5 @@
 import { InboxOutlined } from '@ant-design/icons'
-import { gql, Reference } from '@apollo/client'
+import { gql, Reference, useApolloClient } from '@apollo/client'
 import { message, Upload } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface'
@@ -16,17 +16,22 @@ gql`
   mutation uploadMedia($file: Upload!) {
     uploadMedia(file: $file) {
       id
-      filename
-      path
-      mimetype
+      public_id
+      url
+      format
+      bytes
     }
   }
 `
 
 gql`
-  mutation removeMedia($id: ID!, $name: String) {
-    removeMedia(id: $id, name: $name) {
+  mutation removeMedia($public_id: String!) {
+    removeMedia(public_id: $public_id) {
       id
+      public_id
+      url
+      format
+      bytes
     }
   }
 `
@@ -35,10 +40,10 @@ gql`
   query AllMedia {
     allMedia {
       id
-      path
-      filename
-      mimetype
-      size
+      public_id
+      url
+      format
+      bytes
     }
   }
 `
@@ -58,9 +63,10 @@ const Files = () => {
               fragment: gql`
                 fragment newMedia on Media {
                   id
-                  filename
-                  path
-                  mimetype
+                  public_id
+                  url
+                  format
+                  bytes
                 }
               `,
             })
@@ -81,7 +87,7 @@ const Files = () => {
       })
 
       message.success(
-        `${data?.uploadMedia?.filename} file uploaded successfully.`,
+        `${data?.uploadMedia?.public_id} file uploaded successfully.`,
       )
     } catch (error) {
       onError(error, {}, file)
@@ -111,9 +117,16 @@ const Files = () => {
               fragment: gql`
                 fragment removeMedia on Media {
                   id
+                  public_id
+                  url
+                  format
+                  bytes
                 }
               `,
             })
+
+            console.log('existingMediaRefs', existingMediaRefs)
+            console.log('removeMedia', removeMedia)
 
             return existingMediaRefs.filter(
               (mediaRef: Reference) => mediaRef.__ref !== removedMedia?.__ref,
@@ -127,8 +140,7 @@ const Files = () => {
   async function onRemove(file: UploadFile) {
     await removeMedia({
       variables: {
-        id: file.uid,
-        name: file.name,
+        public_id: file.name,
       },
     })
 
@@ -140,13 +152,13 @@ const Files = () => {
   const { data } = useAllMediaQuery()
 
   const fileList: UploadFile[] =
-    data?.allMedia.map(({ id, path, size, filename, mimetype }) => {
+    data?.allMedia.map(({ id, public_id, url, format, bytes }) => {
       return {
         uid: id,
-        name: filename,
-        size: size,
-        type: mimetype,
-        url: `http://localhost:5000/${path}`,
+        name: public_id,
+        size: bytes,
+        type: `image/${format}`,
+        url: url,
         status: 'done',
       }
     }) || []
