@@ -1,13 +1,9 @@
-import {
-  FileImageFilled,
-  FileImageOutlined,
-  FileOutlined,
-  FileTextFilled,
-} from '@ant-design/icons'
+import { FileImageOutlined, FileTextFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
 import React, { ReactNode, useState } from 'react'
+import { Logo } from 'static'
 
 const { Sider } = Layout
 
@@ -31,7 +27,13 @@ const Dashboard = ({ children }: Props) => {
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
       >
-        <div className="logo" />
+        <div className="text-center my-10">
+          <Link href="/">
+            <a>
+              <Logo />
+            </a>
+          </Link>
+        </div>
         <Menu theme="dark" defaultSelectedKeys={[route]} mode="inline">
           {menu.map(({ title, href, icon }) => (
             <Menu.Item key={`/admin${href}`} icon={icon}>
